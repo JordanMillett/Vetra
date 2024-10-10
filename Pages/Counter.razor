@@ -1,12 +1,10 @@
 ﻿@page "/counter"
 
-<PageTitle>Counter</PageTitle>
-
-<h1>Counter</h1>
+<PageTitle>Vetra - Counter</PageTitle>
 
 <p role="status">Current count: @currentCount</p>
 
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<button class="btn" @onclick="IncrementCount">Click me</button>
 
 @code {
     private int currentCount = 0;
