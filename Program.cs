@@ -10,4 +10,8 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 
 builder.Services.AddBlazorBootstrap(); // Add this line
 
+
+builder.Services.AddSingleton<SettingsService>();
+
+
 await builder.Build().RunAsync();

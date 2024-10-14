@@ -1,0 +1,31 @@
+@page "/profile"
+
+<PageTitle>Vetra - Profile</PageTitle>
+
+<ConfirmDialog @ref="ConfirmPopup" />
+
+<h1>@Data.Name</h1>
+<br>
+<input type="text" @bind="Data.Name" placeholder="@Data.Name" />
+<br><br>
+<button class="btn" @onclick="ResetProfile">Reset Profile</button>
+
+@code 
+{
+    public ProfileData Data = new ProfileData("User");
+    private ConfirmDialog ConfirmPopup = default!;
+
+    private async Task ResetProfile()
+    {
+        var Confirmed = await ConfirmPopup.ShowAsync
+        (
+            title: "Are you sure you want to reset your profile?",
+            message1: "All of your progress will be lost."
+        );
+
+        if (Confirmed)
+        {
+            Data = new ProfileData("User");
+        }
+    }
+}

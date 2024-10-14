@@ -16,6 +16,9 @@
     --bb-sidebar-navbar-toggler-background-color: var(--vetra-light-red);
     --bb-sidebar-navbar-toggler-icon-color: var(--vetra-white);
     
+    --bs-progress-bar-color: var(--vetra-white);
+    --bs-progress-bar-bg: var(--vetra-red);
+    
     --bs-primary: #00ffff;
     --bs-secondary: #6c757d;
     --bs-success: #198754;
@@ -56,4 +59,11 @@ html, body
 {
     background-color: var(--vetra-light-red);
     color: var(--vetra-white);
+    border: none;
+}
+
+.form-check-input:checked
+{
+    background-color: var(--vetra-red);
+    border-color: var(--vetra-red);
 }

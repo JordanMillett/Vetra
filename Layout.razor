@@ -20,8 +20,8 @@
 
 @code {
     
-    Sidebar sidebar;
-    IEnumerable<NavItem> navItems;
+    Sidebar sidebar = default!;
+    IEnumerable<NavItem> navItems = default!;
 
     private async Task<SidebarDataProviderResult> SidebarDataProvider(SidebarDataProviderRequest request)
     {
@@ -35,9 +35,10 @@
     {
         navItems = new List<NavItem>
         {
-            new NavItem { Id = "1", Href = "/", IconName = IconName.HouseDoorFill, Text = "Home", Match=NavLinkMatch.All},
-            new NavItem { Id = "2", Href = "/counter", IconName = IconName.PlusSquareFill, Text = "Counter"},
-            new NavItem { Id = "3", Href = "/weather", IconName = IconName.Table, Text = "Fetch Data"},
+            new NavItem { Id = "1", Href = "/", IconName = IconName.Journals, Text = "Learn", Match=NavLinkMatch.All},
+            new NavItem { Id = "2", Href = "/progress", IconName = IconName.BarChart, Text = "Progress"},
+            new NavItem { Id = "3", Href = "/profile", IconName = IconName.Person, Text = "Profile"},
+            new NavItem { Id = "4", Href = "/settings", IconName = IconName.Gear, Text = "Settings"},
         };
 
         return navItems;

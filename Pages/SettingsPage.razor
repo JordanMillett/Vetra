@@ -1,0 +1,8 @@
+@page "/settings"
+@inject SettingsService Settings
+
+<PageTitle>Vetra - Settings</PageTitle>
+
+<p>Theme and app options.</p>
+
+<Switch Value="Settings.UsingDarkTheme" Label="Toggle Dark Theme" ValueExpression="() => Settings.UsingDarkTheme" ValueChanged="Settings.ToggleTheme" />

@@ -1,0 +1,20 @@
+@page "/progress"
+
+<PageTitle>Vetra - Progress</PageTitle>
+
+<p>List words and progress with each one.</p>
+
+<div class="progress">
+    <ProgressBar Width="0" Height="10" @ref="Example" />
+</div>
+
+@code
+{
+    ProgressBar Example = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(100);
+        Example.SetWidth(25);
+    }
+}
