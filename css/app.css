@@ -1,0 +1,15 @@
+:root 
+{
+    --vetra-red: #E4181C;
+    --vetra-light-red: #EB4447;
+    --vetra-white: #FDFDFD;
+    --vetra-gray: #515151;
+    --vetra-black: #171219;
+}
+
+html, body
+{
+    font-family: "Onest", sans-serif;
+    background-color: var(--vetra-white);
+    color: var(--vetra-black);
+}

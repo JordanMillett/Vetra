@@ -1,0 +1,27 @@
+{
+   "Weather": {
+        "Name": "Weather",
+        "Icon": "CloudRain",
+        "Data": {}
+    },
+    "Furniture": {
+        "Name": "Furniture",
+        "Icon": "Lamp",
+        "Data": {}
+    },
+    "Health": {
+        "Name": "Health",
+        "Icon": "Lungs",
+        "Data": {}
+    },
+    "Travel": {
+        "Name": "Travel",
+        "Icon": "Luggage",
+        "Data": {}
+    },
+    "Art": {
+        "Name": "Art",
+        "Icon": "Easel",
+        "Data": {}
+    }
+}
