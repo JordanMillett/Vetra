@@ -5,28 +5,6 @@
     --vetra-white: #FDFDFD;
     --vetra-gray: #515151;
     --vetra-black: #171219;
-    
-    --bb-sidebar-content-border-color: var(--vetra-gray);
-    --bb-sidebar-top-row-border-color: var(--vetra-gray);
-    
-    --bb-sidebar-top-row-background-color: var(--vetra-red);
-    --bb-sidebar-nav-item-text-active-color: var(--vetra-red);
-    --bb-sidebar-nav-item-text-hover-color: var(--vetra-red);
-    
-    --bb-sidebar-navbar-toggler-background-color: var(--vetra-light-red);
-    --bb-sidebar-navbar-toggler-icon-color: var(--vetra-white);
-    
-    --bs-progress-bar-color: var(--vetra-white);
-    --bs-progress-bar-bg: var(--vetra-red);
-    
-    --bs-primary: #00ffff;
-    --bs-secondary: #6c757d;
-    --bs-success: #198754;
-    --bs-info: #0dcaf0;
-    --bs-warning: #ffc107;
-    --bs-danger: #dc3545;
-    --bs-light: #f8f9fa;
-    --bs-dark: #212529;
 }
 
 html, body
@@ -34,36 +12,4 @@ html, body
     font-family: "Onest", sans-serif;
     background-color: var(--vetra-white);
     color: var(--vetra-black);
-    
-}
-
-.bb-top-row,.bb-sidebar-content
-{
-    background-color: var(--vetra-white);
-    border-color: var(--vetra-gray);
-}
-
-.btn:active:focus
-{
-    background-color: var(--vetra-light-red);
-    color: var(--vetra-white);
-}
-
-.btn:hover
-{
-    background-color: var(--vetra-red);
-    color: var(--vetra-white);
-}
-
-.btn
-{
-    background-color: var(--vetra-light-red);
-    color: var(--vetra-white);
-    border: none;
-}
-
-.form-check-input:checked
-{
-    background-color: var(--vetra-red);
-    border-color: var(--vetra-red);
 }

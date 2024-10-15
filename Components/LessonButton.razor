@@ -1,3 +1,33 @@
-<div class="this">
-    <Button><Icon Name="IconName.StarFill" Size="IconSize.x1" /></Button>
+@inject LessonService Service
+
+<div class="text-center">
+    @if(Key != "ERROR")
+    {
+        <Button><Icon Name=@Icon Size="IconSize.x1" /></Button>
+        <h3 class="mt-2">@Service.LessonHeaders[Key].Name</h3>
+    }else
+    { 
+        <Button><Icon Name="IconName.Bug" Size="IconSize.x1" /></Button>
+        <h3 class="mt-2">ERROR</h3>
+    }
 </div>
+
+@code
+{
+    [Parameter, EditorRequired]
+    public string Key {get; set;} = "ERROR";
+
+    private IconName Icon = IconName.Bug;
+
+    protected override void OnInitialized()
+    {
+        if (!Service.LessonHeaders.ContainsKey(Key))
+        {
+            Key = "ERROR";
+        }
+        else
+        {
+            Enum.TryParse<BlazorBootstrap.IconName>(Service.LessonHeaders[Key].Icon, out Icon);
+        }
+    }
+}

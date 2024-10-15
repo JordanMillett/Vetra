@@ -1,0 +1,11 @@
+<div class="row my-4"> <!-- One Lesson -->
+    <div class="col-lg-5 col-0"></div>
+    <div class="col-lg-2 col-12"><LessonButton Key=@One/></div>
+    <div class="col-lg-5 col-0"></div>
+</div>
+
+@code
+{
+    [Parameter, EditorRequired]
+    public string One {get; set;} = "ERROR"; 
+}

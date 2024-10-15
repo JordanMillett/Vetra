@@ -1,0 +1,49 @@
+:root
+{
+    --bb-sidebar-content-border-color: var(--vetra-gray);
+    --bb-sidebar-top-row-border-color: var(--vetra-gray);
+    
+    --bb-sidebar-top-row-background-color: var(--vetra-red);
+    --bb-sidebar-nav-item-text-active-color: var(--vetra-red);
+    --bb-sidebar-nav-item-text-hover-color: var(--vetra-red);
+    
+    --bb-sidebar-navbar-toggler-background-color: var(--vetra-light-red);
+    --bb-sidebar-navbar-toggler-icon-color: var(--vetra-white);
+}
+
+.bb-top-row,.bb-sidebar-content
+{
+    background-color: var(--vetra-white);
+    border-color: var(--vetra-gray);
+}
+
+.btn:active:focus
+{
+    background-color: var(--vetra-light-red);
+    color: var(--vetra-white);
+}
+
+.btn:hover
+{
+    background-color: var(--vetra-red);
+    color: var(--vetra-white);
+}
+
+.btn
+{
+    background-color: var(--vetra-light-red);
+    color: var(--vetra-white);
+    border: none;
+}
+
+.form-check-input:checked
+{
+    background-color: var(--vetra-red);
+    border-color: var(--vetra-red);
+}
+
+.progress
+{
+    --bs-progress-bar-color: var(--vetra-white);
+    --bs-progress-bar-bg: var(--vetra-red);
+}

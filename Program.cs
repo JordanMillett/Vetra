@@ -6,12 +6,17 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+builder.Services.AddSingleton(new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-builder.Services.AddBlazorBootstrap(); // Add this line
-
-
+builder.Services.AddBlazorBootstrap();
 builder.Services.AddSingleton<SettingsService>();
+builder.Services.AddSingleton<LessonService>();
+
+var host = builder.Build();
 
 
-await builder.Build().RunAsync();
+var lessonService = host.Services.GetRequiredService<LessonService>();
+await lessonService.LoadLessonHeadersAsync("/data/headers.json");
+
+
+await host.RunAsync();
