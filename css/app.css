@@ -1,10 +1,13 @@
 :root 
 {
-    --vetra-red: #E4181C;
-    --vetra-light-red: #EB4447;
-    --vetra-white: #FDFDFD;
-    --vetra-gray: #515151;
     --vetra-black: #171219;
+    --vetra-gray: #EBEBEB;
+    --vetra-darker-red: #A90F12;
+    --vetra-dark-red: #C61317;
+    --vetra-red: #E4181C;
+    --vetra-light-red: #EA4239;
+    --vetra-lighter-red: #F05D51;
+    --vetra-white: #FFFFFF;
 }
 
 html, body
