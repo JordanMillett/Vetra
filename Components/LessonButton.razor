@@ -1,9 +1,10 @@
 @inject LessonService Service
+@inject NavigationManager Navigation
 
 <div class="text-center">
     @if(Key != "ERROR")
     {
-        <Button><Icon Name=@Icon Size="IconSize.x1" /></Button>
+        <Button @onclick="Navigate"><Icon Name=@Icon Size="IconSize.x1" /></Button>
         <h3 class="mt-2">@Service.LessonHeaders[Key].Name</h3>
     }else
     { 
@@ -29,5 +30,10 @@
         {
             Enum.TryParse<BlazorBootstrap.IconName>(Service.LessonHeaders[Key].Icon, out Icon);
         }
+    }
+
+    public void Navigate()
+    {
+        Navigation.NavigateTo("lesson/" + Key.ToLower());
     }
 }

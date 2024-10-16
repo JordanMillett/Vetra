@@ -1,0 +1,30 @@
+@page "/Lesson/{URL}"
+@inject LessonService Lessons
+@using Vetra.Components
+
+<PageTitle>Vetra - Lesson</PageTitle>
+
+<div class="row my-4">
+    <div class="col-lg-5 col-0"></div>
+    <div class="col-lg-2 col-12">
+        @foreach (string v in Lessons.LessonHeaders[Key].Vocab)
+        {
+            <p>@Lessons.VocabHeaders[v].RU / @Lessons.VocabHeaders[v].EN</p>
+        }
+    </div>
+            <div class="col-lg-5 col-0"></div>
+</div>
+
+@code
+{
+    [Parameter]
+    public string URL { get; set; } = "ERROR";
+
+    public string Key = "ERROR";
+
+    protected override void OnInitialized()
+    {
+        Key = char.ToUpper(URL[0]) + URL.Substring(1);
+        
+    }
+}

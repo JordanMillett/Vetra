@@ -4,13 +4,13 @@ namespace Vetra
     {
         public string Name { get; set; }
         public string Icon { get; set; }
-        public Lesson Data { get; set; }
+        public List<string> Vocab { get; set; }
 
-        public LessonHeader(string name, string icon, Lesson data)
+        public LessonHeader(string name, string icon, List<string> vocab)
         {
             Name = name;
             Icon = icon;
-            Data = data;
+            Vocab = vocab;
         }
     }
 }

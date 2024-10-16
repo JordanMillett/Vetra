@@ -16,7 +16,8 @@ var host = builder.Build();
 
 
 var lessonService = host.Services.GetRequiredService<LessonService>();
-await lessonService.LoadLessonHeadersAsync("data/headers.json");
+await lessonService.LoadLessonHeadersAsync("data/lesson-headers.json");
+await lessonService.LoadVocabHeadersAsync("data/vocab-headers.json");
 
 
 await host.RunAsync();
