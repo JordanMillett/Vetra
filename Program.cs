@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Blazored.LocalStorage;
 using Vetra;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -7,6 +8,8 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddSingleton(new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+
+builder.Services.AddBlazoredLocalStorageAsSingleton();
 
 builder.Services.AddBlazorBootstrap();
 builder.Services.AddSingleton<SettingsService>();

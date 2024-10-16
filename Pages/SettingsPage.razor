@@ -3,6 +3,26 @@
 
 <PageTitle>Vetra - Settings</PageTitle>
 
-<p>Theme and app options.</p>
+<p>App options</p>
 
-<Switch Value="Settings.UsingDarkTheme" Label="Toggle Dark Theme" ValueExpression="() => Settings.UsingDarkTheme" ValueChanged="Settings.ToggleTheme" />
+@if (!Settings.Initialized)
+{
+    <Spinner />
+}
+else
+{
+    <Switch @bind-Value="Settings.Data.DevToolsEnabled" Label="Toggle Developer Tools" />
+}
+
+@code
+{
+    protected override async Task OnInitializedAsync()
+    {
+        while (!Settings.Initialized)
+        {
+            await Task.Delay(250);
+        }
+
+        StateHasChanged();
+    }
+}

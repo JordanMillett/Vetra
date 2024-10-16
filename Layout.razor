@@ -1,16 +1,11 @@
 ﻿@inherits LayoutComponentBase
+@inject SettingsService Settings
 
 <div class="bb-page">
 
     <Sidebar @ref="sidebar" Title="Vetra" DataProvider="SidebarDataProvider" />
 
     <main>
-        <!--
-        <div class="bb-top-row px-4 d-flex justify-content-end">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
-        -->
-
         <article class="content px-4">
             <div class="py-2">@Body</div>
         </article>
@@ -19,9 +14,20 @@
 </div>
 
 @code {
-    
+
     Sidebar sidebar = default!;
-    IEnumerable<NavItem> navItems = default!;
+    List<NavItem> navItems = default!;
+
+    protected override void OnInitialized()
+    {
+        Settings.RefreshNavigation += RefreshNavigation;
+    }
+
+    private void RefreshNavigation(object? sender, EventArgs e)
+    {
+        navItems = GetNavItems();
+        sidebar.RefreshDataAsync();
+    }
 
     private async Task<SidebarDataProviderResult> SidebarDataProvider(SidebarDataProviderRequest request)
     {
@@ -31,7 +37,7 @@
         return await Task.FromResult(request.ApplyTo(navItems));
     }
 
-    private IEnumerable<NavItem> GetNavItems()
+    private List<NavItem> GetNavItems()
     {
         navItems = new List<NavItem>
         {
@@ -40,6 +46,9 @@
             new NavItem { Id = "3", Href = "profile/", IconName = IconName.Person, Text = "Profile"},
             new NavItem { Id = "4", Href = "settings/", IconName = IconName.Gear, Text = "Settings"},
         };
+
+        if (Settings.Data.DevToolsEnabled)
+            navItems.Add(new NavItem { Id = "5", Href = "developer/", IconName = IconName.Bug, Text = "Developer" });
 
         return navItems;
     }

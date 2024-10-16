@@ -4,9 +4,9 @@ namespace Vetra
     {
         public string Name { get; set; }
 
-        public ProfileData(string name)
+        public ProfileData()
         {
-            Name = name;
+            Name = "User";
         }
     }
 }
