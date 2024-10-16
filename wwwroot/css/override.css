@@ -17,33 +17,35 @@
     border-color: var(--vetra-gray);
 }
 
-.btn:active:focus
+.btn:active:focus, .btn:hover:active
 {
-    background-color: var(--vetra-light-red);
+    background-color: var(--vetra-dark-red);
+    border-color: var(--vetra-red);
     color: var(--vetra-white);
 }
 
-.btn:hover
+.btn:hover, .btn:focus
 {
     background-color: var(--vetra-red);
+    border-color: var(--vetra-light-red);
     color: var(--vetra-white);
 }
 
 .btn
 {
     background-color: var(--vetra-light-red);
+    border-color: var(--vetra-lighter-red);
     color: var(--vetra-white);
-    border: none;
 }
 
 .form-check-input:checked
 {
-    background-color: var(--vetra-red);
-    border-color: var(--vetra-red);
+    background-color: var(--vetra-light-red);
+    border-color: var(--vetra-lighter-red);
 }
 
 .progress
 {
     --bs-progress-bar-color: var(--vetra-white);
-    --bs-progress-bar-bg: var(--vetra-red);
+    --bs-progress-bar-bg: var(--vetra-light-red);
 }

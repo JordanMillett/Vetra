@@ -2,5 +2,15 @@
 {
     width: 100px;
     height: 100px;
-    border-radius: 50px;
+    border-radius: 25px;
+    border-style: solid;
+    border-width: 0;
+    border-left-width: 3px;
+    border-right-width: 3px;
+    border-bottom-width: 5px;
+}
+
+h3
+{
+    font-weight: bold;
 }
