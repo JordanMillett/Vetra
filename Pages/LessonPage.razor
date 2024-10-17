@@ -6,17 +6,21 @@
 <PageTitle>Vetra - Lesson</PageTitle>
 
 <div class="row my-4">
-    <div class="col-lg-5 col-0"></div>
-    <div class="col-lg-2 col-12">
+    <div class="col-lg-3 col-0"></div>
+    <div class="col-lg-6 col-12">
+        <div class="window">
+            <LessonTypeMatch LessonKey=@Key/>
+        </div>
+        <!--        
         @foreach (string v in Lessons.LessonHeaders[Key].Vocab)
         {
             if(Lessons.VocabHeaders.ContainsKey(v))
             {
                 <p>@Lessons.VocabHeaders[v].RU / @Lessons.VocabHeaders[v].EN</p>
             }
-        }
+        }-->
     </div>
-    <div class="col-lg-5 col-0"></div>
+    <div class="col-lg-3 col-0"></div>
 </div>
 
 @code

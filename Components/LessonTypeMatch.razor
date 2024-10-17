@@ -1,0 +1,66 @@
+@inject LessonService Lessons
+@inject ProfileService Profile
+
+<h3 class="text-center">Select Matching Words</h3>
+
+@if(LessonKey != "")
+{
+    <div class="row py-4">
+        <div class="col-6 text-center">
+            @for (int i = 0; i < Lessons.LessonHeaders[LessonKey].Vocab.Count; i++)
+            {
+                int Index = i;
+                VocabHeader Item = Lessons.VocabHeaders[Lessons.LessonHeaders[LessonKey].Vocab[Index]];
+                <button class="btn @(LeftSelected == Index ? "chosen":"")" @onclick="() => LeftSelect(Index)">@Item.EN</button>
+            }
+        </div>
+        <div class="col-6 text-center">
+            @for (int i = 0; i < Lessons.LessonHeaders[LessonKey].Vocab.Count; i++)
+            {
+                int Index = i;
+                VocabHeader Item = Lessons.VocabHeaders[Lessons.LessonHeaders[LessonKey].Vocab[Index]];
+                <button class="btn @(RightSelected == Index ? "chosen":"")" @onclick="() => RightSelect(Index)">@Item.RU</button>
+            }
+        </div>
+    </div>
+} else
+{ 
+    <div class="d-flex justify-content-center m-5">
+        <Spinner Type="SpinnerType.Dots" Size="SpinnerSize.ExtraLarge" />
+    </div>
+}
+
+<style>
+    .chosen
+    {
+    outline-offset: 2px !important;
+    outline-style: solid !important;
+    outline-width: 3px !important;
+    outline-color: var(--vetra-dark-red) !important;
+    }
+
+    .btn
+    {
+    min-width: 100%;
+    margin-bottom: 30px;
+    }    
+</style>
+
+@code
+{
+    [Parameter, EditorRequired]
+    public string LessonKey {get; set;} = "";
+
+    int LeftSelected = -1;
+    int RightSelected = -1;
+
+    void LeftSelect(int Index)
+    {
+        LeftSelected = Index;
+    }
+
+    void RightSelect(int Index)
+    {
+        RightSelected = Index;
+    }
+}

@@ -16,3 +16,10 @@ html, body
     background-color: var(--vetra-white);
     color: var(--vetra-black);
 }
+
+*
+{
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}

@@ -48,6 +48,7 @@ else
         if (Confirmed)
         {
             Profile.Data = new ProfileData();
+            await Profile.SaveProfile();
         }
     }
 }

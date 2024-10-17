@@ -13,7 +13,7 @@
         <Content><br>
             <div style="display: flex;">
                 <Switch @bind-Value="GenerateDictionary" Label="Generate Dictionary"/>
-                <p style="margin-left: 25px; margin-right: 10px;">Template Key</p><input style="max-height: 1.5rem;" type="text" @bind="TemplateKey" />
+                <p style="margin-left: 25px; margin-right: 10px;">Template Key</p><input size="10" style="max-height: 1.5rem;" type="text" @bind="TemplateKey" />
                 <p style="margin-left: 10px; font-weight: bold;">@Status</p>
             </div>
 
@@ -72,6 +72,7 @@
                     <button class="btn" @onclick="() => ShowKeys(0)">LessonHeaders</button>
                     <button class="btn" @onclick="() => ShowKeys(1)">VocabHeaders</button>
                     <button class="btn" @onclick="() => ShowKeys(2)">Missing Words</button>
+                    <button class="btn" @onclick="() => ShowKeys(3)">Unused Words</button>
                 </div>
                 <br>
                 <textarea readonly @bind="AllKeys"></textarea>
@@ -139,6 +140,30 @@
             }
 
             AllKeys = string.Join(" ", Missing.OrderBy(key => key));
+        }
+        else if (Index == 3)
+        {
+            AllKeys = "";
+
+            List<string> ReferencedVocab = new List<string>();
+            foreach (LessonHeader L in Lesson.LessonHeaders.Values)
+            {
+                foreach (string IncludedKey in L.Vocab)
+                {
+                    if (!ReferencedVocab.Contains(IncludedKey))
+                    {
+                        ReferencedVocab.Add(IncludedKey);
+                    }
+                }
+            }
+
+            foreach (string LoadedKey in Lesson.VocabHeaders.Keys)
+            {
+                if (!ReferencedVocab.Contains(LoadedKey))
+                {
+                    AllKeys += LoadedKey + " ";
+                }
+            }
         }
     }
 
