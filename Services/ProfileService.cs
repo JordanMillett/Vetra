@@ -1,5 +1,3 @@
-using System.ComponentModel;
-
 namespace Vetra
 {
     public class ProfileService
@@ -16,6 +14,25 @@ namespace Vetra
             _ = LoadProfile();
         }
 
+        public async Task AddProgress(string Term, int Points)
+        {
+            int index = Data.LearnedVocab.IndexOf(Term);
+
+            if (index == -1)
+            {
+                Data.LearnedVocab.Add(Term);
+                Data.VocabProgression.Add(Points);
+            }
+            else
+            {
+                Data.VocabProgression[index] += Points;
+            }
+
+            Data.TotalPoints += Points;
+
+            await SaveProfile();
+        }
+
         public async Task LoadProfile()
         {
             if(await Local.ContainKeyAsync("profile"))
@@ -29,11 +46,13 @@ namespace Vetra
                     await Local.RemoveItemAsync("profile");
                     Console.WriteLine("Profile corrupt, clearing...");
                     Data = new ProfileData();
+                    await SaveProfile();
                 }
             }else
             {
                 Console.WriteLine("Profile not found, creating...");
                 Data = new ProfileData();
+                await SaveProfile();
             }
             
             Initialized = true;

@@ -37,11 +37,13 @@ namespace Vetra
                     await Local.RemoveItemAsync("settings");
                     Console.WriteLine("Settings corrupt, clearing...");
                     Data = new SettingsData();
+                    await SaveSettings();
                 }
             }else
             {
                 Console.WriteLine("Settings not found, creating...");
                 Data = new SettingsData();
+                await SaveSettings();
             }
             
             Data.PropertyChanged += OnSettingsDataChanged;

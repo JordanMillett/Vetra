@@ -1,71 +1,101 @@
 @page "/developer"
 @using System.Text.Json
 @using System.Text.Encodings.Web;
+@using System.Linq;
 @inject LessonService Lesson;
 
 <PageTitle>Vetra - Developer</PageTitle>
 
 <p>Developer Tools</p>
 
-<div style="display: flex;">
-    <Switch @bind-Value="GenerateDictionary" Label="Generate Dictionary"/>
-    <p style="margin-left: 25px; margin-right: 10px;">Template Key</p><input style="max-height: 1.5rem;" type="text" @bind="TemplateKey" />
-    <p style="margin-left: 10px; font-weight: bold;">@Status</p>
-</div>
+<Tabs>
+    <Tab Title="Edit" Active="true">
+        <Content><br>
+            <div style="display: flex;">
+                <Switch @bind-Value="GenerateDictionary" Label="Generate Dictionary"/>
+                <p style="margin-left: 25px; margin-right: 10px;">Template Key</p><input style="max-height: 1.5rem;" type="text" @bind="TemplateKey" />
+                <p style="margin-left: 10px; font-weight: bold;">@Status</p>
+            </div>
 
-<div class="row">
-    <div class="col-lg-6 col-12">
-        <div class="buttons">
-            <button class="btn" @onclick="() => Select(0)">LessonHeader.cs</button>
-            <button class="btn" @onclick="() => Select(1)">VocabHeader.cs</button>
-        </div>
-        <br>
-        <div class="editor">
-            @if (Selected == 0)
-            {
-                <form @onsubmit="() => Generate(false)">
-                    <label>Name</label><input type="text" @bind="Class_LessonHeader.Name" />
-                    <label>Icon</label><input type="text" @bind="Class_LessonHeader.Icon" />
-
-                    <div class="indent">
-                        @for (int i = 0; i < Class_LessonHeader.Vocab.Count; i++)
-                        {
-                            int index = i;
-                            <label>Vocab</label><input type="text" @bind="Class_LessonHeader.Vocab[index]" />
-                        }
-                        <br>
-                        <button style="display: none;" type="submit"></button>
-                        <button class="btn" @onclick="LessonHeader_SubtractVocab"><Icon Name="IconName.DashCircle" /></button>
-                        <button class="btn" @onclick="LessonHeader_AddVocab"><Icon Name="IconName.PlusCircle" /></button>
+            <div class="row">
+                <div class="col-lg-6 col-12">
+                    <div class="buttons">
+                        <button class="btn" @onclick="() => Select(0)">LessonHeader.cs</button>
+                        <button class="btn" @onclick="() => Select(1)">VocabHeader.cs</button>
                     </div>
-                </form>
-            }
-            @if (Selected == 1)
-            {
-                <p>Vocab</p>
-            }
-        </div>
-    </div>
-    <div class="col-lg-6 col-12">
-        <div class="buttons">
-            <button class="btn" @onclick="() => Generate(false)">Generate</button>
-        </div>
-        <br>
-        <textarea readonly @bind="json"></textarea>
-    </div>
-</div>
+                    <br>
+                    <div class="editor">
+                        @if (Selected == 0)
+                        {
+                            <form @onsubmit="() => Generate(false)">
+                                <label>Name</label><input type="text" @bind="Class_LessonHeader.Name" />
+                                <label>Icon</label><input type="text" @bind="Class_LessonHeader.Icon" />
+
+                                <div class="indent">
+                                    @for (int i = 0; i < Class_LessonHeader.Vocab.Count; i++)
+                                    {
+                                        int index = i;
+                                        <label>Vocab</label><input type="text" @bind="Class_LessonHeader.Vocab[index]" />
+                                    }
+                                    <br>
+                                    <button style="display: none;" type="submit"></button>
+                                    <button class="btn" @onclick="LessonHeader_SubtractVocab"><Icon Name="IconName.DashCircle" /></button>
+                                    <button class="btn" @onclick="LessonHeader_AddVocab"><Icon Name="IconName.PlusCircle" /></button>
+                                </div>
+                            </form>
+                        }
+                        @if (Selected == 1)
+                        {
+                            <form @onsubmit="() => Generate(false)">
+                                <label>Russian</label><input type="text" @bind="Class_VocabHeader.RU" />
+                                <label>English</label><input type="text" @bind="Class_VocabHeader.EN" />
+                                <br>
+                                <button style="display: none;" type="submit"></button>
+                            </form>
+                        }
+                    </div>
+                </div>
+                <div class="col-lg-6 col-12">
+                    <div class="buttons">
+                        <button class="btn" @onclick="() => Generate(false)">Generate</button>
+                    </div>
+                    <br>
+                    <textarea readonly @bind="json"></textarea>
+                </div>
+            </div>
+        </Content>
+    </Tab>
+    <Tab Title="View">
+        <Content><br>
+            <div class="col-12">
+                <div class="buttons">
+                    <button class="btn" @onclick="() => ShowKeys(0)">LessonHeaders</button>
+                    <button class="btn" @onclick="() => ShowKeys(1)">VocabHeaders</button>
+                    <button class="btn" @onclick="() => ShowKeys(2)">Missing Words</button>
+                </div>
+                <br>
+                <textarea readonly @bind="AllKeys"></textarea>
+            </div>
+        </Content>
+    </Tab>
+</Tabs>
 
 @code
 {
+    LessonHeader Class_LessonHeader = new LessonHeader();
+    VocabHeader Class_VocabHeader = new VocabHeader();
+
     string json = "";
     bool GenerateDictionary = false;
     int Selected = 0;
     string TemplateKey = "";
     string Status = "";
+    string AllKeys = "";
 
     protected override void OnInitialized()
     {
         Select(0);
+        ShowKeys(0);
     }
 
     void Select(int Index)
@@ -83,8 +113,34 @@
         }
     }
 
-    LessonHeader Class_LessonHeader = new LessonHeader();
-    VocabHeader Class_VocabHeader = new VocabHeader();
+    void ShowKeys(int Index)
+    {
+        if (Index == 0)
+        {
+            AllKeys = string.Join(" ", Lesson.LessonHeaders.Keys.OrderBy(key => key));
+        }
+        else if (Index == 1)
+        {
+            AllKeys = string.Join(" ", Lesson.VocabHeaders.Keys.OrderBy(key => key));
+        }
+        else if (Index == 2)
+        {
+            List<string> Missing = new List<string>();
+
+            foreach (LessonHeader L in Lesson.LessonHeaders.Values)
+            {
+                foreach (string V in L.Vocab)
+                {
+                    if (!Lesson.VocabHeaders.ContainsKey(V))
+                    {
+                        Missing.Add(V);
+                    }
+                }
+            }
+
+            AllKeys = string.Join(" ", Missing.OrderBy(key => key));
+        }
+    }
 
     void Generate_LessonHeader(bool Clear)
     {
@@ -108,7 +164,7 @@
 
         Dictionary<string, LessonHeader> Dict_LessonHeader = new Dictionary<string, LessonHeader>()
         {
-            {"LessonHeaders", Class_LessonHeader}
+            {"Key", Class_LessonHeader}
         };
 
         if (GenerateDictionary)
@@ -154,7 +210,7 @@
 
         Dictionary<string, VocabHeader>  Dict_VocabHeader = new Dictionary<string, VocabHeader>()
         {
-            {"VocabHeaders", Class_VocabHeader}
+            {"Key", Class_VocabHeader}
         };
 
         if (GenerateDictionary)

@@ -1,20 +1,40 @@
 @page "/progress"
+@inject ProfileService Profile
 
 <PageTitle>Vetra - Progress</PageTitle>
 
-<p>List words and progress with each one.</p>
+@if (!Profile.Initialized)
+{
+    <div class="d-flex justify-content-center m-5">
+        <Spinner Type="SpinnerType.Dots" Size="SpinnerSize.ExtraLarge" />
+    </div>
+}
+else
+{
+    <br>
+    <div class=row>
 
-<div class="progress">
-    <ProgressBar Width="0" Height="10" @ref="Example" />
-</div>
+        @for (int i = 0; i < Profile.Data.LearnedVocab.Count; i++)
+        {
+            <div class="col-lg-3 col-md-4 col-6">
+                <p>@Profile.Data.LearnedVocab[i]</p>
+                <div class="progress">
+                    <ProgressBar Width="@Math.Clamp(Profile.Data.VocabProgression[i], 0, 100)" Height="10" />
+                </div>
+            </div>
+        }
+    </div>
+}
 
 @code
 {
-    ProgressBar Example = default!;
-
     protected override async Task OnInitializedAsync()
     {
-        await Task.Delay(100);
-        Example.SetWidth(25);
+        while (!Profile.Initialized)
+        {
+            await Task.Delay(250);
+        }
+
+        StateHasChanged();
     }
 }

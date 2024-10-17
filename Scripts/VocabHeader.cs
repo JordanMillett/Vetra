@@ -2,15 +2,15 @@ namespace Vetra
 {
     public class VocabHeader
     {
-        public string EN { get; set; }
         public string RU { get; set; }
-
+        public string EN { get; set; }
+        
         //Definitions, sentence pairs (tuple?)
 
         public VocabHeader()
         {
-            EN = "ENGLISH";
-            RU = "RUSSIAN";
+            RU = "Russian";
+            EN = "English";
         }
     }
 }

@@ -1,5 +1,6 @@
 @page "/Lesson/{URL}"
 @inject LessonService Lessons
+@inject ProfileService Profile
 @using Vetra.Components
 
 <PageTitle>Vetra - Lesson</PageTitle>
@@ -9,10 +10,13 @@
     <div class="col-lg-2 col-12">
         @foreach (string v in Lessons.LessonHeaders[Key].Vocab)
         {
-            <p>@Lessons.VocabHeaders[v].RU / @Lessons.VocabHeaders[v].EN</p>
+            if(Lessons.VocabHeaders.ContainsKey(v))
+            {
+                <p>@Lessons.VocabHeaders[v].RU / @Lessons.VocabHeaders[v].EN</p>
+            }
         }
     </div>
-            <div class="col-lg-5 col-0"></div>
+    <div class="col-lg-5 col-0"></div>
 </div>
 
 @code
@@ -25,6 +29,11 @@
     protected override void OnInitialized()
     {
         Key = char.ToUpper(URL[0]) + URL.Substring(1);
-        
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        for(int i = 0; i < Lessons.LessonHeaders[Key].Vocab.Count; i++)
+            await Profile.AddProgress(Lessons.LessonHeaders[Key].Vocab[i], 10);
     }
 }
