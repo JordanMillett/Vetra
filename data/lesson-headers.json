@@ -1,27 +1,11 @@
 {
-   "Weather1": {
-        "Name": "Weather I",
-        "Icon": "CloudRain",
-        "Vocab": ["Погода"]
-    },
-    "Furniture1": {
-        "Name": "Furniture I",
-        "Icon": "Lamp",
-        "Vocab": ["Desk", "Chair", "Table"]
-    },
-    "Health": {
-        "Name": "Health",
-        "Icon": "Lungs",
-        "Vocab": ["Heart"]
-    },
-    "Travel": {
-        "Name": "Travel",
-        "Icon": "Luggage",
-        "Vocab": ["Train", "Plane"]
-    },
-    "Art": {
-        "Name": "Art",
-        "Icon": "Easel",
-        "Vocab": ["Colors"]
+    "Animals": {
+        "Name": "Animals",
+        "Icon": "Tree",
+        "Vocab": ["Кот", "Собака", "Птица", "Рыба"]
+    },"Food": {
+        "Name": "Food",
+        "Icon": "EggFried",
+        "Vocab": ["Хлеб", "Яблоко", "Картофель", "Свинина"]
     }
 }

@@ -49,3 +49,19 @@
     --bs-progress-bar-color: var(--vetra-white);
     --bs-progress-bar-bg: var(--vetra-light-red);
 }
+
+.nav-link:active, .nav-link.active
+{
+    --bs-nav-link-font-weight: bold;
+}
+
+.nav-link:hover
+{
+    color: var(--vetra-red);
+}
+
+.nav-link
+{
+    --bs-nav-tabs-link-active-color: var(--vetra-red);
+    --bs-nav-link-color: black;
+}
