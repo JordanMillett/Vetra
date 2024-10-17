@@ -1,0 +1,41 @@
+textarea
+{
+    resize: none;
+    min-width: 100%;
+    height: 500px;
+    
+    border-radius: 0;
+    border-style: solid;
+    border-color: var(--vetra-gray);
+    border-width: 2px;
+}
+
+.editor
+{
+    background-color: var(--vetra-gray);
+    min-width: 100%;
+    min-height: 500px;
+}
+
+.buttons
+{
+    border-radius: 0.5rem; /*0.5rem for --bs-border-radius-lg */
+    border-style: solid;
+    border-color: var(--vetra-gray);
+    border-width: 2px;
+}
+
+input
+{
+    display: block;
+}
+
+form
+{
+    padding: 20px;
+}
+
+.indent
+{
+    margin-left: 10px;
+}

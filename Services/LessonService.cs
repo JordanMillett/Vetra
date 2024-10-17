@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.Encodings.Web;
 
 namespace Vetra
 {
@@ -36,10 +37,10 @@ namespace Vetra
                 
                 LessonHeaders = new Dictionary<string, LessonHeader>()
                 {
-                    {"ERROR", new LessonHeader("ERROR", "Bug", new List<string>(){"Test", "Example"})}
+                    {"ERROR", new LessonHeader()}
                 };
                 
-                string json = JsonSerializer.Serialize(LessonHeaders, new JsonSerializerOptions { WriteIndented = false });
+                string json = JsonSerializer.Serialize(LessonHeaders, new JsonSerializerOptions { WriteIndented = false, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping  });
                 Console.WriteLine(json);
             }
         }
@@ -64,10 +65,10 @@ namespace Vetra
                 
                 VocabHeaders = new Dictionary<string, VocabHeader>()
                 {
-                    {"ERROR", new VocabHeader("ERROR", "ERROR") }
+                    {"ERROR", new VocabHeader() }
                 };
                 
-                string json = JsonSerializer.Serialize(VocabHeaders, new JsonSerializerOptions { WriteIndented = false });
+                string json = JsonSerializer.Serialize(VocabHeaders, new JsonSerializerOptions { WriteIndented = false, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping  });
                 Console.WriteLine(json);
             }
         }

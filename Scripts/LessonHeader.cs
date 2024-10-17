@@ -6,11 +6,11 @@ namespace Vetra
         public string Icon { get; set; }
         public List<string> Vocab { get; set; }
 
-        public LessonHeader(string name, string icon, List<string> vocab)
+        public LessonHeader()
         {
-            Name = name;
-            Icon = icon;
-            Vocab = vocab;
+            Name = "ERROR";
+            Icon = "Bug";
+            Vocab = new List<string>(){"Vocab", "Vocab", "Vocab"};
         }
     }
 }

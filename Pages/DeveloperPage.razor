@@ -1,5 +1,169 @@
 @page "/developer"
+@using System.Text.Json
+@using System.Text.Encodings.Web;
+@inject LessonService Lesson;
 
 <PageTitle>Vetra - Developer</PageTitle>
 
 <p>Developer Tools</p>
+
+<div style="display: flex;">
+    <Switch @bind-Value="GenerateDictionary" Label="Generate Dictionary"/>
+    <p style="margin-left: 25px; margin-right: 10px;">Template Key</p><input style="max-height: 1.5rem;" type="text" @bind="TemplateKey" />
+    <p style="margin-left: 10px; font-weight: bold;">@Status</p>
+</div>
+
+<div class="row">
+    <div class="col-lg-6 col-12">
+        <div class="buttons">
+            <button class="btn" @onclick="() => Select(0)">LessonHeader.cs</button>
+            <button class="btn" @onclick="() => Select(1)">VocabHeader.cs</button>
+        </div>
+        <br>
+        <div class="editor">
+            @if (Selected == 0)
+            {
+                <form @onsubmit="() => Generate(false)">
+                    <label>Name</label><input type="text" @bind="Class_LessonHeader.Name" />
+                    <label>Icon</label><input type="text" @bind="Class_LessonHeader.Icon" />
+
+                    <div class="indent">
+                        @for (int i = 0; i < Class_LessonHeader.Vocab.Count; i++)
+                        {
+                            int index = i;
+                            <label>Vocab</label><input type="text" @bind="Class_LessonHeader.Vocab[index]" />
+                        }
+                        <br>
+                        <button style="display: none;" type="submit"></button>
+                        <button class="btn" @onclick="LessonHeader_SubtractVocab"><Icon Name="IconName.DashCircle" /></button>
+                        <button class="btn" @onclick="LessonHeader_AddVocab"><Icon Name="IconName.PlusCircle" /></button>
+                    </div>
+                </form>
+            }
+            @if (Selected == 1)
+            {
+                <p>Vocab</p>
+            }
+        </div>
+    </div>
+    <div class="col-lg-6 col-12">
+        <div class="buttons">
+            <button class="btn" @onclick="() => Generate(false)">Generate</button>
+        </div>
+        <br>
+        <textarea readonly @bind="json"></textarea>
+    </div>
+</div>
+
+@code
+{
+    string json = "";
+    bool GenerateDictionary = false;
+    int Selected = 0;
+    string TemplateKey = "";
+    string Status = "";
+
+    protected override void OnInitialized()
+    {
+        Select(0);
+    }
+
+    void Select(int Index)
+    {
+        Selected = Index;
+        Generate(true);
+    }
+
+    void Generate(bool Clear)
+    {
+        switch (Selected)
+        {
+            case 0: Generate_LessonHeader(Clear); break;
+            case 1: Generate_VocabHeader(Clear); break;
+        }
+    }
+
+    LessonHeader Class_LessonHeader = new LessonHeader();
+    VocabHeader Class_VocabHeader = new VocabHeader();
+
+    void Generate_LessonHeader(bool Clear)
+    {
+        if (Clear)
+        {
+            if (Lesson.LessonHeaders.ContainsKey(TemplateKey))
+            {
+                Class_LessonHeader = Lesson.LessonHeaders[TemplateKey];
+                Status = "Generated from template!";
+            }
+            else
+            {
+                Class_LessonHeader = new LessonHeader();
+                Status = "Loaded default!";
+            }
+        }
+        else
+        {
+            Status = "Updated!";
+        }
+
+        Dictionary<string, LessonHeader> Dict_LessonHeader = new Dictionary<string, LessonHeader>()
+        {
+            {"LessonHeaders", Class_LessonHeader}
+        };
+
+        if (GenerateDictionary)
+        {
+            json = JsonSerializer.Serialize(Dict_LessonHeader, new JsonSerializerOptions { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping });
+        }
+        else
+        {
+            json = JsonSerializer.Serialize(Class_LessonHeader, new JsonSerializerOptions { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping });
+        }
+    }
+
+    void LessonHeader_SubtractVocab()
+    {
+        if(Class_LessonHeader.Vocab.Count != 0)
+            Class_LessonHeader.Vocab.RemoveAt(Class_LessonHeader.Vocab.Count - 1);
+    }
+
+    void LessonHeader_AddVocab()
+    {
+        Class_LessonHeader.Vocab.Add("Vocab");
+    }
+
+    void Generate_VocabHeader(bool Clear)
+    {
+        if (Clear)
+        {
+            if (Lesson.VocabHeaders.ContainsKey(TemplateKey))
+            {
+                Class_VocabHeader = Lesson.VocabHeaders[TemplateKey];
+                Status = "Generated from template!";
+            }
+            else
+            {
+                Class_VocabHeader = new VocabHeader();
+                Status = "Loaded default!";
+            }
+        }
+        else
+        {
+            Status = "Updated!";
+        }
+
+        Dictionary<string, VocabHeader>  Dict_VocabHeader = new Dictionary<string, VocabHeader>()
+        {
+            {"VocabHeaders", Class_VocabHeader}
+        };
+
+        if (GenerateDictionary)
+        {
+            json = JsonSerializer.Serialize(Dict_VocabHeader, new JsonSerializerOptions { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping  });
+        }
+        else
+        {
+            json = JsonSerializer.Serialize(Class_VocabHeader, new JsonSerializerOptions { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping  });
+        }
+    }
+}

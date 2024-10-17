@@ -7,10 +7,10 @@ namespace Vetra
 
         //Definitions, sentence pairs (tuple?)
 
-        public VocabHeader(string en, string ru)
+        public VocabHeader()
         {
-            EN = en;
-            RU = ru;
+            EN = "ENGLISH";
+            RU = "RUSSIAN";
         }
     }
 }

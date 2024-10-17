@@ -1,19 +1,41 @@
 @page "/profile"
+@inject ProfileService Profile
 
 <PageTitle>Vetra - Profile</PageTitle>
 
-<ConfirmDialog @ref="ConfirmPopup" />
+@if (!Profile.Initialized)
+{
+    <div class="d-flex justify-content-center m-5">
+        <Spinner Type="SpinnerType.Dots" Size="SpinnerSize.ExtraLarge" />
+    </div>
+}
+else
+{
+    <ConfirmDialog @ref="ConfirmPopup" />
 
-<h1>@Data.Name</h1>
-<br>
-<input type="text" @bind="Data.Name" placeholder="@Data.Name" />
-<br><br>
-<button class="btn" @onclick="ResetProfile">Reset Profile</button>
+    <h1>@Profile.Data.Name</h1>
+    <br>
+    <form @onsubmit="Profile.SaveProfile">
+        <input type="text" @bind="Profile.Data.Name" />
+        <button type="submit">Save</button>
+    </form>
+    <br><br>
+    <button class="btn" @onclick="ResetProfile">Reset Profile</button>
+}
 
 @code 
 {
-    public ProfileData Data = new ProfileData();
     private ConfirmDialog ConfirmPopup = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        while (!Profile.Initialized)
+        {
+            await Task.Delay(250);
+        }
+
+        StateHasChanged();
+    }
 
     private async Task ResetProfile()
     {
@@ -25,7 +47,7 @@
 
         if (Confirmed)
         {
-            Data = new ProfileData();
+            Profile.Data = new ProfileData();
         }
     }
 }

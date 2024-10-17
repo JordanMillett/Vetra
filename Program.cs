@@ -13,6 +13,7 @@ builder.Services.AddBlazoredLocalStorageAsSingleton();
 
 builder.Services.AddBlazorBootstrap();
 builder.Services.AddSingleton<SettingsService>();
+builder.Services.AddSingleton<ProfileService>();
 builder.Services.AddSingleton<LessonService>();
 
 var host = builder.Build();
