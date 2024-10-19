@@ -3,22 +3,27 @@
 
 <h3 class="text-center">Select Matching Words</h3>
 
-@if(LessonKey != "")
+@if (State == null)
+{
+    return;
+}
+
+@if(State.Key != "")
 {
     <div class="row py-4">
         <div class="col-6 text-center">
-            @for (int i = 0; i < Lessons.LessonHeaders[LessonKey].Vocab.Count; i++)
+            @for (int i = 0; i < Lessons.LessonHeaders[State.Key].Vocab.Count; i++)
             {
                 int Index = i;
-                VocabHeader Item = Lessons.VocabHeaders[Lessons.LessonHeaders[LessonKey].Vocab[Index]];
+                VocabHeader Item = Lessons.VocabHeaders[Lessons.LessonHeaders[State.Key].Vocab[Index]];
                 <button class="btn @(LeftSelected == Index ? "chosen":"")" @onclick="() => LeftSelect(Index)">@Item.EN</button>
             }
         </div>
         <div class="col-6 text-center">
-            @for (int i = 0; i < Lessons.LessonHeaders[LessonKey].Vocab.Count; i++)
+            @for (int i = 0; i < Lessons.LessonHeaders[State.Key].Vocab.Count; i++)
             {
                 int Index = i;
-                VocabHeader Item = Lessons.VocabHeaders[Lessons.LessonHeaders[LessonKey].Vocab[Index]];
+                VocabHeader Item = Lessons.VocabHeaders[Lessons.LessonHeaders[State.Key].Vocab[Index]];
                 <button class="btn @(RightSelected == Index ? "chosen":"")" @onclick="() => RightSelect(Index)">@Item.RU</button>
             }
         </div>
@@ -47,13 +52,13 @@
 @code
 {
     [Parameter, EditorRequired]
-    public string LessonKey {get; set;} = "";
+    public LessonStateData State {get; set;} = default!;
+
+    [Parameter]
+    public EventCallback<LessonStateData> StateChanged { get; set; }
 
     [Parameter, EditorRequired]
-    public Action? OnPass { get; set; }
-
-    [Parameter, EditorRequired]
-    public Action? OnFail { get; set; }
+    public Action? OnFinish { get; set; }
 
     int LeftSelected = -1;
     int RightSelected = -1;
@@ -62,13 +67,21 @@
     {
         LeftSelected = Index;
 
-        OnPass?.Invoke();
+        State.Tested.Add(Lessons.LessonHeaders[State.Key].Vocab[Index]);
+        State.Results.Add(true);
+        StateChanged.InvokeAsync(State);
+
+        OnFinish?.Invoke();
     }
 
     void RightSelect(int Index)
     {
         RightSelected = Index;
+        
+        State.Tested.Add(Lessons.LessonHeaders[State.Key].Vocab[Index]);
+        State.Results.Add(false);
+        StateChanged.InvokeAsync(State);
 
-        OnFail?.Invoke();
+        OnFinish?.Invoke();
     }
 }

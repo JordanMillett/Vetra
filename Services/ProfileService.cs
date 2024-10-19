@@ -3,14 +3,16 @@ namespace Vetra
     public class ProfileService
     {   
         Blazored.LocalStorage.ILocalStorageService Local;
+        BlazorBootstrap.ToastService Toast;
 
         public ProfileData Data = new ProfileData();
 
         public bool Initialized = false;
 
-        public ProfileService(Blazored.LocalStorage.ILocalStorageService localStorage)
+        public ProfileService(Blazored.LocalStorage.ILocalStorageService localStorage, BlazorBootstrap.ToastService toast)
         {
             Local = localStorage;
+            Toast = toast;
             _ = LoadProfile();
         }
 
@@ -18,7 +20,7 @@ namespace Vetra
         float PunishScoreIncrement = 1.2f;
         float ScoreMultiplierIncrement = 1.5f;
 
-        public async Task ChangeProgress(string Term, bool Correct)
+        public void ChangeProgress(string Term, bool Correct)
         {
             int index = Data.LearnedVocab.IndexOf(Term);
             float points = ScoreIncrement;
@@ -48,8 +50,6 @@ namespace Vetra
             }
 
             //Data.TotalPoints += Points; //TotalKnowledge instead
-
-            await SaveProfile();
         }
         
         public async Task ForgetTerm(string Term)
@@ -61,6 +61,8 @@ namespace Vetra
                     Data.LearnedVocab.RemoveAt(i);
                     Data.VocabProgression.RemoveAt(i);
                     Data.VocabStreak.RemoveAt(i);
+                    
+                    Toast.Notify(new(BlazorBootstrap.ToastType.Info, "Term Removed: " + Term));
                     
                     await SaveProfile();
                 }
@@ -96,6 +98,7 @@ namespace Vetra
         {
             await Local.SetItemAsync("profile", Data);
             Console.WriteLine("Profile saved.");
+            Toast.Notify(new(BlazorBootstrap.ToastType.Info, "Profile Saved."));
         }
     }
 }

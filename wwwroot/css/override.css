@@ -65,3 +65,16 @@
     --bs-nav-tabs-link-active-color: var(--vetra-red);
     --bs-nav-link-color: black;
 }
+
+.toast
+{
+    
+    color: var(--vetra-white) !important;
+    background-color: var(--vetra-red) !important;
+}
+
+.btn-close
+{
+    filter: invert(1) !important;
+    --bs-btn-close-opacity: 1 !important;
+}

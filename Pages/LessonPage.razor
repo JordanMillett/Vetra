@@ -5,18 +5,25 @@
 
 <PageTitle>Vetra - Lesson</PageTitle>
 
-<div class="progress">
-    <ProgressBar Width="@TotalFinished" Height="10" />
-</div>
-<div class="row my-4">
-    <div class="col-lg-3 col-0"></div>
-    <div class="col-lg-6 col-12">
-        <div class="window">
-            <LessonTypeMatch LessonKey=@Key OnPass="@LessonPassed" OnFail=@LessonFailed/>
-        </div>
+@if (!Profile.Initialized)
+{
+    <Waiting />
+}
+else
+{
+    <div class="progress">
+        <ProgressBar Width="@TotalFinished" Height="10" />
     </div>
-    <div class="col-lg-3 col-0"></div>
-</div>
+    <div class="row my-4">
+        <div class="col-lg-3 col-0"></div>
+        <div class="col-lg-6 col-12">
+            <div class="window">
+                <LessonTypeMatch @bind-State="State" OnFinish="@LessonFinished" />
+            </div>
+        </div>
+        <div class="col-lg-3 col-0"></div>
+    </div>
+}
 
 @code
 {
@@ -25,22 +32,23 @@
 
     public string Key = "ERROR";
 
+    public LessonStateData State = default!;
+
     public float TotalFinished = 0f;
 
-    public void LessonPassed()
+    public void LessonFinished()
     {
-        for (int i = 0; i < Lessons.LessonHeaders[Key].Vocab.Count; i++)
-            _ = Profile.ChangeProgress(Lessons.LessonHeaders[Key].Vocab[i], true);
+        for (int i = 0; i < State.Tested.Count; i++)
+            Profile.ChangeProgress(State.Tested[i], State.Results[i]);
 
-        RecalculateTotal();
+        _ = Profile.SaveProfile();
+        NextLesson();
     }
 
-    public void LessonFailed()
+    public void NextLesson()
     {
-        for (int i = 0; i < Lessons.LessonHeaders[Key].Vocab.Count; i++)
-            _ = Profile.ChangeProgress(Lessons.LessonHeaders[Key].Vocab[i], false);
-
         RecalculateTotal();
+        State = new LessonStateData(Key);
     }
 
     void RecalculateTotal()
@@ -74,6 +82,6 @@
             await Task.Delay(250);
         }
 
-        RecalculateTotal();
+        NextLesson();
     }    
 }

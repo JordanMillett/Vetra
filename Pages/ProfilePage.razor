@@ -6,7 +6,6 @@
 @if (!Profile.Initialized)
 {
     <Vetra.Components.Waiting />
-
 }
 else
 {
@@ -16,7 +15,7 @@ else
     <br>
     <form @onsubmit="Profile.SaveProfile">
         <input type="text" @bind="Profile.Data.Name" />
-        <button type="submit">Save</button>
+        <button class="btn" type="submit">Save</button>
     </form>
     <br><br>
     <button class="btn" @onclick="ResetProfile">Reset Profile</button>
