@@ -11,14 +11,6 @@
         <div class="window">
             <LessonTypeMatch LessonKey=@Key/>
         </div>
-        <!--        
-        @foreach (string v in Lessons.LessonHeaders[Key].Vocab)
-        {
-            if(Lessons.VocabHeaders.ContainsKey(v))
-            {
-                <p>@Lessons.VocabHeaders[v].RU / @Lessons.VocabHeaders[v].EN</p>
-            }
-        }-->
     </div>
     <div class="col-lg-3 col-0"></div>
 </div>
@@ -38,6 +30,6 @@
     protected override async Task OnInitializedAsync()
     {
         for(int i = 0; i < Lessons.LessonHeaders[Key].Vocab.Count; i++)
-            await Profile.AddProgress(Lessons.LessonHeaders[Key].Vocab[i], 10);
+            await Profile.ChangeProgress(Lessons.LessonHeaders[Key].Vocab[i], true);
     }
 }

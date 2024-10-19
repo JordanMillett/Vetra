@@ -14,18 +14,22 @@ namespace Vetra
             _ = LoadProfile();
         }
 
-        public async Task AddProgress(string Term, int Points)
+        public async Task ChangeProgress(string Term, bool Correct)
         {
+            int Points = Correct ? 1 : -1;
+            
             int index = Data.LearnedVocab.IndexOf(Term);
-
+            
             if (index == -1)
             {
                 Data.LearnedVocab.Add(Term);
                 Data.VocabProgression.Add(Points);
+                Data.VocabStreak.Add(1);
             }
             else
             {
                 Data.VocabProgression[index] += Points;
+                Data.VocabStreak[index] += 1;
             }
 
             Data.TotalPoints += Points;
