@@ -25,9 +25,7 @@
     </div>
 } else
 { 
-    <div class="d-flex justify-content-center m-5">
-        <Spinner Type="SpinnerType.Dots" Size="SpinnerSize.ExtraLarge" />
-    </div>
+    <Waiting />
 }
 
 <style>
@@ -51,16 +49,26 @@
     [Parameter, EditorRequired]
     public string LessonKey {get; set;} = "";
 
+    [Parameter, EditorRequired]
+    public Action? OnPass { get; set; }
+
+    [Parameter, EditorRequired]
+    public Action? OnFail { get; set; }
+
     int LeftSelected = -1;
     int RightSelected = -1;
 
     void LeftSelect(int Index)
     {
         LeftSelected = Index;
+
+        OnPass?.Invoke();
     }
 
     void RightSelect(int Index)
     {
         RightSelected = Index;
+
+        OnFail?.Invoke();
     }
 }

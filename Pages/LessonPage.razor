@@ -5,11 +5,14 @@
 
 <PageTitle>Vetra - Lesson</PageTitle>
 
+<div class="progress">
+    <ProgressBar Width="@TotalFinished" Height="10" />
+</div>
 <div class="row my-4">
     <div class="col-lg-3 col-0"></div>
     <div class="col-lg-6 col-12">
         <div class="window">
-            <LessonTypeMatch LessonKey=@Key/>
+            <LessonTypeMatch LessonKey=@Key OnPass="@LessonPassed" OnFail=@LessonFailed/>
         </div>
     </div>
     <div class="col-lg-3 col-0"></div>
@@ -22,6 +25,43 @@
 
     public string Key = "ERROR";
 
+    public float TotalFinished = 0f;
+
+    public void LessonPassed()
+    {
+        for (int i = 0; i < Lessons.LessonHeaders[Key].Vocab.Count; i++)
+            _ = Profile.ChangeProgress(Lessons.LessonHeaders[Key].Vocab[i], true);
+
+        RecalculateTotal();
+    }
+
+    public void LessonFailed()
+    {
+        for (int i = 0; i < Lessons.LessonHeaders[Key].Vocab.Count; i++)
+            _ = Profile.ChangeProgress(Lessons.LessonHeaders[Key].Vocab[i], false);
+
+        RecalculateTotal();
+    }
+
+    void RecalculateTotal()
+    {
+        int Num = Lessons.LessonHeaders[Key].Vocab.Count;
+        TotalFinished = 0f;
+
+        foreach (string V in Lessons.LessonHeaders[Key].Vocab)
+        {
+            int index = Profile.Data.LearnedVocab.IndexOf(V);
+            if (index != -1)
+            {
+                TotalFinished += Profile.Data.VocabProgression[index];
+            }
+        }
+
+        TotalFinished /= (float)Num;
+
+        StateHasChanged();
+    }
+
     protected override void OnInitialized()
     {
         Key = char.ToUpper(URL[0]) + URL.Substring(1);
@@ -29,7 +69,11 @@
 
     protected override async Task OnInitializedAsync()
     {
-        for(int i = 0; i < Lessons.LessonHeaders[Key].Vocab.Count; i++)
-            await Profile.ChangeProgress(Lessons.LessonHeaders[Key].Vocab[i], true);
-    }
+        while (!Profile.Initialized)
+        {
+            await Task.Delay(250);
+        }
+
+        RecalculateTotal();
+    }    
 }

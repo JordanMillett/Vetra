@@ -1,0 +1,32 @@
+@if (Data == null)
+{
+    <Waiting />
+}
+else
+{
+
+<div class="col-lg-3 col-md-4 col-6">
+    <p>@Data.LearnedVocab[index]</p>
+    <p>@Math.Truncate(Data.VocabProgression[index])% . . . @Data.VocabStreak[index]x</p>
+    <div class="progress">
+        <ProgressBar Width="@Math.Clamp(Data.VocabProgression[index], 0, 100)" Height="10" />
+    </div>
+</div>
+
+}
+
+<style>
+    p
+    {
+    margin: 4px;
+    }
+</style>
+
+@code
+{
+    [Parameter, EditorRequired]
+    public int index {get; set;} = 0;
+        
+    [Parameter, EditorRequired]
+    public ProfileData? Data { get; set; }
+}

@@ -1,8 +1,10 @@
 @page "/developer"
+@using Vetra.Components
 @using System.Text.Json
 @using System.Text.Encodings.Web;
 @using System.Linq;
 @inject LessonService Lesson;
+@inject ProfileService Profile;
 
 <PageTitle>Vetra - Developer</PageTitle>
 
@@ -79,6 +81,26 @@
             </div>
         </Content>
     </Tab>
+    <Tab Title="Profile">
+        <Content><br>
+            <div class="col-12">
+                <div class="buttons">
+                    <button class="btn" @onclick="() => Profile.ChangeProgress(EditTerm, false)">Fail</button>
+                    <button class="btn" @onclick="() => Profile.ChangeProgress(EditTerm, true)">Pass</button>
+                    <button class="btn" @onclick="() => Profile.ForgetTerm(EditTerm)">Forget</button>
+                </div>
+                <br>
+                <input size="10" style="max-height: 1.5rem;" type="text" @bind="EditTerm" />
+                <br>
+                <div class="row">
+                    @for (int i = 0; i < Profile.Data.LearnedVocab.Count; i++)
+                    {
+                        <TermProgress index=@i Data=Profile.Data/>
+                    }
+                </div>
+            </div>
+        </Content>
+    </Tab>
 </Tabs>
 
 @code
@@ -92,6 +114,8 @@
     string TemplateKey = "";
     string Status = "";
     string AllKeys = "";
+    string EditTerm = "";
+    string TermStatus = "";
 
     protected override void OnInitialized()
     {

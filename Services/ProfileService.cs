@@ -14,27 +14,57 @@ namespace Vetra
             _ = LoadProfile();
         }
 
+        float ScoreIncrement = 0.6f;
+        float PunishScoreIncrement = 1.2f;
+        float ScoreMultiplierIncrement = 1.5f;
+
         public async Task ChangeProgress(string Term, bool Correct)
         {
-            int Points = Correct ? 1 : -1;
-            
             int index = Data.LearnedVocab.IndexOf(Term);
+            float points = ScoreIncrement;
             
-            if (index == -1)
+            if (index == -1) //if term not known
             {
                 Data.LearnedVocab.Add(Term);
-                Data.VocabProgression.Add(Points);
+                Data.VocabProgression.Add(points);
                 Data.VocabStreak.Add(1);
             }
-            else
+            else //if term known
             {
-                Data.VocabProgression[index] += Points;
-                Data.VocabStreak[index] += 1;
+                bool LastCorrect = Data.VocabStreak[index] >= 1;
+                if(LastCorrect != Correct)
+                {
+                    Data.VocabStreak[index] = Correct ? 1 : -1;
+                }else
+                {
+                    Data.VocabStreak[index] += Correct ? 1 : -1;
+                }
+
+                points = (Correct ? ScoreIncrement : PunishScoreIncrement) * ((Data.VocabProgression[index]/75f) + 1f);
+                points = points * (Data.VocabStreak[index] * ScoreMultiplierIncrement);
+                Data.VocabProgression[index] += points;
+
+                Data.VocabProgression[index] = Math.Clamp(Data.VocabProgression[index], 0, 100);
             }
 
-            Data.TotalPoints += Points;
+            //Data.TotalPoints += Points; //TotalKnowledge instead
 
             await SaveProfile();
+        }
+        
+        public async Task ForgetTerm(string Term)
+        {
+            for (int i = 0; i < Data.LearnedVocab.Count; i++)
+            {
+                if (Data.LearnedVocab[i] == Term)
+                {
+                    Data.LearnedVocab.RemoveAt(i);
+                    Data.VocabProgression.RemoveAt(i);
+                    Data.VocabStreak.RemoveAt(i);
+                    
+                    await SaveProfile();
+                }
+            }   
         }
 
         public async Task LoadProfile()
