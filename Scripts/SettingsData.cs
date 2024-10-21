@@ -12,6 +12,13 @@ namespace Vetra
                 _DevToolsEnabled = value;
                 MarkDirty();
             }}}
+            
+        private bool _HideNotifications = true;
+        public bool HideNotifications { get => _HideNotifications; set{
+            if (_HideNotifications != value){
+                _HideNotifications = value;
+                MarkDirty();
+            }}}
         
         void MarkDirty()
         {

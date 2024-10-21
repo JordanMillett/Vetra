@@ -16,7 +16,9 @@
             {
                 int Index = i;
                 VocabHeader Item = Lessons.VocabHeaders[Lessons.LessonHeaders[State.Key].Vocab[Index]];
-                <button class="btn @(LeftSelected == Index ? "chosen":"")" @onclick="() => LeftSelect(Index)">@Item.EN</button>
+                <button 
+                class="btn @(Active == Item.EN ? "chosen": State.Tested.Contains(Item.RU) ? "done":"")"
+                @onclick="() => Select(Item.EN)">@Item.EN</button>
             }
         </div>
         <div class="col-6 text-center">
@@ -24,7 +26,9 @@
             {
                 int Index = i;
                 VocabHeader Item = Lessons.VocabHeaders[Lessons.LessonHeaders[State.Key].Vocab[Index]];
-                <button class="btn @(RightSelected == Index ? "chosen":"")" @onclick="() => RightSelect(Index)">@Item.RU</button>
+                <button 
+                class="btn @(Active == Item.RU ? "chosen": State.Tested.Contains(Item.RU) ? "done":"")" 
+                @onclick="() => Select(Item.RU)">@Item.RU</button>
             }
         </div>
     </div>
@@ -34,6 +38,11 @@
 }
 
 <style>
+    .done
+    {
+    visibility:hidden;
+    }
+
     .chosen
     {
     outline-offset: 2px !important;
@@ -60,28 +69,94 @@
     [Parameter, EditorRequired]
     public Action? OnFinish { get; set; }
 
-    int LeftSelected = -1;
-    int RightSelected = -1;
+    string Active = "";
 
-    void LeftSelect(int Index)
+    void Select(string Chosen)
     {
-        LeftSelected = Index;
+        if (Active == "")
+        {
+            Active = Chosen;
+        }
+        else
+        {
+            if (Lessons.VocabHeaders.ContainsKey(Chosen)) //if Chosen is Russian
+            {
+                if (!Lessons.VocabHeaders.ContainsKey(Active)) //if Active is English
+                {
 
-        State.Tested.Add(Lessons.LessonHeaders[State.Key].Vocab[Index]);
-        State.Results.Add(true);
-        StateChanged.InvokeAsync(State);
+                    if (Lessons.VocabHeaders[Chosen].EN == Active)
+                    {
+                        State.Tested.Add(Chosen);
+                        State.Results.Add(true);
+                        StateChanged.InvokeAsync(State);
 
-        OnFinish?.Invoke();
+                        Active = "";
+                    }
+                    else
+                    {
+                        //State.Tested.Add(Chosen);
+                        //State.Results.Add(false);
+                        //StateChanged.InvokeAsync(State);
+
+                        Active = "";
+                    }
+                }
+                else
+                {
+                    Active = Chosen;
+                }
+            }
+            else                                         //if Chosen is English
+            {
+                if (Lessons.VocabHeaders.ContainsKey(Active)) //if Active is Russian
+                {
+                    if (Lessons.VocabHeaders[Active].EN == Chosen)
+                    {
+                        State.Tested.Add(Active);
+                        State.Results.Add(true);
+                        StateChanged.InvokeAsync(State);
+
+                        Active = "";
+                    }
+                    else
+                    {
+                        
+                        //State.Tested.Add(Active);
+                        //State.Results.Add(false);
+                        //StateChanged.InvokeAsync(State);
+
+                        Active = "";
+                    }
+                }
+                else
+                {
+                    Active = Chosen;
+                }
+            }
+        }
+
+        if (State.Tested.Count == Lessons.LessonHeaders[State.Key].Vocab.Count)
+            OnFinish?.Invoke();
+
+        /*
+            if (RightSelected != -1)
+            {
+                if (Index == RightSelected)
+                {
+                    State.Tested.Add(Lessons.LessonHeaders[State.Key].Vocab[Index]);
+                    State.Results.Add(true);
+                    StateChanged.InvokeAsync(State);
+
+                    LeftSelected = -1;
+                    RightSelected = -1;
+
+                    if (State.Tested.Count == Lessons.LessonHeaders[State.Key].Vocab.Count)
+                        OnFinish?.Invoke();
+                }
+                else
+                {
+                    LeftSelected = Index;
+                }
+            }*/
     }
-
-    void RightSelect(int Index)
-    {
-        RightSelected = Index;
-        
-        State.Tested.Add(Lessons.LessonHeaders[State.Key].Vocab[Index]);
-        State.Results.Add(false);
-        StateChanged.InvokeAsync(State);
-
-        OnFinish?.Invoke();
     }
-}

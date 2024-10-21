@@ -8,11 +8,11 @@
 @if (!Settings.Initialized)
 {
     <Vetra.Components.Waiting />
-
 }
 else
 {
-    <Switch @bind-Value="Settings.Data.DevToolsEnabled" Label="Toggle Developer Tools" />
+    <Switch @bind-Value="Settings.Data.DevToolsEnabled" Label="Show Developer Tools" />
+    <Switch @bind-Value="Settings.Data.HideNotifications" Label="Hide Notifications" />
 }
 
 @code
