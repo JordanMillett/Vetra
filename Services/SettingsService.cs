@@ -53,7 +53,7 @@ namespace Vetra
         public async Task SaveSettings()
         {
             await Local.SetItemAsync("settings", Data);
-            Console.WriteLine("Settings saved.");
+            //Console.WriteLine("Settings saved.");
         }
     }
 }

@@ -1,5 +1,6 @@
 @inject LessonService Lessons
 @inject ProfileService Profile
+@inject TextToSpeechService TTS
 
 @if (Logic == null)
     return;
@@ -11,18 +12,22 @@
         @{
             VocabHeader Term = Logic.Included[0];
 
-            <h1>@Term.RU</h1>
+            <h1 class="clickable" @onclick="() => SpeakOneShot()">@Term.RU <Icon Name="IconName.VolumeUp" Size="IconSize.x3" draggable="false"/></h1>
             <h5>(@Term.EN)</h5>
 
             if(Term.Category == "Noun")
             {
                 <p>@Logic.Included[0].Category - @Logic.Included[0].Gender</p>
+            }else if(Term.Category == "Adjective")
+            { 
+                <p>@Logic.Included[0].Category</p>
             }
+
         }
-       
+
         <br>
         <button class="btn" @onclick="() => Done()">Done</button>
-        </div>
+    </div>
 </div>
 
 @code
@@ -35,6 +40,17 @@
 
     [Parameter, EditorRequired]
     public Action? OnFinish { get; set; }
+
+    protected override void OnInitialized()
+    {
+        _ = SpeakOneShot();
+    }
+
+    async Task SpeakOneShot()
+    {
+        _ = Task.Run(() => TTS.Speak(Logic.Included[0].RU));
+        await Task.CompletedTask;
+    }
 
     void Done()
     {

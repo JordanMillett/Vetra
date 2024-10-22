@@ -26,3 +26,8 @@ html, body
     -ms-user-select: none;
     user-select: none;
 }
+
+.clickable
+{
+    cursor: pointer;
+}

@@ -5,9 +5,24 @@
 
 <PageTitle>Vetra - Lesson</PageTitle>
 
-@if (!Profile.Initialized || LessonType == -1)
+@if (!Profile.Initialized || LessonType == -1 || NotImplemented.Count > 0)
 {
-    <Waiting />
+    if (NotImplemented.Count > 0)
+    {
+        <p>@NotImplemented.Count Vocab Keys Missing!</p>
+        
+        <ul>
+            @foreach (string S in NotImplemented)
+            {
+                <li style="user-select: all;">@S</li>
+            }
+        </ul>
+    }
+    else
+    {
+        <Waiting />
+    }
+
 }
 else
 {
@@ -71,6 +86,8 @@ else
 
     public string StatusRight = "";
     public string StatusWrong = "";
+
+    public List<string> NotImplemented = new List<string>();
 
     //POOLING SCRIPT TO ONLY SHOW USER 5 OR SET NUMBER OF NEW TERMS AT A TIME
 
@@ -162,7 +179,7 @@ else
 
     protected override void OnInitialized()
     {
-        Key = char.ToUpper(URL[0]) + URL.Substring(1);
+        Key = string.Join(' ', URL.Split(' ').Select(word => char.ToUpper(word[0]) + word.Substring(1).ToLower()));
     }
 
     protected override async Task OnInitializedAsync()
@@ -172,6 +189,15 @@ else
             await Task.Delay(250);
         }
 
-        NextLesson();
-    }    
+        foreach (string S in Lessons.LessonHeaders[Key].Vocab)
+        {
+            if (!Lessons.VocabHeaders.ContainsKey(S))
+            {
+                NotImplemented.Add(S);
+            }
+        }
+
+        if (NotImplemented.Count == 0)
+            NextLesson();
+    }
 }

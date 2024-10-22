@@ -39,5 +39,92 @@
         "EN":"Apple",
         "Category": "Noun",
         "Gender": "Neuter"
+    },"Cтол":{
+        "RU":"Cтол",
+        "EN":"Table",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },"Диван":{
+        "RU":"Диван",
+        "EN":"Couch",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },"Ковер":{
+        "RU":"Ковер",
+        "EN":"Rug",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },"Кресло":{
+        "RU":"Кресло",
+        "EN":"Armchair",
+        "Category": "Noun",
+        "Gender": "Neuter"
+    },"Кровать":{
+        "RU":"Кровать",
+        "EN":"Bed",
+        "Category": "Noun",
+        "Gender": "Feminine"
+    },"Стул":{
+        "RU":"Стул",
+        "EN":"Chair",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },"Шкаф":{
+        "RU":"Шкаф",
+        "EN":"Wardrobe",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },"Красный":{
+        "RU":"Красный",
+        "EN":"Red",
+        "Category": "Adjective"
+    },"Синий":{
+        "RU":"Синий",
+        "EN":"Blue",
+        "Category": "Adjective"
+    },"Голубой":{
+        "RU":"Голубой",
+        "EN":"Light Blue",
+        "Category": "Adjective"
+    },"Зеленый":{
+        "RU":"Зеленый",
+        "EN":"Green",
+        "Category": "Adjective"
+    },"Желтый":{
+        "RU":"Желтый",
+        "EN":"Yellow",
+        "Category": "Adjective"
+    },"Оранжевый":{
+        "RU":"Оранжевый",
+        "EN":"Orange",
+        "Category": "Adjective"
+    },"Фиолетовый":{
+        "RU":"Фиолетовый",
+        "EN":"Purple",
+        "Category": "Adjective"
+    },"Серый":{
+        "RU":"Серый",
+        "EN":"Gray",
+        "Category": "Adjective"
+    },"Черный":{
+        "RU":"Черный",
+        "EN":"Black",
+        "Category": "Adjective"
+    },"Белый":{
+        "RU":"Белый",
+        "EN":"White",
+        "Category": "Adjective"
+    },"Коричневый":{
+        "RU":"Коричневый",
+        "EN":"Brown",
+        "Category": "Adjective"
+    },"Розовый":{
+        "RU":"Розовый",
+        "EN":"Pink",
+        "Category": "Adjective"
+    },"Золотой":{
+        "RU":"Золотой",
+        "EN":"Gold",
+        "Category": "Adjective"
     }
 }
