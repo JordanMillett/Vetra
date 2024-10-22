@@ -14,6 +14,16 @@ else
     <div class="progress">
         <ProgressBar Width="@TotalFinished" Height="10" />
     </div>
+    <div class="row">
+        <div class="col-12 text-center mt-2">
+            @if (StatusRight == "" && StatusWrong == "")
+            {
+                <h5 style="visibility: hidden;">Sapacer</h5>
+            }
+            <h5 class="@(StatusRight == "" ? "status-none" : "status-right")">@StatusRight</h5>
+            <h5 class="@(StatusWrong == "" ? "status-none" : "status-wrong")">@StatusWrong</h5>
+        </div>
+    </div>
     <div class="row my-4">
         <div class="col-lg-3 col-0"></div>
         <div class="col-lg-6 col-12">
@@ -33,6 +43,8 @@ else
                     {
                         case 0 : <LessonType_Teach @key="LessonInstance" @bind-Logic="Logic" OnFinish="@LessonFinished" /> break;
                         case 1 : <LessonType_VowelChange @key="LessonInstance" @bind-Logic="Logic" OnFinish="@LessonFinished" /> break;
+                        case 2 : <LessonType_Select @key="LessonInstance" @bind-Logic="Logic" OnFinish="@LessonFinished" /> break;
+                        case 3 : <LessonType_Select @key="LessonInstance" @bind-Logic="Logic" OnFinish="@LessonFinished" /> break;
                     }
                 </div>
             }
@@ -57,12 +69,28 @@ else
 
     public int LessonType = -1;
 
+    public string StatusRight = "";
+    public string StatusWrong = "";
+
     //POOLING SCRIPT TO ONLY SHOW USER 5 OR SET NUMBER OF NEW TERMS AT A TIME
 
     public void LessonFinished()
     {
         foreach (string Term in Logic.Results.Keys)
-            Profile.ChangeProgress(Term, Logic.Results[Term]);
+        {
+            float Change = Profile.ChangeProgress(Term, Logic.Results[Term]);
+
+            if (Change > 0)
+            {
+                StatusRight = $"{Term} +{Change:F2}";
+                StatusWrong = "";
+            }
+            else
+            {
+                StatusRight = "";
+                StatusWrong = $"{Term} {Change:F2}";
+            }
+        }
 
         _ = Profile.SaveProfile();
         NextLesson();
@@ -104,11 +132,12 @@ else
         }
 
         Random Rand = new Random();
-        LessonType = Rand.Next(1, 2); //include, exclude
+        LessonType = Rand.Next(1, 4); //include, exclude  CHANGE WHEN ADDING NEW GAME
 
         if(Progress == 0)
             LessonType = 0;
 
+        //Console.WriteLine(Lessons.VocabHeaders[ReturnKey].RU);
         return Lessons.VocabHeaders[ReturnKey];
     }
 

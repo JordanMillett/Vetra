@@ -19,17 +19,23 @@ namespace Vetra
         float ScoreIncrement = 0.5f; //0.6f
         float PunishScoreIncrement = 1.0f; //1.2f
         float ScoreMultiplierIncrement = 1.5f; //1.5f
+        float RandomScoreOffsetRange = 0.2f; //0.2f USED TO MAKE THINGS OUT OF ORDER
 
-        public void ChangeProgress(string Term, bool Correct) //have a multiplier so each game can have its own impact on learning floats
+        public float ChangeProgress(string Term, bool Correct) //have a multiplier so each game can have its own impact on learning floats
         {
+            Random Rand = new Random();
             int index = Data.LearnedVocab.IndexOf(Term);
-            float points = ScoreIncrement;
+            float RandomOffset = ((float)Rand.NextDouble() * 2 * RandomScoreOffsetRange) - RandomScoreOffsetRange;
+            
+            float points = ScoreIncrement + RandomOffset;
             
             if (index == -1) //if term not known
             {
                 Data.LearnedVocab.Add(Term);
                 Data.VocabProgression.Add(points);
                 Data.VocabStreak.Add(1);
+
+                return points;
             }
             else //if term known
             {
@@ -44,11 +50,14 @@ namespace Vetra
 
                 points = (Correct ? ScoreIncrement : PunishScoreIncrement) * ((Data.VocabProgression[index]/75f) + 1f);
                 points = points * (Data.VocabStreak[index] * ScoreMultiplierIncrement);
+                points += RandomOffset;
                 Data.VocabProgression[index] += points;
 
                 Data.VocabProgression[index] = Math.Clamp(Data.VocabProgression[index], 0, 100);
                 if (Data.VocabProgression[index] == 0 || Data.VocabProgression[index] == 100)
                     Data.VocabStreak[index] = 0;
+                    
+                return points;
             }
 
             //Data.TotalPoints += Points; //TotalKnowledge instead
@@ -99,7 +108,7 @@ namespace Vetra
         public async Task SaveProfile()
         {
             await Local.SetItemAsync("profile", Data);
-            Console.WriteLine("Profile saved.");
+            //Console.WriteLine("Profile saved.");
             Toast.Notify(new(BlazorBootstrap.ToastType.Info, "Profile Saved."));
         }
     }

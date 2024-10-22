@@ -2,3 +2,20 @@
 {
     height: 500px;
 }
+
+.status-right
+{
+    font-weight: bold;
+    color: var(--vetra-green)
+}
+
+.status-wrong
+{
+    font-weight: bold;
+    color: var(--vetra-red)
+}
+
+.status-none
+{
+    display: none;
+}

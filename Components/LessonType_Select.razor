@@ -1,0 +1,101 @@
+@inject LessonService Lessons
+@inject ProfileService Profile
+
+@if (Logic == null)
+    return;
+@if (Logic.Included.Count == 0)
+    return;
+
+<div class="row py-4">
+    <div class="col-12 text-center">
+        @{
+            VocabHeader Term = Logic.Included[0];
+
+            <h1>@(FindEnglish ? Term.RU : Term.EN)</h1>
+        }
+
+        <br>
+        <button class="btn mb-1" @onclick="() => Chosen(0)">@GetChoice(0)</button>
+        <button class="btn mb-1" @onclick="() => Chosen(1)">@GetChoice(1)</button>
+        <button class="btn mb-1" @onclick="() => Chosen(2)">@GetChoice(2)</button>
+        <button class="btn mb-1" @onclick="() => Chosen(3)">@GetChoice(3)</button>
+    </div>
+</div>
+
+@code
+{
+    [Parameter, EditorRequired]
+    public LessonLogic Logic { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback<LessonLogic> LogicChanged { get; set; }
+
+    [Parameter, EditorRequired]
+    public Action? OnFinish { get; set; }
+
+    Random Rand = new Random();
+    int CorrectIndex = 0;
+    List<string> Options = new List<string>();
+    bool FindEnglish = false;
+
+    protected override void OnInitialized()
+    {
+        CorrectIndex = Rand.Next(0, 4);
+        FindEnglish = Rand.NextDouble() > 0.5f;
+
+        if (FindEnglish)
+        {
+            Options.Add(Logic.Included[0].EN);
+        }
+        else
+        {
+            Options.Add(Logic.Included[0].RU);
+        }
+
+
+    }
+
+    void Chosen(int Index)
+    {
+        if(Index == CorrectIndex)
+            Logic.Results.Add(Logic.Included[0].RU, true);
+        else
+            Logic.Results.Add(Logic.Included[0].RU, false);
+
+        LogicChanged.InvokeAsync(Logic);
+
+        OnFinish?.Invoke();
+    }
+
+    string GetChoice(int Index)
+    {
+        if (Index == CorrectIndex)
+        {
+            if (FindEnglish)
+                return Logic.Included[0].EN;
+            else
+                return Logic.Included[0].RU;
+        }
+
+        string Word = FindEnglish ? Logic.Included[0].EN : Logic.Included[0].RU;
+
+        do
+        {
+            int RandomIndex = Rand.Next(0, Lessons.LessonHeaders[Logic.LessonKey].Vocab.Count);
+            string RandomKey = Lessons.LessonHeaders[Logic.LessonKey].Vocab[RandomIndex];
+
+            if (FindEnglish)
+            {
+                Word = Lessons.VocabHeaders[RandomKey].EN;
+            }
+            else
+            {
+                Word = Lessons.VocabHeaders[RandomKey].RU;
+            }
+
+        } while (Options.Contains(Word));
+
+        Options.Add(Word);
+        return Word;
+    }
+}
