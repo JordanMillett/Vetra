@@ -64,3 +64,20 @@ form[b-l88vicxia6]
 {
     height: 500px;
 }
+
+.status-right[b-ahw2qe16oy]
+{
+    font-weight: bold;
+    color: var(--vetra-green)
+}
+
+.status-wrong[b-ahw2qe16oy]
+{
+    font-weight: bold;
+    color: var(--vetra-red)
+}
+
+.status-none[b-ahw2qe16oy]
+{
+    display: none;
+}
