@@ -47,6 +47,8 @@ namespace Vetra
                 Data.VocabProgression[index] += points;
 
                 Data.VocabProgression[index] = Math.Clamp(Data.VocabProgression[index], 0, 100);
+                if (Data.VocabProgression[index] == 0 || Data.VocabProgression[index] == 100)
+                    Data.VocabStreak[index] = 0;
             }
 
             //Data.TotalPoints += Points; //TotalKnowledge instead

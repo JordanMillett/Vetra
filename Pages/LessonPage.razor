@@ -17,9 +17,22 @@ else
     <div class="row my-4">
         <div class="col-lg-3 col-0"></div>
         <div class="col-lg-6 col-12">
-            <div class="window">
-                <LessonTypeMatch @bind-State="State" OnFinish="@LessonFinished" />
-            </div>
+            @if (TotalFinished >= 100)
+            {
+                <div class="text-center">
+                    <br>
+                    <h3><strong>You have finished this lesson!</strong></h3>
+                    <br>
+                    <button class="btn"><a href="">Exit Lesson</a></button>
+                </div>
+            }
+            else
+            {
+                <div class="window">
+                    <LessonType_Teach @key="LessonInstance" @bind-Logic="Logic" OnFinish="@LessonFinished" />
+                </div>
+            }
+
         </div>
         <div class="col-lg-3 col-0"></div>
     </div>
@@ -32,14 +45,16 @@ else
 
     public string Key = "ERROR";
 
-    public LessonStateData State = default!;
+    public LessonLogic Logic = default!;
 
     public float TotalFinished = 0f;
 
+    public int LessonInstance = 0;
+
     public void LessonFinished()
     {
-        for (int i = 0; i < State.Tested.Count; i++)
-            Profile.ChangeProgress(State.Tested[i], State.Results[i]);
+        foreach (string Term in Logic.Results.Keys)
+            Profile.ChangeProgress(Term, Logic.Results[Term]);
 
         _ = Profile.SaveProfile();
         NextLesson();
@@ -47,11 +62,42 @@ else
 
     public void NextLesson()
     {
-        RecalculateTotal();
-        State = new LessonStateData(Key);
+        RecalculateProgressBar();
+        Logic = new LessonLogic(Key);
+
+        Logic.Included.Add(GetNextTerm());
+
+        LessonInstance++;
     }
 
-    void RecalculateTotal()
+    VocabHeader GetNextTerm()
+    {
+        string ReturnKey = Lessons.LessonHeaders[Key].Vocab[0];
+        float Progress = 100f;
+
+        for (int i = 0; i < Lessons.LessonHeaders[Key].Vocab.Count; i++)
+        {
+            string VocabKey = Lessons.LessonHeaders[Key].Vocab[i];
+
+            if (!Profile.Data.LearnedVocab.Contains(VocabKey)) //Term is not known show next!
+            {
+                return Lessons.VocabHeaders[VocabKey];
+            }
+            else                                              //Term is known
+            {
+                if (Profile.Data.VocabProgression[Profile.Data.LearnedVocab.IndexOf(VocabKey)] < Progress)
+                {
+                    ReturnKey = VocabKey;
+                    Progress = Profile.Data.VocabProgression[Profile.Data.LearnedVocab.IndexOf(VocabKey)];
+                }
+            }
+
+        }
+
+        return Lessons.VocabHeaders[ReturnKey];
+    }
+
+    void RecalculateProgressBar()
     {
         int Num = Lessons.LessonHeaders[Key].Vocab.Count;
         TotalFinished = 0f;

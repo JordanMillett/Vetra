@@ -38,6 +38,12 @@
     color: var(--vetra-white);
 }
 
+.btn a
+{
+    color: var(--vetra-white);
+    text-decoration: none;
+}
+
 .form-check-input:checked
 {
     background-color: var(--vetra-light-red);
