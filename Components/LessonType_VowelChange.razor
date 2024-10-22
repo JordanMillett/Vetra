@@ -1,0 +1,88 @@
+@inject LessonService Lessons
+@inject ProfileService Profile
+
+@if (Logic == null)
+    return;
+@if (Logic.Included.Count == 0)
+    return;
+
+<div class="row py-4">
+    <div class="col-12 text-center">
+        @{
+            VocabHeader Term = Logic.Included[0];
+
+            <h1>@Term.EN</h1>
+
+        }
+
+        <br>
+        <button class="btn" @onclick="() => Chosen(0)">@GetName(0)</button>
+        <button class="btn" @onclick="() => Chosen(1)">@GetName(1)</button>
+        <button class="btn" @onclick="() => Chosen(2)">@GetName(2)</button>
+        <button class="btn" @onclick="() => Chosen(3)">@GetName(3)</button>
+    </div>
+</div>
+
+@code
+{
+    [Parameter, EditorRequired]
+    public LessonLogic Logic { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback<LessonLogic> LogicChanged { get; set; }
+
+    [Parameter, EditorRequired]
+    public Action? OnFinish { get; set; }
+
+    Random Rand = new Random();
+    int NormalIndex = 0;
+    List<string> Generated = new List<string>();
+
+    protected override void OnInitialized()
+    {
+        NormalIndex = Rand.Next(0, 4);
+        Generated.Add(Logic.Included[0].RU);
+    }
+
+    void Chosen(int Index)
+    {
+        if(Index == NormalIndex)
+            Logic.Results.Add(Logic.Included[0].RU, true);
+        else
+            Logic.Results.Add(Logic.Included[0].RU, false);
+
+        LogicChanged.InvokeAsync(Logic);
+
+        OnFinish?.Invoke();
+    }
+
+    string GetName(int Index)
+    {
+        if (Index == NormalIndex)
+            return Logic.Included[0].RU;
+
+        char[] Vowels = { 'а', 'у', 'о', 'ы', 'и', 'э', 'я', 'ю', 'е' };
+        List<int> VowelLocations = new List<int>();
+        string Word = Logic.Included[0].RU;
+
+        do
+        {
+            VowelLocations.Clear();
+
+            for (int i = 0; i < Word.Length; i++)
+            {
+                if (Array.Exists(Vowels, c => c == Word[i]))
+                    VowelLocations.Add(i);
+            }
+
+            int ChosenIndex = VowelLocations[Rand.Next(VowelLocations.Count)];
+            char NewVowel = Vowels[Rand.Next(Vowels.Length)];
+
+            Word = Word.Remove(ChosenIndex, 1).Insert(ChosenIndex, NewVowel.ToString());
+
+        } while (Generated.Contains(Word));
+
+        Generated.Add(Word);
+        return Word;
+    }
+}

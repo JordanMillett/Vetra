@@ -1,30 +1,43 @@
 {
     "Кот":{
         "RU":"Кот",
-        "EN":"Cat"
+        "EN":"Cat",
+        "Category": "Noun",
+        "Gender": "Masculine"
     },"Картофель":{
         "RU":"Картофель",
-        "EN":"Potato"
+        "EN":"Potato",
+        "Category": "Noun",
+        "Gender": "Masculine"
     },"Птица":{
         "RU":"Птица",
-        "EN":"Bird"
+        "EN":"Bird",
+        "Category": "Noun",
+        "Gender": "Feminine"
     },"Рыба":{
         "RU":"Рыба",
-        "EN":"Fish"
+        "EN":"Fish",
+        "Category": "Noun",
+        "Gender": "Feminine"
     },"Свинина":{
         "RU":"Свинина",
-        "EN":"Pork"
+        "EN":"Pork",
+        "Category": "Noun",
+        "Gender": "Feminine"
     },"Собака":{
         "RU":"Собака",
-        "EN":"Dog"
+        "EN":"Dog",
+        "Category": "Noun",
+        "Gender": "Feminine"
     },"Хлеб":{
         "RU":"Хлеб",
-        "EN":"Bread"
+        "EN":"Bread",
+        "Category": "Noun",
+        "Gender": "Masculine"
     },"Яблоко":{
         "RU":"Яблоко",
-        "EN":"Apple"
-    },"Рот":{
-        "RU":"Рот",
-        "EN": "Mouth"
+        "EN":"Apple",
+        "Category": "Noun",
+        "Gender": "Neuter"
     }
 }

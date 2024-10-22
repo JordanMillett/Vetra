@@ -16,11 +16,11 @@ namespace Vetra
             _ = LoadProfile();
         }
 
-        float ScoreIncrement = 0.6f;
-        float PunishScoreIncrement = 1.2f;
-        float ScoreMultiplierIncrement = 1.5f;
+        float ScoreIncrement = 0.5f; //0.6f
+        float PunishScoreIncrement = 1.0f; //1.2f
+        float ScoreMultiplierIncrement = 1.5f; //1.5f
 
-        public void ChangeProgress(string Term, bool Correct)
+        public void ChangeProgress(string Term, bool Correct) //have a multiplier so each game can have its own impact on learning floats
         {
             int index = Data.LearnedVocab.IndexOf(Term);
             float points = ScoreIncrement;

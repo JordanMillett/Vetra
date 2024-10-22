@@ -5,7 +5,7 @@
 
 <PageTitle>Vetra - Lesson</PageTitle>
 
-@if (!Profile.Initialized)
+@if (!Profile.Initialized || LessonType == -1)
 {
     <Waiting />
 }
@@ -29,7 +29,11 @@ else
             else
             {
                 <div class="window">
-                    <LessonType_Teach @key="LessonInstance" @bind-Logic="Logic" OnFinish="@LessonFinished" />
+                    @switch (LessonType)
+                    {
+                        case 0 : <LessonType_Teach @key="LessonInstance" @bind-Logic="Logic" OnFinish="@LessonFinished" /> break;
+                        case 1 : <LessonType_VowelChange @key="LessonInstance" @bind-Logic="Logic" OnFinish="@LessonFinished" /> break;
+                    }
                 </div>
             }
 
@@ -50,6 +54,10 @@ else
     public float TotalFinished = 0f;
 
     public int LessonInstance = 0;
+
+    public int LessonType = -1;
+
+    //POOLING SCRIPT TO ONLY SHOW USER 5 OR SET NUMBER OF NEW TERMS AT A TIME
 
     public void LessonFinished()
     {
@@ -81,6 +89,7 @@ else
 
             if (!Profile.Data.LearnedVocab.Contains(VocabKey)) //Term is not known show next!
             {
+                LessonType = 0;
                 return Lessons.VocabHeaders[VocabKey];
             }
             else                                              //Term is known
@@ -93,6 +102,12 @@ else
             }
 
         }
+
+        Random Rand = new Random();
+        LessonType = Rand.Next(1, 2); //include, exclude
+
+        if(Progress == 0)
+            LessonType = 0;
 
         return Lessons.VocabHeaders[ReturnKey];
     }

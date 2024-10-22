@@ -8,10 +8,21 @@
 
 <div class="row py-4">
     <div class="col-12 text-center">
-        @Logic.Included[0].EN - @Logic.Included[0].RU
-        <br><br>
+        @{
+            VocabHeader Term = Logic.Included[0];
+
+            <h1>@Term.RU</h1>
+            <h5>(@Term.EN)</h5>
+
+            if(Term.Category == "Noun")
+            {
+                <p>@Logic.Included[0].Category - @Logic.Included[0].Gender</p>
+            }
+        }
+       
+        <br>
         <button class="btn" @onclick="() => Done()">Done</button>
-    </div>
+        </div>
 </div>
 
 @code
