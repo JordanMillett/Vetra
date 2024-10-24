@@ -270,5 +270,47 @@
         "Category": "Noun",
         "Gender": "Feminine",
         "Icon": "Running Shoe"
+    },"Рука":{
+        "RU":"Рука",
+        "EN":"Hand",
+        "Category": "Noun",
+        "Gender": "Feminine",
+        "Icon": "Hand with fingers splayed"
+    },"Нога":{
+        "RU":"Нога",
+        "EN":"Leg",
+        "Category": "Noun",
+        "Gender": "Feminine",
+        "Icon": "Leg"
+    },"Голова":{
+        "RU":"Голова",
+        "EN":"Head",
+        "Category": "Noun",
+        "Gender": "Feminine",
+        "Icon": "Grinning Face"
+    },"Глаз":{
+        "RU":"Глаз",
+        "EN":"Eye",
+        "Category": "Noun",
+        "Gender": "Masculine",
+        "Icon": "Eye"
+    },"Ухо":{
+        "RU":"Ухо",
+        "EN":"Ear",
+        "Category": "Noun",
+        "Gender": "Neuter",
+        "Icon": "Ear"
+    },"Нос":{
+        "RU":"Нос",
+        "EN":"Nose",
+        "Category": "Noun",
+        "Gender": "Masculine",
+        "Icon": "Nose"
+    },"Рот":{
+        "RU":"Рот",
+        "EN":"Mouth",
+        "Category": "Noun",
+        "Gender": "Masculine",
+        "Icon": "Mouth"
     }
 }
