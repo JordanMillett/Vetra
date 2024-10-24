@@ -1,6 +1,5 @@
 @inject LessonService Lessons
 @inject ProfileService Profile
-@inject TextToSpeechService TTS
 
 @if (Logic == null)
     return;
@@ -12,10 +11,11 @@
 
         @if (FindEnglish)
         {
+            <VocabIcon />
             <h1>@Logic.Included[0].RU</h1>
-            //<h1 class="clickable" @onclick="() => SpeakOneShot()">@Logic.Included[0].RU <Icon Name="IconName.VolumeUp" Size="IconSize.x3" draggable="false"/></h1>
         }else
         { 
+            <VocabIcon Name="@Logic.Included[0].Icon"/>
             <h1>@Logic.Included[0].EN</h1>
         }
 
@@ -51,18 +51,11 @@
         if (FindEnglish)
         {
             Options.Add(Logic.Included[0].EN);
-            _ = SpeakOneShot();
         }
         else
         {
             Options.Add(Logic.Included[0].RU);
         }
-    }
-
-    async Task SpeakOneShot()
-    {
-        _ = Task.Run(() => TTS.Speak(Logic.Included[0].RU));
-        await Task.CompletedTask;
     }
 
     void Chosen(int Index)

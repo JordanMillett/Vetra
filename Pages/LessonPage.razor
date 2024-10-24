@@ -67,6 +67,12 @@ else
         </div>
         <div class="col-lg-3 col-0"></div>
     </div>
+    <div class="row text-center">
+        <div class="col-12">
+            <p>All emojis designed by <a href="https://openmoji.org/">OpenMoji</a> – the open-source emoji and icon project. License: <a href="https://creativecommons.org/licenses/by-sa/4.0/#">CC BY-SA 4.0</a></p>
+        </div>
+    </div>
+    
 }
 
 @code
@@ -99,13 +105,13 @@ else
 
             if (Change > 0)
             {
-                StatusRight = $"{Term} +{Change:F2}";
+                StatusRight = $"{Term} +{Change:F2}%";
                 StatusWrong = "";
             }
             else
             {
                 StatusRight = "";
-                StatusWrong = $"{Term} {Change:F2}";
+                StatusWrong = $"{Term} {Change:F2}%";
             }
         }
 

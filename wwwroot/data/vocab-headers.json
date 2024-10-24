@@ -3,128 +3,206 @@
         "RU":"Кот",
         "EN":"Cat",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Cat"
     },"Картофель":{
         "RU":"Картофель",
         "EN":"Potato",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Potato"
     },"Птица":{
         "RU":"Птица",
         "EN":"Bird",
         "Category": "Noun",
-        "Gender": "Feminine"
+        "Gender": "Feminine",
+        "Icon": "Bird"
     },"Рыба":{
         "RU":"Рыба",
         "EN":"Fish",
         "Category": "Noun",
-        "Gender": "Feminine"
+        "Gender": "Feminine",
+        "Icon": "Fish"
     },"Свинина":{
         "RU":"Свинина",
         "EN":"Pork",
         "Category": "Noun",
-        "Gender": "Feminine"
+        "Gender": "Feminine",
+        "Icon": "Pig"
     },"Собака":{
         "RU":"Собака",
         "EN":"Dog",
         "Category": "Noun",
-        "Gender": "Feminine"
+        "Gender": "Feminine",
+        "Icon": "Dog"
     },"Хлеб":{
         "RU":"Хлеб",
         "EN":"Bread",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Bread"
     },"Яблоко":{
         "RU":"Яблоко",
         "EN":"Apple",
         "Category": "Noun",
-        "Gender": "Neuter"
+        "Gender": "Neuter",
+        "Icon": "Red Apple"
     },"Cтол":{
         "RU":"Cтол",
         "EN":"Table",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "White Question Mark"
     },"Диван":{
         "RU":"Диван",
         "EN":"Couch",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Couch and Lamp"
     },"Ковер":{
         "RU":"Ковер",
         "EN":"Rug",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "White Question Mark"
     },"Кресло":{
         "RU":"Кресло",
         "EN":"Armchair",
         "Category": "Noun",
-        "Gender": "Neuter"
+        "Gender": "Neuter",
+        "Icon": "Armchair"
     },"Кровать":{
         "RU":"Кровать",
         "EN":"Bed",
         "Category": "Noun",
-        "Gender": "Feminine"
+        "Gender": "Feminine",
+        "Icon": "Bed"
     },"Стул":{
         "RU":"Стул",
         "EN":"Chair",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Chair"
     },"Шкаф":{
         "RU":"Шкаф",
         "EN":"Wardrobe",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "White Question Mark"
     },"Красный":{
         "RU":"Красный",
         "EN":"Red",
-        "Category": "Adjective"
+        "Category": "Adjective",
+        "Icon": "Red Circle"
     },"Синий":{
         "RU":"Синий",
         "EN":"Blue",
-        "Category": "Adjective"
+        "Category": "Adjective",
+        "Icon": "Blueberries"
     },"Голубой":{
         "RU":"Голубой",
         "EN":"Light Blue",
-        "Category": "Adjective"
+        "Category": "Adjective",
+        "Icon": "Blue Heart"
     },"Зеленый":{
         "RU":"Зеленый",
         "EN":"Green",
-        "Category": "Adjective"
+        "Category": "Adjective",
+        "Icon": "Green Square"
     },"Желтый":{
         "RU":"Желтый",
         "EN":"Yellow",
-        "Category": "Adjective"
+        "Category": "Adjective",
+        "Icon": "Yellow Circle"
     },"Оранжевый":{
         "RU":"Оранжевый",
         "EN":"Orange",
-        "Category": "Adjective"
+        "Category": "Adjective",
+        "Icon": "Orange Hexagon"
     },"Фиолетовый":{
         "RU":"Фиолетовый",
         "EN":"Purple",
-        "Category": "Adjective"
+        "Category": "Adjective",
+        "Icon": "Purple Square"
     },"Серый":{
         "RU":"Серый",
         "EN":"Gray",
-        "Category": "Adjective"
+        "Category": "Adjective",
+        "Icon": "Cloud"
     },"Черный":{
         "RU":"Черный",
         "EN":"Black",
-        "Category": "Adjective"
+        "Category": "Adjective",
+        "Icon": "Black Star"
     },"Белый":{
         "RU":"Белый",
         "EN":"White",
-        "Category": "Adjective"
+        "Category": "Adjective",
+        "Icon": "White Flag"
     },"Коричневый":{
         "RU":"Коричневый",
         "EN":"Brown",
-        "Category": "Adjective"
+        "Category": "Adjective",
+        "Icon": "Brown Circle"
     },"Розовый":{
         "RU":"Розовый",
         "EN":"Pink",
-        "Category": "Adjective"
+        "Category": "Adjective",
+        "Icon": "Peach"
     },"Золотой":{
         "RU":"Золотой",
         "EN":"Gold",
-        "Category": "Adjective"
+        "Category": "Adjective",
+        "Icon": "Coin"
+    },"Один":{
+        "RU":"Один",
+        "EN":"One",
+        "Category": "Numeral",
+        "Icon": "White Question Mark"
+    },"Два":{
+        "RU":"Два",
+        "EN":"Two",
+        "Category": "Numeral",
+        "Icon": "White Question Mark"
+    },"Три":{
+        "RU":"Три",
+        "EN":"Three",
+        "Category": "Numeral",
+        "Icon": "White Question Mark"
+    },"Четыре":{
+        "RU":"Четыре",
+        "EN":"Four",
+        "Category": "Numeral",
+        "Icon": "White Question Mark"
+    },"Пять":{
+        "RU":"Пять",
+        "EN":"Five",
+        "Category": "Numeral",
+        "Icon": "White Question Mark"
+    },"Шесть":{
+        "RU":"Шесть",
+        "EN":"Six",
+        "Category": "Numeral",
+        "Icon": "White Question Mark"
+    },"Семь":{
+        "RU":"Семь",
+        "EN":"Seven",
+        "Category": "Numeral",
+        "Icon": "White Question Mark"
+    },"Восемь":{
+        "RU":"Восемь",
+        "EN":"Eight",
+        "Category": "Numeral",
+        "Icon": "White Question Mark"
+    },"Девять":{
+        "RU":"Девять",
+        "EN":"Nine",
+        "Category": "Numeral",
+        "Icon": "White Question Mark"
+    },"Десять":{
+        "RU":"Десять",
+        "EN":"Ten",
+        "Category": "Numeral",
+        "Icon": "White Question Mark"
     }
 }
