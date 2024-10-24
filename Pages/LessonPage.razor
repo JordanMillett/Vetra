@@ -10,11 +10,11 @@
     if (NotImplemented.Count > 0)
     {
         <p>@NotImplemented.Count Vocab Keys Missing!</p>
-        
+
         <ul>
             @foreach (string S in NotImplemented)
             {
-                <li style="user-select: all;">@S</li>
+                <li><a href="https://en.wiktionary.org/wiki/@S.ToLower()#Russian" target="_blank">@S</a></li>
             }
         </ul>
     }
@@ -66,13 +66,16 @@ else
 
         </div>
         <div class="col-lg-3 col-0"></div>
+
+        @if (TotalFinished < 100)
+        {
+            <div class="row text-center">
+                <div class="col-12">
+                    <p>Emojis with color designed by <a href="https://openmoji.org/">OpenMoji</a> – the open-source emoji and icon project. License: <a href="https://creativecommons.org/licenses/by-sa/4.0/#">CC BY-SA 4.0</a></p>
+                </div>
+            </div>
+        }
     </div>
-    <div class="row text-center">
-        <div class="col-12">
-            <p>All emojis designed by <a href="https://openmoji.org/">OpenMoji</a> – the open-source emoji and icon project. License: <a href="https://creativecommons.org/licenses/by-sa/4.0/#">CC BY-SA 4.0</a></p>
-        </div>
-    </div>
-    
 }
 
 @code

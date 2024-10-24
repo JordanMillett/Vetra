@@ -28,7 +28,12 @@
         }
         else
         {
-            Enum.TryParse<BlazorBootstrap.IconName>(Service.LessonHeaders[Key].Icon, out Icon);
+            string Name = Service.LessonHeaders[Key].IconBW.Replace(" ", "");
+
+            if (!Enum.TryParse<BlazorBootstrap.IconName>(Name, out Icon))
+            {
+                Icon = IconName.Bug;
+            }                
         }
     }
 

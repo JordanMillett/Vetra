@@ -31,7 +31,7 @@
                         {
                             <form @onsubmit="() => Generate(false)">
                                 <label>Name</label><input type="text" @bind="Class_LessonHeader.Name" />
-                                <label>Icon</label><input type="text" @bind="Class_LessonHeader.Icon" />
+                                <label>IconBW</label><input type="text" @bind="Class_LessonHeader.IconBW" />
 
                                 <div class="indent">
                                     @for (int i = 0; i < Class_LessonHeader.Vocab.Count; i++)
@@ -54,6 +54,7 @@
                                 <label>Category</label><input type="text" @bind="Class_VocabHeader.Category" />
                                 <label>Gender</label><input type="text" @bind="Class_VocabHeader.Gender" />
                                 <label>Icon</label><input type="text" @bind="Class_VocabHeader.Icon" />
+                                <label>IconBW</label><input type="text" @bind="Class_VocabHeader.IconBW" />
                                 <br>
                                 <button style="display: none;" type="submit"></button>
                             </form>

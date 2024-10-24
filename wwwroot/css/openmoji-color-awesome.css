@@ -75,6 +75,12 @@ licensed under MIT: https://ellekasai.mit-license.org/
     width: 5em;
     background-size: 5em 5em;
     transform: translate(-50%) scale(2);
+    margin-bottom: 1em;
+}
+
+.oma-bootstrap{
+    font-size: 3.5em;
+    margin-bottom: 1em;
 }
 
 /* Generated a total of 3588 emoji CSS classes. */

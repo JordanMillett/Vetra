@@ -1,21 +1,50 @@
-@if (Name != "")
+@if (Ready)
 {
     <div class="row">
         <div class="col-6"></div>
-        <div class="oma-full oma-@Name"></div>
+
+        @if(EmojiIcon != "")
+        {
+            <div class="oma-full oma-@EmojiIcon"></div>
+        }else
+        {
+            <div class="oma-full">
+                <Icon class="oma-bootstrap" Name="@BoostrapIcon" draggable="false"/>
+            </div>
+        }
     </div><br>
-}    
+}  
 
 @code
 {
     [Parameter]
-    public string Name { get; set; } = "";
+    public VocabHeader Vocab { get; set; } = default!;
+
+    IconName BoostrapIcon = IconName.Bug;
+    string EmojiIcon = "";
+    bool Ready = false;
 
     protected override void OnInitialized()
     {
-        if (Name != "")
-            Name = Name.ToLower().Replace(" ", "-");
-        else
-            Name = "white-question-mark";
+        if (Vocab == null)
+        {
+            EmojiIcon = "white-question-mark";
+            Ready = true;
+            return;
+        }
+
+        if (Vocab.Icon != "MISSING")
+        {
+            EmojiIcon = Vocab.Icon.ToLower().Replace(" ", "-");
+        }
+        else if (Vocab.IconBW != "MISSING")
+        {
+            if (!Enum.TryParse<BlazorBootstrap.IconName>(Vocab.IconBW.Replace(" ", ""), out BoostrapIcon))
+            {
+                BoostrapIcon = IconName.Bug;
+            }
+        }
+
+        Ready = true;
     }
 }

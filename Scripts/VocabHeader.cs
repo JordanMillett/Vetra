@@ -7,6 +7,7 @@ namespace Vetra
         public string Category { get; set; }
         public string Gender { get; set; }
         public string Icon { get; set; }
+        public string IconBW { get; set; }
 
         public VocabHeader()
         {
@@ -14,7 +15,8 @@ namespace Vetra
             EN = "English";
             Category = "Category";
             Gender = "Gender";
-            Icon = "White Question Mark";
+            Icon = "MISSING";
+            IconBW = "MISSING";
         }
     }
 }
