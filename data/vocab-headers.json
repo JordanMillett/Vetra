@@ -158,51 +158,117 @@
         "RU":"Один",
         "EN":"One",
         "Category": "Numeral",
-        "Icon": "White Question Mark"
+        "IconBW": "One Square"
     },"Два":{
         "RU":"Два",
         "EN":"Two",
         "Category": "Numeral",
-        "Icon": "White Question Mark"
+        "IconBW": "Two Square"
     },"Три":{
         "RU":"Три",
         "EN":"Three",
         "Category": "Numeral",
-        "Icon": "White Question Mark"
+        "IconBW": "Three Square"
     },"Четыре":{
         "RU":"Четыре",
         "EN":"Four",
         "Category": "Numeral",
-        "Icon": "White Question Mark"
+        "IconBW": "Four Square"
     },"Пять":{
         "RU":"Пять",
         "EN":"Five",
         "Category": "Numeral",
-        "Icon": "White Question Mark"
+        "IconBW": "Five Square"
     },"Шесть":{
         "RU":"Шесть",
         "EN":"Six",
         "Category": "Numeral",
-        "Icon": "White Question Mark"
+        "IconBW": "Six Square"
     },"Семь":{
         "RU":"Семь",
         "EN":"Seven",
         "Category": "Numeral",
-        "Icon": "White Question Mark"
+        "IconBW": "Seven Square"
     },"Восемь":{
         "RU":"Восемь",
         "EN":"Eight",
         "Category": "Numeral",
-        "Icon": "White Question Mark"
+        "IconBW": "Eight Square"
     },"Девять":{
         "RU":"Девять",
         "EN":"Nine",
         "Category": "Numeral",
-        "Icon": "White Question Mark"
+        "IconBW": "Nine Square"
     },"Десять":{
         "RU":"Десять",
         "EN":"Ten",
         "Category": "Numeral",
-        "Icon": "White Question Mark"
+        "Icon": "Input Numbers"
+    },"Счастливый":{
+        "RU":"Счастливый",
+        "EN":"Happy",
+        "Category": "Adjective",
+        "Icon": "Beaming face with smiling eyes"
+    },"Грустный":{
+        "RU":"Грустный",
+        "EN":"Sad",
+        "Category": "Adjective",
+        "Icon": "Loudly Crying Face"
+    },"Злой":{
+        "RU":"Злой",
+        "EN":"Wicked",
+        "Category": "Adjective",
+        "Icon": "Smiling face with horns"
+    },"Испуганный":{
+        "RU":"Испуганный",
+        "EN":"Scared",
+        "Category": "Adjective",
+        "Icon": "Fearful Face"
+    },"Удивленный":{
+        "RU":"Удивленный",
+        "EN":"Suprised",
+        "Category": "Adjective",
+        "Icon": "Hushed Face"
+    },"Усталый":{
+        "RU":"Усталый",
+        "EN":"Tired",
+        "Category": "Adjective",
+        "Icon": "Tired Face"
+    },"Рубашка":{
+        "RU":"Рубашка",
+        "EN":"Shirt",
+        "Category": "Noun",
+        "Gender": "Feminine",
+        "Icon": "T Shirt"
+    },"Штаны":{
+        "RU":"Штаны",
+        "EN":"Pants",
+        "Category": "Noun",
+        "Gender": "Masculine",
+        "Icon": "Jeans"
+    },"Куртка":{
+        "RU":"Куртка",
+        "EN":"Jacket",
+        "Category": "Noun",
+        "Gender": "Feminine",
+        "Icon": "Coat"
+    },"Шапка":{
+        "RU":"Шапка",
+        "EN":"Hat",
+        "Category": "Noun",
+        "Gender": "Feminine",
+        "Icon": "Top Hat"
+    },"Платье":{
+        "RU":"Платье",
+        "EN":"Dress",
+        "Category": "Noun",
+        "Gender": "Neuter",
+        "Icon": "Dress"
+    },"Обувь":{
+        "RU":"Обувь",
+        "EN":"Shoes",
+        "Category": "Noun",
+        "Gender": "Feminine",
+        "Icon": "Running Shoe"
     }
 }
