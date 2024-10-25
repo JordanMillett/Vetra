@@ -59,25 +59,3 @@ form[b-l88vicxia6]
 {
     margin-left: 10px;
 }
-/* /Pages/LessonPage.razor.rz.scp.css */
-.window[b-ahw2qe16oy]
-{
-    min-height: 400px;
-}
-
-.status-right[b-ahw2qe16oy]
-{
-    font-weight: bold;
-    color: var(--vetra-green)
-}
-
-.status-wrong[b-ahw2qe16oy]
-{
-    font-weight: bold;
-    color: var(--vetra-red)
-}
-
-.status-none[b-ahw2qe16oy]
-{
-    display: none;
-}
