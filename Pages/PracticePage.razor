@@ -1,24 +1,16 @@
-@page "/Lesson/{URL}"
+@page "/Practice"
 @inject LessonService Lessons
 @inject ProfileService Profile
 @using Vetra.Components
 
-<PageTitle>Vetra - Lesson</PageTitle>
+<PageTitle>Vetra - Practice</PageTitle>
 
-@if (!Profile.Initialized || Lessons.LessonType == -1 || NotImplemented.Count > 0)
+@if (!Profile.Initialized || Lessons.LessonType == -1 || Profile.Data.LearnedVocab.Count == 0)
 {
-    if (NotImplemented.Count > 0)
+    if (Profile.Data.LearnedVocab.Count == 0)
     {
-        <p>@NotImplemented.Count Vocab Keys Missing!</p>
-
-        <ul>
-            @foreach (string S in NotImplemented)
-            {
-                <li><a href="https://en.wiktionary.org/wiki/@S.ToLower()#Russian" target="_blank">Wiki</a> - <p style="display:inline; user-select: all;">@S</p></li>
-            }
-        </ul>
-    }
-    else
+        <NoLearnedTerms />
+    }else
     {
         <Waiting />
     }
@@ -45,9 +37,9 @@ else
             {
                 <div class="text-center">
                     <br>
-                    <h3><strong>You have finished this lesson!</strong></h3>
+                    <h3><strong>You have finished all of your terms!</strong></h3>
                     <br>
-                    <button class="btn"><a href="">Exit Lesson</a></button>
+                    <button class="btn"><a href="">Exit Practice</a></button>
                     <button class="btn" @onclick="ToggleEndless">Continue</button>
                 </div>
             }
@@ -76,23 +68,16 @@ else
 
 @code
 {
-    [Parameter]
-    public string URL { get; set; } = "ERROR";
-
-    public string Key = "ERROR";
-
     public LessonLogic Logic = default!;
 
     public float TotalFinished = 0f;
 
     public int LessonInstance = 0;
 
-    bool Endless = false;
-
     public string StatusRight = "";
     public string StatusWrong = "";
 
-    public List<string> NotImplemented = new List<string>();
+    bool Endless = false;
 
     public void LessonFinished()
     {
@@ -116,44 +101,35 @@ else
         NextLesson();
     }
 
-    void ToggleEndless()
-    {
-        Endless = !Endless;
-    }
-
     public void NextLesson()
     {
         RecalculateProgressBar();
         Logic = new LessonLogic();
 
-        Logic.Included.Add(Lessons.GetNextTerm(Key));
-        Lessons.Fill(ref Logic, Key);
+        Logic.Included.Add(Lessons.GetNextTerm());
+        Lessons.Fill(ref Logic);
 
         LessonInstance++;
     }
 
+    void ToggleEndless()
+    {
+        Endless = !Endless;
+    }
+
     void RecalculateProgressBar()
     {
-        int Num = Lessons.LessonHeaders[Key].Vocab.Count;
+        int Num = Profile.Data.LearnedVocab.Count;
         TotalFinished = 0f;
 
-        foreach (string V in Lessons.LessonHeaders[Key].Vocab)
+        for (int i = 0; i < Profile.Data.LearnedVocab.Count; i++)
         {
-            int index = Profile.Data.LearnedVocab.IndexOf(V);
-            if (index != -1)
-            {
-                TotalFinished += Profile.Data.VocabProgression[index];
-            }
+            TotalFinished += Profile.Data.VocabProgression[i];
         }
 
         TotalFinished /= (float)Num;
 
         StateHasChanged();
-    }
-
-    protected override void OnInitialized()
-    {
-        Key = string.Join(' ', URL.Split(' ').Select(word => char.ToUpper(word[0]) + word.Substring(1).ToLower()));
     }
 
     protected override async Task OnInitializedAsync()
@@ -163,15 +139,7 @@ else
             await Task.Delay(250);
         }
 
-        foreach (string S in Lessons.LessonHeaders[Key].Vocab)
-        {
-            if (!Lessons.VocabHeaders.ContainsKey(S))
-            {
-                NotImplemented.Add(S);
-            }
-        }
-
-        if (NotImplemented.Count == 0)
+        if(Profile.Data.LearnedVocab.Count > 0)
             NextLesson();
     }
 }

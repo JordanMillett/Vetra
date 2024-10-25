@@ -84,16 +84,15 @@
 
         do
         {
-            int RandomIndex = Rand.Next(0, Lessons.LessonHeaders[Logic.LessonKey].Vocab.Count);
-            string RandomKey = Lessons.LessonHeaders[Logic.LessonKey].Vocab[RandomIndex];
+            int RandomIndex = Rand.Next(0, Logic.Filler.Count);
 
             if (FindEnglish)
             {
-                Word = Lessons.VocabHeaders[RandomKey].EN;
+                Word = Logic.Filler[RandomIndex].EN;
             }
             else
             {
-                Word = Lessons.VocabHeaders[RandomKey].RU;
+                Word = Logic.Filler[RandomIndex].RU;
             }
 
         } while (Options.Contains(Word));

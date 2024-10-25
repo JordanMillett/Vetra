@@ -10,13 +10,20 @@
 }
 else
 {
-    <br>
-    <div class="row">
-        @for (int i = 0; i < Profile.Data.LearnedVocab.Count; i++)
-        {
-            <TermProgress index=@i Data=Profile.Data/>
-        }
-    </div>
+    if (Profile.Data.LearnedVocab.Count == 0)
+    {
+        <NoLearnedTerms />
+    }
+    else
+    {
+        <br>
+        <div class="row">
+            @for (int i = 0; i < Profile.Data.LearnedVocab.Count; i++)
+            {
+                <TermProgress index=@i Data=Profile.Data/>
+            }
+        </div>
+    }
 }
 
 <style>

@@ -9,12 +9,125 @@ namespace Vetra
         public Dictionary<string, VocabHeader> VocabHeaders { get; private set; }
 
         private readonly HttpClient _httpClient;
+        private ProfileService Profile;
+
+        public int LessonType = -1; 
         
-        public LessonService(HttpClient httpClient)
+        public LessonService(HttpClient httpClient, ProfileService profile)
         {
             _httpClient = httpClient;
+            Profile = profile;
             LessonHeaders = new Dictionary<string, LessonHeader>();
             VocabHeaders = new Dictionary<string, VocabHeader>();
+        }
+        
+        public void Fill(ref LessonLogic Logic)
+        {
+            Fill(ref Logic, "");
+        }
+        
+        public void Fill(ref LessonLogic Logic, string LessonKey)
+        {
+            do
+            {
+                Random Rand = new Random();
+                int RandomIndex;
+                string RandomKey;
+                
+                if(LessonKey != "")
+                {
+                    RandomIndex = Rand.Next(0, LessonHeaders[LessonKey].Vocab.Count);
+                    RandomKey = LessonHeaders[LessonKey].Vocab[RandomIndex];
+                }else
+                {
+                    if (Profile.Data.LearnedVocab.Count < 4)
+                    {
+                        RandomIndex = Rand.Next(0, VocabHeaders.Count);
+                        RandomKey = VocabHeaders.ElementAt(RandomIndex).Key;
+                    }
+                    else
+                    {
+                        RandomIndex = Rand.Next(0, Profile.Data.LearnedVocab.Count);
+                        RandomKey = Profile.Data.LearnedVocab[RandomIndex];
+                    }
+                }
+
+                VocabHeader Filler = VocabHeaders[RandomKey];
+
+                if (!Logic.Filler.Contains(Filler) && !Logic.Included.Contains(Filler))
+                    Logic.Filler.Add(Filler);
+
+            } while (Logic.Filler.Count < 3);
+        }
+        
+        public int GetLessonType(string Term)
+        {
+            int Index = Profile.Data.LearnedVocab.IndexOf(Term);
+            
+            if(Index == -1) //if term not known
+            {
+                return 0;
+            }else
+            {
+                Random Rand = new Random();
+                int Chosen = Rand.Next(1, 4); //include, exclude  CHANGE WHEN ADDING NEW GAME
+
+                if(Profile.Data.VocabProgression[Index] == 0) //if term at zero
+                    Chosen = 0;
+
+                return Chosen;
+            }
+        }
+        
+        public VocabHeader GetNextTerm() //used for practice
+        {
+            Random Rand = new Random();
+            int StartingIndex = Rand.Next(0, Profile.Data.LearnedVocab.Count);
+            string ReturnKey = Profile.Data.LearnedVocab[StartingIndex];
+            float Progress = 100f;
+
+            for (int i = 0; i < Profile.Data.LearnedVocab.Count; i++)
+            {
+                if (Profile.Data.VocabProgression[i] < Progress)
+                {
+                    ReturnKey = Profile.Data.LearnedVocab[i];
+                    Progress = Profile.Data.VocabProgression[i];
+                }
+            }
+
+            LessonType = GetLessonType(ReturnKey);
+            return VocabHeaders[ReturnKey];
+        }
+        
+        public VocabHeader GetNextTerm(string Key) //used for lessons
+        {
+            Random Rand = new Random();
+            int StartingIndex = Rand.Next(0, LessonHeaders[Key].Vocab.Count);
+            string ReturnKey = LessonHeaders[Key].Vocab[StartingIndex];
+            float Progress = 100f;
+
+            for (int i = 0; i < LessonHeaders[Key].Vocab.Count; i++)
+            {
+                string VocabKey = LessonHeaders[Key].Vocab[i];
+
+                if (!Profile.Data.LearnedVocab.Contains(VocabKey)) //Term is not known show next!
+                {
+                    LessonType = GetLessonType(VocabKey);
+                    return VocabHeaders[VocabKey];
+                }
+                else                                              //Term is known
+                {
+                    if (Profile.Data.VocabProgression[Profile.Data.LearnedVocab.IndexOf(VocabKey)] < Progress)
+                    {
+                        ReturnKey = VocabKey;
+                        Progress = Profile.Data.VocabProgression[Profile.Data.LearnedVocab.IndexOf(VocabKey)];
+                    }
+                }
+
+            }
+
+            LessonType = GetLessonType(ReturnKey);
+            return VocabHeaders[ReturnKey];
         }
 
         public async Task LoadLessonHeadersAsync(string jsonFilePath)

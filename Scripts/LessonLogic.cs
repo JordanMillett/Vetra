@@ -2,15 +2,14 @@ namespace Vetra
 {
     public class LessonLogic
     {
-        public string LessonKey { get; set; }
-        
         public List<VocabHeader> Included { get; private set; } 
+        public List<VocabHeader> Filler { get; private set; } 
         public Dictionary<string, bool> Results { get; private set; }
 
-        public LessonLogic(string lessonkey)
+        public LessonLogic() //used for practice
         {
-            LessonKey = lessonkey;
             Included = new List<VocabHeader>();
+            Filler = new List<VocabHeader>();
             Results = new Dictionary<string, bool>();
         }
     }
