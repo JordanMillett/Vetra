@@ -1,6 +1,7 @@
 @page "/Practice"
 @inherits PracticePageBase
 @using Vetra.Components
+@using Vetra.Components.LessonPage
 
 <PageTitle>Vetra - Practice</PageTitle>
 
@@ -38,7 +39,7 @@ else
                     <br>
                     <h3><strong>You have finished all of your terms!</strong></h3>
                     <br>
-                    <button class="btn"><a href="">Exit Practice</a></button>
+                    <a href=""><button class="btn">Exit Practice</button></a>
                     <button class="btn" @onclick="ToggleEndless">Continue</button>
                 </div>
             }

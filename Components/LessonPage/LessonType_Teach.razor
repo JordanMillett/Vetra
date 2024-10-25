@@ -8,9 +8,10 @@
         @{
             VocabHeader Term = Logic.Included[0];
 
-            <VocabIcon Vocab="@Term"/>
-
-            <h1>@Term.RU</h1>
+            //<div @onclick="PlayOneShot" class="clickable">
+                <VocabIcon Vocab="@Term"/>
+                <h1>@Term.RU</h1>
+            //</div>
             <h5>(@Term.EN)</h5>
 
             if(Term.Category == "Noun")
@@ -30,6 +31,11 @@
 
 @code
 {
+    protected override void OnInitialized()
+    {
+        PlayOneShot();
+    } 
+
     void Done()
     {
         Logic.Results.Add(Logic.Included[0].RU, true);

@@ -7,10 +7,8 @@
     <div class="col-12 text-center">
         @{
             VocabHeader Term = Logic.Included[0];
-            
             <VocabIcon Vocab="@Term"/>
             <h1>@Term.EN</h1>
-
         }
 
         <br>
@@ -28,6 +26,7 @@
 
     protected override void OnInitialized()
     {
+        PlayOneShot();
         NormalIndex = Rand.Next(0, 4);
         Generated.Add(Logic.Included[0].RU);
     }

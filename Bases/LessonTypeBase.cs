@@ -9,6 +9,9 @@ namespace Vetra
 
         [Inject]
         public ProfileService Profile { get; set; } = default!;
+        
+        [Inject]
+        public TextToSpeechService TTS { get; set; } = default!;
 
         [Parameter, EditorRequired]
         public LessonLogic Logic { get; set; } = default!;
@@ -31,6 +34,11 @@ namespace Vetra
                 return true;
 
             return false;
+        }
+        
+        public void PlayOneShot()
+        {
+            _ = TTS.Speak(Logic.Included[0].RU);
         }
     }
 }

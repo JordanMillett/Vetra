@@ -8,8 +8,10 @@
 
         @if (FindEnglish)
         {
-            <VocabIcon />
-            <h1>@Logic.Included[0].RU</h1>
+            //<div @onclick="PlayOneShot" class="clickable">
+                <VocabIcon />
+                <h1>@Logic.Included[0].RU</h1>
+            //</div>
         }else
         { 
             <VocabIcon Vocab="@Logic.Included[0]"/>
@@ -38,6 +40,7 @@
         if (FindEnglish)
         {
             Options.Add(Logic.Included[0].EN);
+            PlayOneShot();
         }
         else
         {
