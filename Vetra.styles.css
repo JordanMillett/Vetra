@@ -1,7 +1,7 @@
 @import '_content/Blazor.Bootstrap/Blazor.Bootstrap.bundle.scp.css';
 
-/* /Components/LessonButton.razor.rz.scp.css */
-[b-7op0mwn4cr] .btn
+/* /Components/LearnPage/LessonButton.razor.rz.scp.css */
+[b-fv12mx4wij] .btn
 {
     width: 100px;
     height: 100px;
@@ -13,7 +13,7 @@
     border-bottom-width: 5px;
 }
 
-h3[b-7op0mwn4cr]
+h3[b-fv12mx4wij]
 {
     font-weight: bold;
 }
