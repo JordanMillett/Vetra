@@ -1,9 +1,6 @@
-@inject LessonService Lessons
-@inject ProfileService Profile
+@inherits LessonTypeBase
 
-@if (Logic == null)
-    return;
-@if (Logic.Included.Count == 0)
+@if (NotReady())
     return;
 
 <div class="row py-4">
@@ -26,16 +23,6 @@
 
 @code
 {
-    [Parameter, EditorRequired]
-    public LessonLogic Logic { get; set; } = default!;
-
-    [Parameter]
-    public EventCallback<LessonLogic> LogicChanged { get; set; }
-
-    [Parameter, EditorRequired]
-    public Action? OnFinish { get; set; }
-
-    Random Rand = new Random();
     int NormalIndex = 0;
     List<string> Generated = new List<string>();
 

@@ -1,6 +1,5 @@
 @page "/Practice"
-@inject LessonService Lessons
-@inject ProfileService Profile
+@inherits PracticePageBase
 @using Vetra.Components
 
 <PageTitle>Vetra - Practice</PageTitle>
@@ -64,82 +63,4 @@ else
             <OpenMojiWatermark />
         }
     </div>
-}
-
-@code
-{
-    public LessonLogic Logic = default!;
-
-    public float TotalFinished = 0f;
-
-    public int LessonInstance = 0;
-
-    public string StatusRight = "";
-    public string StatusWrong = "";
-
-    bool Endless = false;
-
-    public void LessonFinished()
-    {
-        foreach (string Term in Logic.Results.Keys)
-        {
-            float Change = Profile.ChangeProgress(Term, Logic.Results[Term]);
-
-            if (Change > 0)
-            {
-                StatusRight = $"{Term} +{Change:F2}%";
-                StatusWrong = "";
-            }
-            else
-            {
-                StatusRight = "";
-                StatusWrong = $"{Term} {Change:F2}%";
-            }
-        }
-
-        _ = Profile.SaveProfile();
-        NextLesson();
-    }
-
-    public void NextLesson()
-    {
-        RecalculateProgressBar();
-        Logic = new LessonLogic();
-
-        Logic.Included.Add(Lessons.GetNextTerm());
-        Lessons.Fill(ref Logic);
-
-        LessonInstance++;
-    }
-
-    void ToggleEndless()
-    {
-        Endless = !Endless;
-    }
-
-    void RecalculateProgressBar()
-    {
-        int Num = Profile.Data.LearnedVocab.Count;
-        TotalFinished = 0f;
-
-        for (int i = 0; i < Profile.Data.LearnedVocab.Count; i++)
-        {
-            TotalFinished += Profile.Data.VocabProgression[i];
-        }
-
-        TotalFinished /= (float)Num;
-
-        StateHasChanged();
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        while (!Profile.Initialized)
-        {
-            await Task.Delay(250);
-        }
-
-        if(Profile.Data.LearnedVocab.Count > 0)
-            NextLesson();
-    }
 }
