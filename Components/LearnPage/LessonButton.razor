@@ -1,10 +1,11 @@
 @inject LessonService Service
 @inject NavigationManager Navigation
+@inject ProfileService Profile
 
 <div class="text-center">
     @if(Key != "ERROR")
     {
-        <Button @onclick="Navigate"><Icon Name=@Icon Size="IconSize.x1" draggable="false"/></Button>
+        <Button class="@(Profile.Data.LastLessonPlayed == Key ? "scrollto" : "")" @onclick="Navigate"><Icon Name=@Icon Size="IconSize.x1" draggable="false"/></Button>
         <h3 class="mt-2">@Service.LessonHeaders[Key].Name</h3>
     }else
     { 
@@ -39,6 +40,6 @@
 
     public void Navigate()
     {
-        Navigation.NavigateTo("lesson/" + Key.ToLower());
+        Navigation.NavigateTo("lesson/" + Key.ToLower().Replace(" ", "+"));
     }
 }

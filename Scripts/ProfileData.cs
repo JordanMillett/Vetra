@@ -7,7 +7,8 @@ namespace Vetra
         public List<string> LearnedVocab { get; set; }
         public List<float> VocabProgression { get; set; }
         public List<int> VocabStreak { get; set; }
-
+        public string LastLessonPlayed { get; set; }
+        
         public ProfileData()
         {
             Name = "User";
@@ -15,6 +16,7 @@ namespace Vetra
             LearnedVocab = new List<string>();
             VocabProgression = new List<float>();
             VocabStreak = new List<int>();
+            LastLessonPlayed = "";
         }
     }
 }

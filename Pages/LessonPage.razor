@@ -84,7 +84,9 @@ else
 
     protected override void OnInitialized()
     {
-        LessonKey = string.Join(' ', URL.Split(' ').Select(word => char.ToUpper(word[0]) + word.Substring(1).ToLower()));
+        LessonKey = string.Join(' ', URL.Replace('+', ' ').Split(' ').Select(word => char.ToUpper(word[0]) + word.Substring(1).ToLower()));
+        Profile.Data.LastLessonPlayed = LessonKey;
+        _ = Profile.SaveProfile();
     }
 
     protected override async Task OnInitializedAsync()

@@ -1,4 +1,5 @@
 ﻿@page "/"
+@inject IJSRuntime JS
 @using Vetra.Components.LearnPage
 
 <PageTitle>Vetra - Learn</PageTitle>
@@ -12,6 +13,12 @@
 
 <SectionHeader Title="Other Vocab" />
 
-
 <div style="height:100px"></div>
 
+@code
+{
+    protected override void OnAfterRender(bool firstRender)
+    {
+        _ = JS.InvokeVoidAsync("scrollToElementByClass", "scrollto");
+    }
+}
