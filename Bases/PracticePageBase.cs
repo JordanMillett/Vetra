@@ -31,20 +31,18 @@ namespace Vetra
 
         public void LessonFinished()
         {
-            foreach (string Term in Logic.Results.Keys)
+            float Change = Profile.ChangeProgress(Logic.Term.RU, Logic.Passed);
+            if (Change > 0)
             {
-                float Change = Profile.ChangeProgress(Term, Logic.Results[Term]);
-                if (Change > 0)
-                {
-                    StatusRight = $"{Term} +{Change:F2}%";
-                    StatusWrong = "";
-                }
-                else
-                {
-                    StatusRight = "";
-                    StatusWrong = $"{Term} {Change:F2}%";
-                }
+                StatusRight = $"{Logic.Term.RU} +{Change:F2}%";
+                StatusWrong = "";
             }
+            else
+            {
+                StatusRight = "";
+                StatusWrong = $"{Logic.Term.RU} {Change:F2}%";
+            }
+            
 
             _ = Profile.SaveProfile();
             NextLesson();
@@ -57,12 +55,12 @@ namespace Vetra
 
             if (LessonKey == "")
             {
-                Logic.Included.Add(Lessons.GetNextTerm());
+                Logic.Term = Lessons.GetNextTerm();
                 Lessons.Fill(ref Logic);
             }
             else
             {
-                Logic.Included.Add(Lessons.GetNextTerm(LessonKey));
+                Logic.Term = Lessons.GetNextTerm(LessonKey);
                 Lessons.Fill(ref Logic, LessonKey);
             }
 

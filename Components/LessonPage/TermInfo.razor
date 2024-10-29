@@ -1,0 +1,15 @@
+<h5>(@Term.EN)</h5>
+
+@if(Term.Category == "Noun")
+{
+    <p>@Term.Category - @Term.Gender</p>
+}else if(Term.Category == "Adjective")
+{ 
+    <p>@Term.Category</p>
+}
+
+@code
+{
+    [Parameter, EditorRequired]
+    public VocabHeader Term { get; set; } = default!;
+}

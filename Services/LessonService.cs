@@ -54,7 +54,7 @@ namespace Vetra
 
                 VocabHeader Filler = VocabHeaders[RandomKey];
 
-                if (!Logic.Filler.Contains(Filler) && !Logic.Included.Contains(Filler))
+                if (!Logic.Filler.Contains(Filler) && Logic.Term != Filler)
                     Logic.Filler.Add(Filler);
 
             } while (Logic.Filler.Count < 3);
@@ -70,7 +70,7 @@ namespace Vetra
             }else
             {
                 Random Rand = new Random();
-                int Chosen = Rand.Next(1, 4); //include, exclude  CHANGE WHEN ADDING NEW GAME
+                int Chosen = Rand.Next(1, 5); //include, exclude  CHANGE WHEN ADDING NEW GAME
 
                 if(Profile.Data.VocabProgression[Index] == 0) //if term at zero
                     Chosen = 0;

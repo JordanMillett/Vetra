@@ -3,26 +3,15 @@
 @if (NotReady())
     return;
 
-<div class="row py-4">
+<div class="row">
     <div class="col-12 text-center">
-        @{
-            VocabHeader Term = Logic.Included[0];
-
-            //<div @onclick="PlayOneShot" class="clickable">
-                <VocabIcon Vocab="@Term"/>
-                <h1>@Term.RU</h1>
-            //</div>
-            <h5>(@Term.EN)</h5>
-
-            if(Term.Category == "Noun")
-            {
-                <p>@Logic.Included[0].Category - @Logic.Included[0].Gender</p>
-            }else if(Term.Category == "Adjective")
-            { 
-                <p>@Logic.Included[0].Category</p>
-            }
-
-        }
+        
+        <h4 class="mb-5"><strong>Study the Term</strong></h4>
+        
+        <VocabIcon Vocab="@Logic.Term"/>
+        <h1>@Logic.Term.RU</h1>
+        
+        <TermInfo Term="@Logic.Term"/>
 
         <br>
         <button class="btn" @onclick="() => Done()">Done</button>
@@ -31,14 +20,9 @@
 
 @code
 {
-    protected override void OnInitialized()
-    {
-        PlayOneShot();
-    } 
-
     void Done()
     {
-        Logic.Results.Add(Logic.Included[0].RU, true);
+        Logic.Passed = true;
         LogicChanged.InvokeAsync(Logic);
 
         OnFinish?.Invoke();

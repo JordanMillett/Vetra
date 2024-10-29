@@ -3,13 +3,13 @@
 @if (NotReady())
     return;
 
-<div class="row py-4">
+<div class="row">
     <div class="col-12 text-center">
-        @{
-            VocabHeader Term = Logic.Included[0];
-            <VocabIcon Vocab="@Term"/>
-            <h1>@Term.EN</h1>
-        }
+        
+        <h4 class="mb-5"><strong>Select the Right Spelling</strong></h4>
+        
+        <VocabIcon Vocab="@Logic.Term"/>
+        <h1>@Logic.Term.EN</h1>
 
         <br>
         <button class="btn mb-1" @onclick="() => Chosen(0)">@GetName(0)</button>
@@ -26,17 +26,16 @@
 
     protected override void OnInitialized()
     {
-        PlayOneShot();
         NormalIndex = Rand.Next(0, 4);
-        Generated.Add(Logic.Included[0].RU);
+        Generated.Add(Logic.Term.RU);
     }
 
     void Chosen(int Index)
     {
         if(Index == NormalIndex)
-            Logic.Results.Add(Logic.Included[0].RU, true);
+            Logic.Passed = true;
         else
-            Logic.Results.Add(Logic.Included[0].RU, false);
+            Logic.Passed = false;
 
         LogicChanged.InvokeAsync(Logic);
 
@@ -46,11 +45,11 @@
     string GetName(int Index)
     {
         if (Index == NormalIndex)
-            return Logic.Included[0].RU;
+            return Logic.Term.RU;
 
         char[] Vowels = { 'а', 'у', 'о', 'ы', 'и', 'э', 'я', 'ю', 'е' };
         List<int> VowelLocations = new List<int>();
-        string Word = Logic.Included[0].RU;
+        string Word = Logic.Term.RU;
 
         do
         {

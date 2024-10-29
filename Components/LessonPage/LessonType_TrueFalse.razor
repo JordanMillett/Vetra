@@ -1,0 +1,52 @@
+@inherits LessonTypeBase
+
+@if (NotReady())
+    return;
+
+<div class="row">
+    <div class="col-12 text-center">
+
+        <h4 class="mb-5"><strong>Is This Definition Correct?</strong></h4>
+
+        <VocabIcon Vocab="@(isTrue ? Logic.Term : Logic.Filler[0])"/>
+        <h1>@Logic.Term.RU</h1>
+
+        @if (isTrue)
+        {
+            <TermInfo Term="@Logic.Term"/>
+        }else
+        { 
+            <TermInfo Term="@Logic.Filler[0]"/>
+        }
+
+        <br>
+        <button class="btn" @onclick="() => False()">Wrong</button>
+        <button class="btn" @onclick="() => True()">Correct</button>
+    </div>
+</div>
+
+@code
+{
+    bool isTrue = false;
+
+    protected override void OnInitialized()
+    {
+        isTrue = Rand.NextDouble() > 0.5f;
+    }
+
+    void True()
+    {
+        Logic.Passed = isTrue;
+        LogicChanged.InvokeAsync(Logic);
+
+        OnFinish?.Invoke();
+    }
+
+    void False()
+    {
+        Logic.Passed = !isTrue;
+        LogicChanged.InvokeAsync(Logic);
+
+        OnFinish?.Invoke();
+    }
+}

@@ -3,19 +3,19 @@
 @if (NotReady())
     return;
 
-<div class="row py-4">
+<div class="row">
     <div class="col-12 text-center">
+
+        <h4 class="mb-5"><strong>Translate the Term</strong></h4>
 
         @if (FindEnglish)
         {
-            //<div @onclick="PlayOneShot" class="clickable">
-                <VocabIcon />
-                <h1>@Logic.Included[0].RU</h1>
-            //</div>
+            <VocabIcon />
+            <h1>@Logic.Term.RU</h1>
         }else
         { 
-            <VocabIcon Vocab="@Logic.Included[0]"/>
-            <h1>@Logic.Included[0].EN</h1>
+            <VocabIcon Vocab="@Logic.Term"/>
+            <h1>@Logic.Term.EN</h1>
         }
 
         <br>
@@ -39,21 +39,20 @@
 
         if (FindEnglish)
         {
-            Options.Add(Logic.Included[0].EN);
-            PlayOneShot();
+            Options.Add(Logic.Term.EN);
         }
         else
         {
-            Options.Add(Logic.Included[0].RU);
+            Options.Add(Logic.Term.RU);
         }
     }
 
     void Chosen(int Index)
     {
         if(Index == CorrectIndex)
-            Logic.Results.Add(Logic.Included[0].RU, true);
+            Logic.Passed = true;
         else
-            Logic.Results.Add(Logic.Included[0].RU, false);
+            Logic.Passed = false;
 
         LogicChanged.InvokeAsync(Logic);
 
@@ -65,12 +64,12 @@
         if (Index == CorrectIndex)
         {
             if (FindEnglish)
-                return Logic.Included[0].EN;
+                return Logic.Term.EN;
             else
-                return Logic.Included[0].RU;
+                return Logic.Term.RU;
         }
 
-        string Word = FindEnglish ? Logic.Included[0].EN : Logic.Included[0].RU;
+        string Word = FindEnglish ? Logic.Term.EN : Logic.Term.RU;
 
         do
         {

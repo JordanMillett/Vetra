@@ -28,8 +28,6 @@ namespace Vetra
         {
             if (Logic == null)
                 return true;
-            if (Logic.Included.Count == 0)
-                return true;
             if (Logic.Filler.Count == 0)
                 return true;
 
@@ -38,7 +36,7 @@ namespace Vetra
         
         public void PlayOneShot()
         {
-            _ = TTS.Speak(Logic.Included[0].RU);
+            _ = TTS.Speak(Logic.Term.RU);
         }
     }
 }
