@@ -8,9 +8,9 @@ namespace Vetra
 
         public LessonHeader()
         {
-            Name = "ERROR";
+            Name = "MISSING";
             IconBW = "MISSING";
-            Vocab = new List<string>(){"Vocab", "Vocab", "Vocab"};
+            Vocab = new List<string>(){"MISSING"};
         }
     }
 }

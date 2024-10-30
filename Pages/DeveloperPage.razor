@@ -2,6 +2,7 @@
 @using Vetra.Components
 @using Vetra.Components.ProgressPage
 @using System.Text.Json
+@using System.Text.Json.Serialization;
 @using System.Text.Encodings.Web;
 @using System.Linq;
 @inject LessonService Lesson;
@@ -80,6 +81,7 @@
                     <button class="btn" @onclick="() => ShowKeys(1)">VocabHeaders</button>
                     <button class="btn" @onclick="() => ShowKeys(2)">Missing Words</button>
                     <button class="btn" @onclick="() => ShowKeys(3)">Unused Words</button>
+                    <button class="btn" @onclick="() => ShowKeys(4)">Missing Words JSON</button>
                 </div>
                 <br>
                 <textarea readonly @bind="AllKeys"></textarea>
@@ -121,6 +123,13 @@
     string Status = "";
     string AllKeys = "";
     string EditTerm = "";
+
+    JsonSerializerOptions MyOptions = new JsonSerializerOptions
+    {
+        WriteIndented = true,
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault
+    };
 
     protected override void OnInitialized()
     {
@@ -193,6 +202,24 @@
                     AllKeys += LoadedKey + " ";
                 }
             }
+        }else if (Index == 4)
+        {
+            Dictionary<string, VocabHeader> Missing = new Dictionary<string, VocabHeader>();
+
+            foreach (LessonHeader L in Lesson.LessonHeaders.Values)
+            {
+                foreach (string V in L.Vocab)
+                {
+                    if (!Lesson.VocabHeaders.ContainsKey(V))
+                    {
+                        VocabHeader Header = AutoPopulateVocabHeader(V);
+
+                        Missing.Add(V, Header);
+                    }
+                }
+            }
+
+            AllKeys = JsonSerializer.Serialize(Missing, MyOptions);
         }
     }
 
@@ -223,11 +250,11 @@
 
         if (GenerateDictionary)
         {
-            json = JsonSerializer.Serialize(Dict_LessonHeader, new JsonSerializerOptions { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping });
+            json = JsonSerializer.Serialize(Dict_LessonHeader, MyOptions);
         }
         else
         {
-            json = JsonSerializer.Serialize(Class_LessonHeader, new JsonSerializerOptions { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping });
+            json = JsonSerializer.Serialize(Class_LessonHeader, MyOptions);
         }
     }
 
@@ -269,11 +296,56 @@
 
         if (GenerateDictionary)
         {
-            json = JsonSerializer.Serialize(Dict_VocabHeader, new JsonSerializerOptions { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping  });
+            json = JsonSerializer.Serialize(Dict_VocabHeader, MyOptions);
         }
         else
         {
-            json = JsonSerializer.Serialize(Class_VocabHeader, new JsonSerializerOptions { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping  });
+            json = JsonSerializer.Serialize(Class_VocabHeader, MyOptions);
         }
+    }
+
+    VocabHeader AutoPopulateVocabHeader(string Term)
+    {
+        VocabHeader Header = new VocabHeader();
+        Header.RU = Term;
+
+        if (Term.EndsWith("ать") || Term.EndsWith("ить"))
+        {
+            Header.Category = "Verb";
+        }
+        else if (Term.EndsWith("ый") || Term.EndsWith("ий") || Term.EndsWith("ой"))
+        {
+            Header.Category = "Adjective";
+        }
+        else if (Term.EndsWith("о") || Term.EndsWith("е"))
+        {
+            Header.Category = "Adverb";
+        }
+        else
+        {
+            Header.Category = "Noun";
+        }
+
+        if (Header.Category == "Noun")
+        {
+            if (Term.EndsWith("а") || Term.EndsWith("я"))
+            {
+                Header.Gender = "Feminine";
+            }
+            else if (Term.EndsWith("о") || Term.EndsWith("е"))
+            {
+                Header.Gender = "Neuter";
+            }
+            else if (Term.EndsWith("ы") || Term.EndsWith("и"))
+            {
+                Header.Gender = "Plural";
+            }
+            else
+            {
+                Header.Gender = "Masculine";
+            }
+        }
+
+        return Header;
     }
 }
