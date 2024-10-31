@@ -12,6 +12,9 @@ namespace Vetra
         
         [Inject]
         public TextToSpeechService TTS { get; set; } = default!;
+        
+        [Inject]
+        public SettingsService Settings { get; set; } = default!;
 
         [Parameter, EditorRequired]
         public LessonLogic Logic { get; set; } = default!;
@@ -26,7 +29,7 @@ namespace Vetra
         
         public bool NotReady()
         {
-            if (Logic == null)
+            if (Logic == null || Settings == null)
                 return true;
             if (Logic.Filler.Count == 0)
                 return true;
@@ -36,7 +39,8 @@ namespace Vetra
         
         public void SpeakOneShot()
         {
-            TTS.Speak(Logic.Term.RU);
+            if(Settings.Data.EnableTTS)
+                TTS.Speak(Logic.Term.RU);
         }
     }
 }

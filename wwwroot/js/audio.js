@@ -1,9 +1,9 @@
-window.audioPlayer =
+window.audio =
 {
-    play: function (url, volume)
+    play: function (url)
     {
         var audio = new Audio(url);
-        audio.volume = volume;
+        audio.volume = 0.5;
         audio.play();
     }
 };

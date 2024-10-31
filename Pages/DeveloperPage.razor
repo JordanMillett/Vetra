@@ -82,6 +82,7 @@
                     <button class="btn" @onclick="() => ShowKeys(2)">Missing Words</button>
                     <button class="btn" @onclick="() => ShowKeys(3)">Unused Words</button>
                     <button class="btn" @onclick="() => ShowKeys(4)">Missing Words JSON</button>
+                    <button class="btn" @onclick="() => ShowKeys(5)">Mismatched Autogen</button>
                 </div>
                 <br>
                 <textarea readonly @bind="AllKeys"></textarea>
@@ -220,6 +221,26 @@
             }
 
             AllKeys = JsonSerializer.Serialize(Missing, MyOptions);
+        }else if (Index == 5)
+        {
+            Dictionary<string, VocabHeader> Mismatched = new Dictionary<string, VocabHeader>();
+
+            foreach (string Key in Lesson.VocabHeaders.Keys)
+            {
+                VocabHeader Generated = AutoPopulateVocabHeader(Key);
+                VocabHeader Correct = Lesson.VocabHeaders[Key];
+
+                if (Correct.Category == "Numeral")
+                    break;
+
+                if (Generated.Category != Correct.Category)
+                {
+                    Mismatched.Add(Key, Correct);
+                    Mismatched.Add(Key + " - AUTO", Generated);
+                }
+            }
+
+            AllKeys = JsonSerializer.Serialize(Mismatched, MyOptions);
         }
     }
 
@@ -316,23 +337,18 @@
         else if (Term.EndsWith("ый") || Term.EndsWith("ий") || Term.EndsWith("ой"))
         {
             Header.Category = "Adjective";
-        }
-        else if (Term.EndsWith("о") || Term.EndsWith("е"))
-        {
-            Header.Category = "Adverb";
-        }
-        else
+        }else
         {
             Header.Category = "Noun";
         }
 
         if (Header.Category == "Noun")
         {
-            if (Term.EndsWith("а") || Term.EndsWith("я"))
+            if (Term.EndsWith("а") || Term.EndsWith("я")  || Term.EndsWith("ость") || Term.EndsWith("ие"))
             {
                 Header.Gender = "Feminine";
             }
-            else if (Term.EndsWith("о") || Term.EndsWith("е"))
+            else if (Term.EndsWith("о") || Term.EndsWith("е") || Term.EndsWith("мя"))
             {
                 Header.Gender = "Neuter";
             }

@@ -9,7 +9,10 @@ namespace Vetra
 
         [Inject]
         public ProfileService Profile { get; set; } = default!;
-
+        
+        [Inject]
+        public AudioService Audio { get; set; } = default!;
+        
         public LessonLogic Logic = default!;
         public string LessonKey = "";
         public float TotalFinished = 0f;
@@ -34,11 +37,17 @@ namespace Vetra
             float Change = Profile.ChangeProgress(Logic.Term.RU, Logic.Passed);
             if (Change > 0)
             {
+                if (Lessons.LessonType != 0)
+                    Audio.Play(AudioService.Sounds.Correct);
+                else
+                    Audio.Play(AudioService.Sounds.Click);
+                    
                 StatusRight = $"{Logic.Term.RU} +{Change:F2}%";
                 StatusWrong = "";
             }
             else
             {
+                Audio.Play(AudioService.Sounds.Incorrect);
                 StatusRight = "";
                 StatusWrong = $"{Logic.Term.RU} {Change:F2}%";
             }

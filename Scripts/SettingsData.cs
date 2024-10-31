@@ -19,6 +19,13 @@ namespace Vetra
                 _HideNotifications = value;
                 MarkDirty();
             }}}
+            
+        private bool _EnableTTS = true;
+        public bool EnableTTS { get => _EnableTTS; set{
+            if (_EnableTTS != value){
+                _EnableTTS = value;
+                MarkDirty();
+            }}}
         
         void MarkDirty()
         {
