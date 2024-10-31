@@ -350,7 +350,13 @@
             }
             else if (Term.EndsWith("о") || Term.EndsWith("е") || Term.EndsWith("мя"))
             {
-                Header.Gender = "Neuter";
+                if (Term.EndsWith("но"))
+                {
+                    Header.Category = "Adverb";
+                }else
+                {
+                    Header.Gender = "Neuter";
+                }
             }
             else if (Term.EndsWith("ы") || Term.EndsWith("и"))
             {
