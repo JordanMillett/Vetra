@@ -1,17 +1,17 @@
 window.textToSpeech =
 {
-    speak: function (text)
-    {
+    speak: function (text) {
+        speechSynthesis.cancel();
+        
         var utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = false ? "en-US" : "ru-RU";
         speechSynthesis.speak(utterance);
     },
-    
-    trycancel: function() 
-    {
-        if (speechSynthesis.speaking || speechSynthesis.pending)
-        {
-            speechSynthesis.cancel();
-        }
+    preload: function() {
+        speechSynthesis.getVoices();
+        
+        var utterance = new SpeechSynthesisUtterance("Preload");
+        utterance.volume = 0;
+        speechSynthesis.speak(utterance);
     }
 };

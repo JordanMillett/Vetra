@@ -26,25 +26,28 @@
 
     protected override void OnInitialized()
     {
-        if (Vocab == null)
+        if (Vocab != null)
         {
-            EmojiIcon = "white-question-mark";
-            Ready = true;
-            return;
-        }
-
-        if (Vocab.Icon != "MISSING")
-        {
-            EmojiIcon = Vocab.Icon.ToLower().Replace(" ", "-");
-        }
-        else if (Vocab.IconBW != "MISSING")
-        {
-            if (!Enum.TryParse<BlazorBootstrap.IconName>(Vocab.IconBW.Replace(" ", ""), out BoostrapIcon))
+            if (Vocab.Icon != null && Vocab.Icon != "MISSING")
             {
-                BoostrapIcon = IconName.Bug;
+                EmojiIcon = Vocab.Icon.ToLower().Replace(" ", "-");
+                Ready = true;
+                return;
+            }
+            else if (Vocab.IconBW != null && Vocab.IconBW != "MISSING")
+            {
+                if (!Enum.TryParse<BlazorBootstrap.IconName>(Vocab.IconBW.Replace(" ", ""), out BoostrapIcon))
+                {
+                    BoostrapIcon = IconName.Bug;
+                }
+
+                Ready = true;
+                return;
             }
         }
 
+        EmojiIcon = "white-question-mark";
         Ready = true;
+        return;
     }
 }

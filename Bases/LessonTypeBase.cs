@@ -34,9 +34,9 @@ namespace Vetra
             return false;
         }
         
-        public void PlayOneShot()
+        public void SpeakOneShot()
         {
-            _ = TTS.Speak(Logic.Term.RU);
+            TTS.Speak(Logic.Term.RU);
         }
     }
 }

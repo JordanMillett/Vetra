@@ -9,14 +9,13 @@ public class TextToSpeechService
         Runtime = JS;
     }
 
-    public async Task Speak(string text)
-    {
-        await TryCancel();
-        await Runtime.InvokeVoidAsync("textToSpeech.speak", text);
+    public void Preload()
+    {   
+        _ = Runtime.InvokeVoidAsync("textToSpeech.preload");
     }
-    
-    public async Task TryCancel()
-    {
-        await Runtime.InvokeVoidAsync("textToSpeech.trycancel");
+
+    public void Speak(string text)
+    {   
+        _ = Runtime.InvokeVoidAsync("textToSpeech.speak", text);
     }
 }

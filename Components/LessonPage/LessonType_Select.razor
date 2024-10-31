@@ -10,8 +10,12 @@
 
         @if (FindEnglish)
         {
-            <VocabIcon />
-            <h1>@Logic.Term.RU</h1>
+            <div class="clickable" @onclick="() => SpeakOneShot()">
+
+                <VocabIcon />
+                <h1>@Logic.Term.RU</h1>
+
+            </div>
         }else
         { 
             <VocabIcon Vocab="@Logic.Term"/>
@@ -19,10 +23,11 @@
         }
 
         <br>
-        <button class="btn mb-1" @onclick="() => Chosen(0)">@GetChoice(0)</button>
-        <button class="btn mb-1" @onclick="() => Chosen(1)">@GetChoice(1)</button>
-        <button class="btn mb-1" @onclick="() => Chosen(2)">@GetChoice(2)</button>
-        <button class="btn mb-1" @onclick="() => Chosen(3)">@GetChoice(3)</button>
+
+        <button class="btn mb-1" @onclick="() => Chosen(0)">@Options[0]</button>
+        <button class="btn mb-1" @onclick="() => Chosen(1)">@Options[1]</button>
+        <button class="btn mb-1" @onclick="() => Chosen(2)">@Options[2]</button>
+        <button class="btn mb-1" @onclick="() => Chosen(3)">@Options[3]</button>
     </div>
 </div>
 
@@ -38,12 +43,35 @@
         FindEnglish = Rand.NextDouble() > 0.5f;
 
         if (FindEnglish)
+            SpeakOneShot();
+
+        for (int i = 0; i < 4; i++)
         {
-            Options.Add(Logic.Term.EN);
-        }
-        else
-        {
-            Options.Add(Logic.Term.RU);
+            if (i == CorrectIndex)
+            {
+                Options.Add(FindEnglish ? Logic.Term.EN : Logic.Term.RU);
+            }
+            else
+            {
+                string Word = "";
+
+                do
+                {
+                    int RandomIndex = Rand.Next(0, Logic.Filler.Count);
+
+                    if (FindEnglish)
+                    {
+                        Word = Logic.Filler[RandomIndex].EN;
+                    }
+                    else
+                    {
+                        Word = Logic.Filler[RandomIndex].RU;
+                    }
+
+                } while (Options.Contains(Word));
+
+                Options.Add(Word);
+            }
         }
     }
 
@@ -57,36 +85,5 @@
         LogicChanged.InvokeAsync(Logic);
 
         OnFinish?.Invoke();
-    }
-
-    string GetChoice(int Index)
-    {
-        if (Index == CorrectIndex)
-        {
-            if (FindEnglish)
-                return Logic.Term.EN;
-            else
-                return Logic.Term.RU;
-        }
-
-        string Word = FindEnglish ? Logic.Term.EN : Logic.Term.RU;
-
-        do
-        {
-            int RandomIndex = Rand.Next(0, Logic.Filler.Count);
-
-            if (FindEnglish)
-            {
-                Word = Logic.Filler[RandomIndex].EN;
-            }
-            else
-            {
-                Word = Logic.Filler[RandomIndex].RU;
-            }
-
-        } while (Options.Contains(Word));
-
-        Options.Add(Word);
-        return Word;
     }
 }

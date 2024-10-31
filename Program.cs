@@ -14,18 +14,18 @@ builder.Services.AddBlazorBootstrap();
 builder.Services.AddSingleton<BlazorBootstrap.ToastService>();
 
 builder.Services.AddSingleton<TextToSpeechService>();
+builder.Services.AddSingleton<AudioService>();
 
 builder.Services.AddSingleton<SettingsService>();
 builder.Services.AddSingleton<ProfileService>();
 builder.Services.AddSingleton<LessonService>();
 
-
 var host = builder.Build();
 
+host.Services.GetRequiredService<TextToSpeechService>().Preload();
 
 var lessonService = host.Services.GetRequiredService<LessonService>();
 await lessonService.LoadLessonHeadersAsync("data/lesson-headers.json");
 await lessonService.LoadVocabHeadersAsync("data/vocab-headers.json");
-
 
 await host.RunAsync();

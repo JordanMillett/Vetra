@@ -5,13 +5,18 @@
 
 <div class="row">
     <div class="col-12 text-center">
-        
+
         <h4 class="mb-5"><strong>Study the Term</strong></h4>
-        
-        <VocabIcon Vocab="@Logic.Term"/>
-        <h1>@Logic.Term.RU</h1>
-        
+        <div class="clickable" @onclick="SpeakOneShot">
+            
+            <VocabIcon Vocab="@Logic.Term"/>
+            <h1>@Logic.Term.RU</h1>
+
+        </div>
+
         <TermInfo Term="@Logic.Term"/>
+            
+        
 
         <br>
         <button class="btn" @onclick="() => Done()">Done</button>
@@ -20,6 +25,11 @@
 
 @code
 {
+    protected override void OnInitialized()
+    {
+        SpeakOneShot();
+    }
+
     void Done()
     {
         Logic.Passed = true;
