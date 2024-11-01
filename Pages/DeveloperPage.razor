@@ -86,6 +86,7 @@
                     <button class="btn" @onclick="() => ShowKeys(3)">Unused Words</button>
                     <button class="btn" @onclick="() => ShowKeys(4)">Missing Words JSON</button>
                     <button class="btn" @onclick="() => ShowKeys(5)">Mismatched Autogen</button>
+                    <button class="btn" @onclick="() => ShowKeys(6)">Special Terms</button>
                 </div>
                 <br>
                 <textarea readonly @bind="AllKeys"></textarea>
@@ -269,17 +270,42 @@
                 VocabHeader Generated = AutoPopulateVocabHeader(Key);
                 VocabHeader Correct = Lesson.VocabHeaders[Key];
 
+                if (Correct.Special != null)
+                    continue;
+
                 if (Correct.Category == "Other")
-                    break;
+                    continue;
 
                 if (Generated.Category != Correct.Category)
                 {
                     Mismatched.Add(Key, Correct);
                     Mismatched.Add(Key + " - AUTO", Generated);
                 }
+                else if (Correct.Category == "Noun" && Generated.Category == "Noun")
+                {
+                    if (Generated.Gender != Correct.Gender)
+                    {
+                        Mismatched.Add(Key, Correct);
+                        Mismatched.Add(Key + " - AUTO", Generated);
+                    }
+                }
             }
 
             AllKeys = JsonSerializer.Serialize(Mismatched, MyOptions);
+        }else if (Index == 6)
+        {
+            AllKeys = "";
+
+            List<string> SpecialTerms = new List<string>();
+            List<string> SpecialReasons = new List<string>();
+
+            foreach (string LoadedKey in Lesson.VocabHeaders.Keys)
+            {
+                if (Lesson.VocabHeaders[LoadedKey].Special != null)
+                {
+                    AllKeys += "(" + LoadedKey + ": " + Lesson.VocabHeaders[LoadedKey].Special + ") ";
+                }
+            }
         }
     }
 
@@ -383,11 +409,11 @@
 
         if (Header.Category == "Noun")
         {
-            if (Term.EndsWith("а") || Term.EndsWith("я")  || Term.EndsWith("ость") || Term.EndsWith("ие"))
+            if (Term.EndsWith("а") || Term.EndsWith("я") || Term.EndsWith("ость"))
             {
                 Header.Gender = "Feminine";
             }
-            else if (Term.EndsWith("о") || Term.EndsWith("е") || Term.EndsWith("мя"))
+            else if (Term.EndsWith("о") || Term.EndsWith("е") || Term.EndsWith("мя") || Term.EndsWith("ие"))
             {
                 if (Term.EndsWith("но"))
                 {

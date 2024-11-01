@@ -8,6 +8,8 @@ namespace Vetra
         public string? Gender { get; set; }
         public string? Icon { get; set; }
         public string? IconBW { get; set; }
+        
+        public string? Special { get; set; }
 
         public VocabHeader()
         {
@@ -17,6 +19,7 @@ namespace Vetra
             Gender = null;
             Icon = null;
             IconBW = null;
+            Special = null;
         }
     }
 }

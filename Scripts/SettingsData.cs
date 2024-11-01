@@ -33,6 +33,13 @@ namespace Vetra
                 _EnableSoundEffects = value;
                 MarkDirty();
             }}}
+            
+        private bool _EnableMicSounds = true;
+        public bool EnableMicSounds { get => _EnableMicSounds; set{
+            if (_EnableMicSounds != value){
+                _EnableMicSounds = value;
+                MarkDirty();
+            }}}
         
         private bool _EnableSpeechLessons = true;
         public bool EnableSpeechLessons { get => _EnableSpeechLessons; set{

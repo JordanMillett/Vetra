@@ -12,12 +12,19 @@ else
     <h1 class="text-center"><strong>App Settings</strong></h1>
     <hr><br>
 
-    <Switch @bind-Value="Settings.Data.EnableDarkTheme" Label="Enable Dark Theme" />
-    <Switch @bind-Value="Settings.Data.DevToolsEnabled" Label="Show Developer Tools" />
-    <Switch @bind-Value="Settings.Data.HideNotifications" Label="Hide Notifications" />
-    <Switch @bind-Value="Settings.Data.EnableSoundEffects" Label="Enable Sound Effects" />
-    <Switch @bind-Value="Settings.Data.EnableTTS" Label="Enable Text to Speech" />
+
+    <h3>Game</h3>
     <Switch @bind-Value="Settings.Data.EnableSpeechLessons" Label="Enable Speech Lessons" />
+    <br>
+    <h3>Audio</h3>
+    <Switch @bind-Value="Settings.Data.EnableSoundEffects" Label="Enable Sound Effects" />
+    <Switch @bind-Value="Settings.Data.EnableMicSounds" Label="Enable Mic Chimes" />
+    <Switch @bind-Value="Settings.Data.EnableTTS" Label="Enable Text to Speech" />
+    <br>
+    <h3>Visual</h3>
+    <Switch @bind-Value="Settings.Data.EnableDarkTheme" Label="Enable Dark Theme" />
+    <Switch @bind-Value="Settings.Data.HideNotifications" Label="Hide Notifications" />
+    <Switch @bind-Value="Settings.Data.DevToolsEnabled" Label="Show Developer Tools" />
 }
 
 @code

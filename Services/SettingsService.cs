@@ -30,6 +30,8 @@ namespace Vetra
         
         public async Task ApplySettings()
         {
+            if (!Data.EnableSoundEffects)
+                Data.EnableMicSounds = false;
             RefreshNavigation?.Invoke(this, EventArgs.Empty);
             await Runtime.InvokeVoidAsync("setDarkTheme", Data.EnableDarkTheme);
         }

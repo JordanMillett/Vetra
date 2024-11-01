@@ -33,8 +33,8 @@ public class AudioService
             case Sounds.Click : PlayCustom("click.mp3"); break;
             case Sounds.Correct : PlayCustom("correct.mp3"); break;
             case Sounds.Incorrect : PlayCustom("wrong.mp3"); break;
-            case Sounds.MicOn : PlayCustom("mic-on.mp3"); break;
-            case Sounds.MicOff : PlayCustom("mic-off.mp3"); break;
+            case Sounds.MicOn : if (Settings.Data.EnableMicSounds) { PlayCustom("mic-on.mp3"); } break;
+            case Sounds.MicOff : if (Settings.Data.EnableMicSounds) { PlayCustom("mic-off.mp3"); } break;
         }
     }
 
