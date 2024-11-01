@@ -7,6 +7,8 @@
 @using System.Linq;
 @inject LessonService Lesson;
 @inject ProfileService Profile;
+@inject SpeechToTextService SpeechRecognition;
+@inject TextToSpeechService TTS;
 
 <PageTitle>Vetra - Developer</PageTitle>
 
@@ -84,6 +86,7 @@
                     <button class="btn" @onclick="() => ShowKeys(4)">Missing Words JSON</button>
                     <button class="btn" @onclick="() => ShowKeys(5)">Mismatched Autogen</button>
                 </div>
+                using System.Text;
                 <br>
                 <textarea readonly @bind="AllKeys"></textarea>
             </div>
@@ -107,6 +110,17 @@
                         <TermProgress index=@i Data=Profile.Data/>
                     }
                 </div>
+            </div>
+        </Content>
+    </Tab>
+    <Tab Title="Speech">
+        <Content><br>
+            <div class="col-12">
+                <div class="buttons">
+                    <button class="btn" @onclick="() => ToggleListen()">Listening : @SpeechRecognition.isRecognizing</button>
+                </div>
+                <br>
+                <textarea readonly @bind="SpeechRecognition.Text"></textarea>
             </div>
         </Content>
     </Tab>
@@ -134,8 +148,21 @@
 
     protected override void OnInitialized()
     {
+        SpeechRecognition.OnRecognitionUpdated += StateHasChanged;
+        SpeechRecognition.OnSpeechOver += Heard;
         Select(0);
         ShowKeys(0);
+    }
+
+    public void Dispose()
+    {
+        SpeechRecognition.OnRecognitionUpdated -= StateHasChanged;
+        SpeechRecognition.OnSpeechOver -= Heard;
+    }
+
+    void Heard()
+    {
+        TTS.Speak(SpeechRecognition.Text);
     }
 
     void Select(int Index)
@@ -150,6 +177,18 @@
         {
             case 0: Generate_LessonHeader(Clear); break;
             case 1: Generate_VocabHeader(Clear); break;
+        }
+    }
+
+    async Task ToggleListen()
+    {
+        if (!SpeechRecognition.isRecognizing)
+        {
+            await SpeechRecognition.StartRecognition();
+        }
+        else
+        {
+            await SpeechRecognition.StopRecognition();
         }
     }
 

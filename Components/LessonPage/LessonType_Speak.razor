@@ -1,0 +1,58 @@
+@inherits LessonTypeBase
+@inject SpeechToTextService Speech
+
+@if (NotReady())
+    return;
+
+<div class="row">
+    <div class="col-12 text-center">
+
+        <h4 class="mb-5"><strong>Say the Term</strong></h4>
+        <div class="clickable" @onclick="SpeakOneShot">
+
+            <VocabIcon Vocab="@Logic.Term"/>
+            <h1>@Logic.Term.RU</h1>
+
+        </div>
+
+        <br>
+        <button class="btn" @onclick="() => ToggleListen()">@(Speech.isRecognizing ? "Mic On" : "Mic Off")</button>
+    </div>
+</div>
+
+@code
+{
+    protected override void OnInitialized()
+    {
+        Speech.OnRecognitionUpdated += StateHasChanged;
+        Speech.OnSpeechOver += Heard;
+    }
+
+    public void Dispose()
+    {
+        Speech.OnRecognitionUpdated -= StateHasChanged;
+        Speech.OnSpeechOver -= Heard;
+    }
+
+    void Heard()
+    {
+        //Console.WriteLine(Speech.Text);
+        Logic.Passed = Speech.Text.ToLower() == Logic.Term.RU.ToLower();
+        Speech.Text = "";
+        LogicChanged.InvokeAsync(Logic);
+
+        OnFinish?.Invoke();
+    }
+
+    async Task ToggleListen()
+    {
+        if (!Speech.isRecognizing)
+        {
+            await Speech.StartRecognition();
+        }
+        else
+        {
+            await Speech.StopRecognition();
+        }
+    }
+}

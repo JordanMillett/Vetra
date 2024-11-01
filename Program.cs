@@ -14,6 +14,7 @@ builder.Services.AddBlazorBootstrap();
 builder.Services.AddSingleton<BlazorBootstrap.ToastService>();
 
 builder.Services.AddSingleton<TextToSpeechService>();
+builder.Services.AddSingleton<SpeechToTextService>();
 builder.Services.AddSingleton<AudioService>();
 
 builder.Services.AddSingleton<SettingsService>();
