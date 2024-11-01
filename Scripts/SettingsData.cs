@@ -28,9 +28,16 @@ namespace Vetra
             }}}
             
         private bool _EnableSoundEffects = true;
-        public bool EnableSoundEFfects { get => _EnableSoundEffects; set{
+        public bool EnableSoundEffects { get => _EnableSoundEffects; set{
             if (_EnableSoundEffects != value){
-                EnableSoundEFfects = value;
+                _EnableSoundEffects = value;
+                MarkDirty();
+            }}}
+        
+        private bool _EnableSpeechLessons = true;
+        public bool EnableSpeechLessons { get => _EnableSpeechLessons; set{
+            if (_EnableSpeechLessons != value){
+                _EnableSpeechLessons = value;
                 MarkDirty();
             }}}
         

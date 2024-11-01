@@ -16,7 +16,13 @@
         </div>
 
         <br>
-        <button class="btn" @onclick="() => ToggleListen()">@(Speech.isRecognizing ? "Mic On" : "Mic Off")</button>
+        @if(Speech.Text == "")
+        {
+            <button class="btn" @onclick="() => ToggleListen()">@(Speech.isRecognizing ? "Mic On" : "Mic Off")</button>
+        }else
+        { 
+            <button class="btn" @onclick="() => Done()">@(char.ToUpper(Speech.Text[0]) + Speech.Text.Substring(1).ToLower())</button>
+        }
     </div>
 </div>
 
@@ -24,6 +30,7 @@
 {
     protected override void OnInitialized()
     {
+        Speech.Text = "";
         Speech.OnRecognitionUpdated += StateHasChanged;
         Speech.OnSpeechOver += Heard;
     }
@@ -38,9 +45,12 @@
     {
         //Console.WriteLine(Speech.Text);
         Logic.Passed = Speech.Text.ToLower() == Logic.Term.RU.ToLower();
+    }
+
+    void Done()
+    {
         Speech.Text = "";
         LogicChanged.InvokeAsync(Logic);
-
         OnFinish?.Invoke();
     }
 

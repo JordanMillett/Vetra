@@ -10,13 +10,15 @@ namespace Vetra
 
         private readonly HttpClient _httpClient;
         private ProfileService Profile;
+        private SettingsService Settings;
 
         public int LessonType = -1; 
         
-        public LessonService(HttpClient httpClient, ProfileService profile)
+        public LessonService(HttpClient httpClient, ProfileService profile, SettingsService settings)
         {
             _httpClient = httpClient;
             Profile = profile;
+            Settings = settings;
             LessonHeaders = new Dictionary<string, LessonHeader>();
             VocabHeaders = new Dictionary<string, VocabHeader>();
         }
@@ -70,7 +72,12 @@ namespace Vetra
             }else
             {
                 Random Rand = new Random();
-                int Chosen = Rand.Next(1, 6); //include, exclude  CHANGE WHEN ADDING NEW GAME
+                int Chosen = 0; //include, exclude  CHANGE WHEN ADDING NEW GAME
+                
+                if(Settings.Data.EnableSpeechLessons)
+                    Chosen = Rand.Next(1, 6);
+                else
+                    Chosen = Rand.Next(1, 5);
 
                 if(Profile.Data.VocabProgression[Index] == 0) //if term at zero
                     Chosen = 0;

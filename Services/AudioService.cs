@@ -36,7 +36,7 @@ public class AudioService
 
     public void PlayCustom(string url)
     {
-        if (Settings.Data.EnableSoundEFfects)
+        if (Settings.Data.EnableSoundEffects)
         {
             _ = Runtime.InvokeVoidAsync("audio.play", "audio/" + url);
         }
