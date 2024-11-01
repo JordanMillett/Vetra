@@ -26,6 +26,13 @@ namespace Vetra
                 _EnableTTS = value;
                 MarkDirty();
             }}}
+            
+        private bool _EnableSoundEffects = true;
+        public bool EnableSoundEFfects { get => _EnableSoundEffects; set{
+            if (_EnableSoundEffects != value){
+                EnableSoundEFfects = value;
+                MarkDirty();
+            }}}
         
         void MarkDirty()
         {

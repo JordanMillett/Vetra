@@ -157,52 +157,52 @@
     },"Один":{
         "RU":"Один",
         "EN":"One",
-        "Category": "Numeral",
+        "Category": "Other",
         "IconBW": "One Square"
     },"Два":{
         "RU":"Два",
         "EN":"Two",
-        "Category": "Numeral",
+        "Category": "Other",
         "IconBW": "Two Square"
     },"Три":{
         "RU":"Три",
         "EN":"Three",
-        "Category": "Numeral",
+        "Category": "Other",
         "IconBW": "Three Square"
     },"Четыре":{
         "RU":"Четыре",
         "EN":"Four",
-        "Category": "Numeral",
+        "Category": "Other",
         "IconBW": "Four Square"
     },"Пять":{
         "RU":"Пять",
         "EN":"Five",
-        "Category": "Numeral",
+        "Category": "Other",
         "IconBW": "Five Square"
     },"Шесть":{
         "RU":"Шесть",
         "EN":"Six",
-        "Category": "Numeral",
+        "Category": "Other",
         "IconBW": "Six Square"
     },"Семь":{
         "RU":"Семь",
         "EN":"Seven",
-        "Category": "Numeral",
+        "Category": "Other",
         "IconBW": "Seven Square"
     },"Восемь":{
         "RU":"Восемь",
         "EN":"Eight",
-        "Category": "Numeral",
+        "Category": "Other",
         "IconBW": "Eight Square"
     },"Девять":{
         "RU":"Девять",
         "EN":"Nine",
-        "Category": "Numeral",
+        "Category": "Other",
         "IconBW": "Nine Square"
     },"Десять":{
         "RU":"Десять",
         "EN":"Ten",
-        "Category": "Numeral",
+        "Category": "Other",
         "Icon": "Input Numbers"
     },"Счастливый":{
         "RU":"Счастливый",

@@ -1,3 +1,5 @@
+@inject TextToSpeechService TTS
+
 @if (Data == null)
 {
     <Waiting />
@@ -5,12 +7,20 @@
 else
 {
 
-<div class="col-lg-3 col-md-4 col-6">
-    <p>@Data.LearnedVocab[index]</p>
-    <p>@Math.Truncate(Data.VocabProgression[index])% . . . @Data.VocabStreak[index]x</p>
+<div class="col-xl-3 col-lg-4 col-sm-6 col-12 clickable" @onclick="() => TTS.Speak(Data.LearnedVocab[index])">
+    <div class="row">
+        <div class="col-5">
+            <p>@Data.LearnedVocab[index]</p>
+        </div>
+        
+        <div class="col-7">
+            <p class="text-end">@Math.Truncate(Data.VocabProgression[index])% (@Data.VocabStreak[index]x)</p>
+        </div>
+    </div>
     <div class="progress">
         <ProgressBar Width="@Math.Clamp(Data.VocabProgression[index], 0, 100)" Height="10" />
     </div>
+    <br>
 </div>
 
 }
@@ -18,7 +28,13 @@ else
 <style>
     p
     {
-    margin: 4px;
+        margin: 0px;
+    }
+    
+    .progress
+    {
+        margin-top: 1px;
+        margin-bottom: 5px;
     }
 </style>
 

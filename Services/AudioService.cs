@@ -1,4 +1,5 @@
 using Microsoft.JSInterop;
+using Vetra;
 
 public class AudioService
 {
@@ -10,10 +11,12 @@ public class AudioService
     }
     
     IJSRuntime Runtime;
+    SettingsService Settings;
 
-    public AudioService(IJSRuntime JS)
+    public AudioService(IJSRuntime JS, SettingsService S)
     {
         Runtime = JS;
+        Settings = S;
     }
     
     public void Click()
@@ -32,7 +35,10 @@ public class AudioService
     }
 
     public void PlayCustom(string url)
-    {   
-        _ = Runtime.InvokeVoidAsync("audio.play", "audio/" + url);
+    {
+        if (Settings.Data.EnableSoundEFfects)
+        {
+            _ = Runtime.InvokeVoidAsync("audio.play", "audio/" + url);
+        }
     }
 }
