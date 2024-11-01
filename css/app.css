@@ -1,4 +1,4 @@
-:root 
+:root
 {
     --vetra-black: #171219;
     --vetra-gray: #EBEBEB;
@@ -11,13 +11,24 @@
     
     --vetra-green: #1CE418;
     --vetra-blue: #181CE4;
+    
+    --vetra-text: var(--vetra-black);
+    --vetra-midtone: var(--vetra-gray);
+    --vetra-background: var(--vetra-white);
+}
+
+:root[data-theme="dark"]
+{
+    --vetra-text: var(--vetra-white);
+    --vetra-midtone: #2e2a30;
+    --vetra-background: var(--vetra-black);
 }
 
 html, body
 {
     font-family: "Onest", sans-serif;
-    background-color: var(--vetra-white);
-    color: var(--vetra-black);
+    background-color: var(--vetra-background);
+    color: var(--vetra-text);
 }
 
 *
@@ -25,6 +36,28 @@ html, body
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+textarea
+{
+    border-radius: 0.5rem;
+    border-style: solid;
+    border-width: 2px;
+    
+    color: var(--vetra-text);
+    border-color: var(--vetra-midtone);
+    background-color: var(--vetra-background);
+}
+
+input
+{
+    border-radius: 0.25rem;
+    border-style: solid;
+    border-width: 2px;
+    
+    color: var(--vetra-text);
+    border-color: var(--vetra-midtone);
+    background-color: var(--vetra-background);
 }
 
 .clickable

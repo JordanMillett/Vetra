@@ -10,6 +10,8 @@ window.speechToText =
         this.recognition.interimResults = false;
         this.recognition.maxAlternatives = 1;
 
+        this.recognition.continuous = false;
+        
         this.recognition.onresult = function (event) {
             const transcript = event.results[0][0].transcript;
             dotnetHelper.invokeMethodAsync("OnSpeechRecognized", transcript);

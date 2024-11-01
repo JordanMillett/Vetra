@@ -11,3 +11,15 @@ function scrollToElementByClass(className)
         element.focus();
     }
 }
+
+function setDarkTheme(useDark)
+{
+    const root = document.documentElement;
+    if (useDark)
+    {
+        root.setAttribute("data-theme", "dark");
+    } else
+    {
+        root.removeAttribute("data-theme");
+    }
+}
