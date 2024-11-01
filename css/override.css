@@ -8,10 +8,10 @@
     --bb-sidebar-nav-item-text-hover-color: var(--vetra-red);
     --bb-sidebar-nav-item-text-color: var(--vetra-text);
     
-    /*--bb-sidebar-title-text-color: var(--vetra-background);*/
+    --bb-sidebar-title-text-color: var(--vetra-background);
     
     --bb-sidebar-navbar-toggler-background-color: var(--vetra-light-red);
-    /*--bb-sidebar-navbar-toggler-icon-color: var(--vetra-white);*/
+    --bb-sidebar-navbar-toggler-icon-color: var(--vetra-text);
 }
 
 :root[data-theme="dark"]
