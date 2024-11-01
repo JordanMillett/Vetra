@@ -13,6 +13,7 @@ builder.Services.AddBlazoredLocalStorageAsSingleton();
 builder.Services.AddBlazorBootstrap();
 builder.Services.AddSingleton<BlazorBootstrap.ToastService>();
 
+builder.Services.AddSingleton<HelperService>();
 builder.Services.AddSingleton<TextToSpeechService>();
 builder.Services.AddSingleton<SpeechToTextService>();
 builder.Services.AddSingleton<AudioService>();

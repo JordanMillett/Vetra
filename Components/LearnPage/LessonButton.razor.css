@@ -8,6 +8,8 @@
     border-left-width: 3px;
     border-right-width: 3px;
     border-bottom-width: 5px;
+    
+    color: var(--vetra-white);
 }
 
 h3

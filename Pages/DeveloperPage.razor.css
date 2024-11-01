@@ -3,16 +3,11 @@ textarea
     resize: none;
     min-width: 100%;
     height: 500px;
-    
-    border-radius: 0;
-    border-style: solid;
-    border-color: var(--vetra-gray);
-    border-width: 2px;
 }
 
 .editor
 {
-    background-color: var(--vetra-gray);
+    background-color: var(--vetra-midtone);
     min-width: 100%;
     min-height: 500px;
 }
@@ -21,7 +16,7 @@ textarea
 {
     border-radius: 0.5rem; /*0.5rem for --bs-border-radius-lg */
     border-style: solid;
-    border-color: var(--vetra-gray);
+    border-color: var(--vetra-midtone);
     border-width: 2px;
 }
 

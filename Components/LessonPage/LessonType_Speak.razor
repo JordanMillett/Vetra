@@ -1,5 +1,6 @@
 @inherits LessonTypeBase
 @inject SpeechToTextService Speech
+@inject HelperService Helper
 
 @if (NotReady())
     return;
@@ -7,13 +8,19 @@
 <div class="row">
     <div class="col-12 text-center">
 
-        <h4 class="mb-5"><strong>Say the Term</strong></h4>
-        <div class="clickable" @onclick="SpeakOneShot">
+        <h4 class="mb-5"><strong>Say the Term in Russian</strong></h4>
 
+        @if(ShowRussian)
+        {
+            <div class="clickable" @onclick="SpeakOneShot">
+                <VocabIcon Vocab="@Logic.Term"/>
+                <h1>@Logic.Term.RU</h1>
+            </div>
+        }else
+        { 
             <VocabIcon Vocab="@Logic.Term"/>
-            <h1>@Logic.Term.RU</h1>
-
-        </div>
+            <h1>@Logic.Term.EN</h1>
+        }
 
         <br>
         @if(Speech.Text == "")
@@ -21,15 +28,19 @@
             <button class="btn" @onclick="() => ToggleListen()">@(Speech.isRecognizing ? "Mic On" : "Mic Off")</button>
         }else
         { 
-            <button class="btn" @onclick="() => Done()">@(char.ToUpper(Speech.Text[0]) + Speech.Text.Substring(1).ToLower())</button>
+            <button class="btn" @onclick="() => Done()">@Helper.CapitalizedCase(Speech.Text)</button>
         }
     </div>
 </div>
 
 @code
 {
+
+    bool ShowRussian = true;
+
     protected override void OnInitialized()
     {
+        ShowRussian = Rand.NextDouble() > 0.5f;
         Speech.Text = "";
         Speech.OnRecognitionUpdated += StateHasChanged;
         Speech.OnSpeechOver += Heard;
@@ -44,6 +55,7 @@
     void Heard()
     {
         //Console.WriteLine(Speech.Text);
+        Speech.Text = Helper.CapitalizedCase(Speech.Text);
         Logic.Passed = Speech.Text.ToLower() == Logic.Term.RU.ToLower();
     }
 

@@ -41,6 +41,13 @@ namespace Vetra
                 MarkDirty();
             }}}
         
+        private bool _EnableDarkTheme = false;
+        public bool EnableDarkTheme { get => _EnableDarkTheme; set{
+            if (_EnableDarkTheme != value){
+                _EnableDarkTheme = value;
+                MarkDirty();
+            }}}
+        
         void MarkDirty()
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(null));

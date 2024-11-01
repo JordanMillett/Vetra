@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using Microsoft.JSInterop;
 
 namespace Vetra
 {
@@ -7,21 +8,30 @@ namespace Vetra
         public event EventHandler? RefreshNavigation;
         
         Blazored.LocalStorage.ILocalStorageService Local;
+        
+        IJSRuntime Runtime;
 
         public SettingsData Data = new SettingsData();
 
         public bool Initialized = false;
 
-        public SettingsService(Blazored.LocalStorage.ILocalStorageService localStorage)
+        public SettingsService(IJSRuntime JS, Blazored.LocalStorage.ILocalStorageService localStorage)
         {
+            Runtime = JS;
             Local = localStorage;
             _ = LoadSettings();
         }
 
         private void OnSettingsDataChanged(object? sender, PropertyChangedEventArgs e)
         {
-            RefreshNavigation?.Invoke(this, EventArgs.Empty);
+            _ = ApplySettings();
             _ = SaveSettings();
+        }
+        
+        public async Task ApplySettings()
+        {
+            RefreshNavigation?.Invoke(this, EventArgs.Empty);
+            await Runtime.InvokeVoidAsync("setDarkTheme", Data.EnableDarkTheme);
         }
 
         public async Task LoadSettings()

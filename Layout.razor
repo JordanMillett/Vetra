@@ -29,6 +29,11 @@
         Settings.RefreshNavigation += RefreshNavigation;
     }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await Settings.ApplySettings();
+    }
+
     private void RefreshNavigation(object? sender, EventArgs e)
     {
         navItems = GetNavItems();

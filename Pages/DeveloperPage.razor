@@ -22,7 +22,7 @@
                 <p style="margin-left: 25px; margin-right: 10px;">Template Key</p><input size="10" style="max-height: 1.5rem;" type="text" @bind="TemplateKey" />
                 <p style="margin-left: 10px; font-weight: bold;">@Status</p>
             </div>
-
+            <br>
             <div class="row">
                 <div class="col-lg-6 col-12">
                     <div class="buttons">
@@ -86,7 +86,6 @@
                     <button class="btn" @onclick="() => ShowKeys(4)">Missing Words JSON</button>
                     <button class="btn" @onclick="() => ShowKeys(5)">Mismatched Autogen</button>
                 </div>
-                using System.Text;
                 <br>
                 <textarea readonly @bind="AllKeys"></textarea>
             </div>

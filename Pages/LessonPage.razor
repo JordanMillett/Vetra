@@ -2,6 +2,7 @@
 @inherits PracticePageBase
 @using Vetra.Components
 @using Vetra.Components.LessonPage
+@inject HelperService Helper
 
 <PageTitle>Vetra - Lesson</PageTitle>
 
@@ -85,7 +86,7 @@ else
 
     protected override void OnInitialized()
     {
-        LessonKey = string.Join(' ', URL.Replace('+', ' ').Split(' ').Select(word => char.ToUpper(word[0]) + word.Substring(1).ToLower()));
+        LessonKey = Helper.ConvertFromURL(URL);
         Profile.Data.LastLessonPlayed = LessonKey;
         _ = Profile.SaveProfile();
     }

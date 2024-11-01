@@ -10,10 +10,12 @@ public class SpeechToTextService
     public event Action? OnSpeechOver;
     
     IJSRuntime Runtime;
+    AudioService Audio;
 
-    public SpeechToTextService(IJSRuntime JS)
+    public SpeechToTextService(IJSRuntime JS, AudioService A)
     {
         Runtime = JS;
+        Audio = A;
     }
 
     [JSInvokable]
@@ -32,6 +34,7 @@ public class SpeechToTextService
     [JSInvokable]
     public void OnSpeechEnd()
     {
+        Audio.Play(AudioService.Sounds.MicOff);
         isRecognizing = false;
         OnRecognitionUpdated?.Invoke();
         OnSpeechOver?.Invoke();
@@ -43,6 +46,7 @@ public class SpeechToTextService
         
         var dotNetReference = DotNetObjectReference.Create(this);
         await Runtime.InvokeVoidAsync("speechToText.startRecognition", dotNetReference);
+        Audio.Play(AudioService.Sounds.MicOn);
         isRecognizing = true;
         OnRecognitionUpdated?.Invoke();
     }
