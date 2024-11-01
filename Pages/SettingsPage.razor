@@ -3,14 +3,15 @@
 
 <PageTitle>Vetra - Settings</PageTitle>
 
-<p>App options</p>
-
 @if (!Settings.Initialized)
 {
     <Vetra.Components.Waiting />
 }
 else
 {
+    <h1 class="text-center"><strong>App Settings</strong></h1>
+    <hr><br>
+
     <Switch @bind-Value="Settings.Data.EnableDarkTheme" Label="Enable Dark Theme" />
     <Switch @bind-Value="Settings.Data.DevToolsEnabled" Label="Show Developer Tools" />
     <Switch @bind-Value="Settings.Data.HideNotifications" Label="Hide Notifications" />

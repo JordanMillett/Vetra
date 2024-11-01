@@ -11,8 +11,9 @@ else
 {
     <ConfirmDialog @ref="ConfirmPopup" />
 
-    <h1>@Profile.Data.Name</h1>
-    <br>
+    <h1 class="text-center"><strong>Profile Page</strong></h1>
+    <hr><br>
+
     <form @onsubmit="Profile.SaveProfile">
         <input type="text" @bind="Profile.Data.Name" />
         <button class="btn" type="submit">Save</button>

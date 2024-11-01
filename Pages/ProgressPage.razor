@@ -17,11 +17,22 @@ else
     }
     else
     {
+        <h1 class="text-center"><strong>All Learned Terms</strong></h1>
+        <hr><br>
+
+        <div class="row">
+            <div class="col-6">
+                <Button class="btn" @onclick="ToggleSortByProgress">Sorted By @(SortingByProgress ? "Progress" : "Streak")</Button>
+            </div>
+            <div class="col-6 text-end">
+                <Button class="btn" @onclick="ToggleHighLow">Sorted @(SortingByHigh ? "High" : "Low")</Button>
+            </div>
+        </div>
         <br>
         <div class="row">
-            @for (int i = 0; i < Profile.Data.LearnedVocab.Count; i++)
+            @foreach (int index in GetSortedIndices())
             {
-                <TermProgress index=@i Data=Profile.Data/>
+                <TermProgress Data=@Profile.Data index=@index />
             }
         </div>
     }
@@ -29,6 +40,9 @@ else
 
 @code
 {
+    bool SortingByHigh = true;
+    bool SortingByProgress = true;
+
     protected override async Task OnInitializedAsync()
     {
         while (!Profile.Initialized)
@@ -37,5 +51,33 @@ else
         }
 
         StateHasChanged();
+    }
+
+    void ToggleHighLow()
+    {
+        SortingByHigh = !SortingByHigh;
+    }
+
+    void ToggleSortByProgress()
+    {
+        SortingByProgress = !SortingByProgress;
+    }
+
+    IEnumerable<int> GetSortedIndices()
+    {
+        var indices = Enumerable.Range(0, Profile.Data.LearnedVocab.Count).ToList();
+
+        if (SortingByProgress)
+        {
+            return SortingByHigh
+                ? indices.OrderByDescending(i => Profile.Data.VocabProgression[i])
+                : indices.OrderBy(i => Profile.Data.VocabProgression[i]);
+        }
+        else
+        {
+            return SortingByHigh
+                ? indices.OrderByDescending(i => Profile.Data.VocabStreak[i])
+                : indices.OrderBy(i => Profile.Data.VocabStreak[i]);
+        }
     }
 }
