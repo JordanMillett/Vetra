@@ -244,8 +244,9 @@
         "RU":"Штаны",
         "EN":"Pants",
         "Category": "Noun",
-        "Gender": "Masculine",
-        "Icon": "Jeans"
+        "Gender": "Plural",
+        "Icon": "Jeans",
+        "Special": "Plural Only"
     },"Куртка":{
         "RU":"Куртка",
         "EN":"Jacket",
@@ -312,5 +313,519 @@
         "Category": "Noun",
         "Gender": "Masculine",
         "Icon": "Mouth"
+    },
+    "Понедельник": {
+        "RU": "Понедельник",
+        "EN": "Monday",
+        "Category": "Noun",
+        "Gender": "Masculine",
+        "Icon": "Crescent Moon"
+    },
+    "Вторник": {
+        "RU": "Вторник",
+        "EN": "Tuesday",
+        "Category": "Noun",
+        "Gender": "Male Sign"
+    },
+    "Среда": {
+        "RU": "Среда",
+        "EN": "Wednesday",
+        "Category": "Noun",
+        "Gender": "Feminine"
+    },
+    "Четверг": {
+        "RU": "Четверг",
+        "EN": "Thursday",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Пятница": {
+        "RU": "Пятница",
+        "EN": "Friday",
+        "Category": "Noun",
+        "Gender": "Feminine"
+    },
+    "Суббота": {
+        "RU": "Суббота",
+        "EN": "Saturday",
+        "Category": "Noun",
+        "Gender": "Feminine"
+    },
+    "Воскресенье": {
+        "RU": "Воскресенье",
+        "EN": "Sunday",
+        "Category": "Noun",
+        "Gender": "Neuter"
+    },
+    "Первый": {
+        "RU": "Первый",
+        "EN": "First",
+        "Category": "Adjective"
+    },
+    "Второй": {
+        "RU": "Второй",
+        "EN": "Second",
+        "Category": "Adjective"
+    },
+    "Третий": {
+        "RU": "Третий",
+        "EN": "Third",
+        "Category": "Adjective"
+    },
+    "Четвертый": {
+        "RU": "Четвертый",
+        "EN": "Fourth",
+        "Category": "Adjective"
+    },
+    "Пятый": {
+        "RU": "Пятый",
+        "EN": "Fifth",
+        "Category": "Adjective"
+    },
+    "Шестой": {
+        "RU": "Шестой",
+        "EN": "Sixth",
+        "Category": "Adjective"
+    },
+    "Седьмой": {
+        "RU": "Седьмой",
+        "EN": "Seventh",
+        "Category": "Adjective"
+    },
+    "Восьмой": {
+        "RU": "Восьмой",
+        "EN": "Eighth",
+        "Category": "Adjective"
+    },
+    "Девятый": {
+        "RU": "Девятый",
+        "EN": "Ninth",
+        "Category": "Adjective"
+    },
+    "Десятый": {
+        "RU": "Десятый",
+        "EN": "Tenth",
+        "Category": "Adjective"
+    },
+    "Январь": {
+        "RU": "Январь",
+        "EN": "January",
+        "Category": "Noun",
+        "Gender": "Masculine",
+        "Icon": "Capricorn"
+    },
+    "Февраль": {
+        "RU": "Февраль",
+        "EN": "February",
+        "Category": "Noun",
+        "Gender": "Masculine",
+        "Icon": "Aquarius"
+    },
+    "Март": {
+        "RU": "Март",
+        "EN": "March",
+        "Category": "Noun",
+        "Gender": "Masculine",
+        "Icon": "Pisces"
+    },
+    "Апрель": {
+        "RU": "Апрель",
+        "EN": "April",
+        "Category": "Noun",
+        "Gender": "Masculine",
+        "Icon": "Aries"
+    },
+    "Май": {
+        "RU": "Май",
+        "EN": "May",
+        "Category": "Noun",
+        "Gender": "Masculine",
+        "Icon": "Taurus"
+    },
+    "Июнь": {
+        "RU": "Июнь",
+        "EN": "June",
+        "Category": "Noun",
+        "Gender": "Masculine",
+        "Icon": "Gemini"
+    },
+    "Июль": {
+        "RU": "Июль",
+        "EN": "July",
+        "Category": "Noun",
+        "Gender": "Masculine",
+        "Icon": "Cancer"
+    },
+    "Август": {
+        "RU": "Август",
+        "EN": "August",
+        "Category": "Noun",
+        "Gender": "Masculine",
+        "Icon": "Leo"
+    },
+    "Сентябрь": {
+        "RU": "Сентябрь",
+        "EN": "September",
+        "Category": "Noun",
+        "Gender": "Masculine",
+        "Icon": "Virgo"
+    },
+    "Октябрь": {
+        "RU": "Октябрь",
+        "EN": "October",
+        "Category": "Noun",
+        "Gender": "Masculine",
+        "Icon": "Libra"
+    },
+    "Ноябрь": {
+        "RU": "Ноябрь",
+        "EN": "November",
+        "Category": "Noun",
+        "Gender": "Masculine",
+        "Icon": "Scorpio"
+    },
+    "Декабрь": {
+        "RU": "Декабрь",
+        "EN": "December",
+        "Category": "Noun",
+        "Gender": "Masculine",
+        "Icon": "Sagittarius"
+    },
+    "Самолет": {
+        "RU": "Самолет",
+        "EN": "Airplane",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Автобус": {
+        "RU": "Автобус",
+        "EN": "Bus",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Такси": {
+        "RU": "Такси",
+        "EN": "Taxi",
+        "Category": "Noun",
+        "Gender": "Neuter",
+        "Special": "Indeclinable"
+    },
+    "Велосипед": {
+        "RU": "Велосипед",
+        "EN": "Bicycle",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Машина": {
+        "RU": "Машина",
+        "EN": "Car",
+        "Category": "Noun",
+        "Gender": "Feminine"
+    },
+    "Мотоцикл": {
+        "RU": "Мотоцикл",
+        "EN": "Motorcycle",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Грузовик": {
+        "RU": "Грузовик",
+        "EN": "Truck",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Трамвай": {
+        "RU": "Трамвай",
+        "EN": "Tram",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Бульвар": {
+        "RU": "Бульвар",
+        "EN": "Boulevard",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Город": {
+        "RU": "Город",
+        "EN": "City",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Дом": {
+        "RU": "Дом",
+        "EN": "House",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Дорога": {
+        "RU": "Дорога",
+        "EN": "Road",
+        "Category": "Noun",
+        "Gender": "Feminine"
+    },
+    "Деревня": {
+        "RU": "Деревня",
+        "EN": "Village",
+        "Category": "Noun",
+        "Gender": "Feminine"
+    },
+    "Квартира": {
+        "RU": "Квартира",
+        "EN": "Apartment",
+        "Category": "Noun",
+        "Gender": "Feminine"
+    },
+    "Проспект": {
+        "RU": "Проспект",
+        "EN": "Avenue",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Район": {
+        "RU": "Район",
+        "EN": "District",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Улица": {
+        "RU": "Улица",
+        "EN": "Street",
+        "Category": "Noun",
+        "Gender": "Feminine"
+    },
+    "Бухгалтер": {
+        "RU": "Бухгалтер",
+        "EN": "Accountant",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Актер": {
+        "RU": "Актер",
+        "EN": "Actor",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Артист": {
+        "RU": "Артист",
+        "EN": "Artist",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Архитектор": {
+        "RU": "Архитектор",
+        "EN": "Architect",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Повар": {
+        "RU": "Повар",
+        "EN": "Cook",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Врач": {
+        "RU": "Врач",
+        "EN": "Doctor",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Инженер": {
+        "RU": "Инженер",
+        "EN": "Engineer",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Менеджер": {
+        "RU": "Менеджер",
+        "EN": "Manager",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Официант": {
+        "RU": "Официант",
+        "EN": "Waiter",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Учитель": {
+        "RU": "Учитель",
+        "EN": "Teacher",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Родитель": {
+        "RU": "Родитель",
+        "EN": "Parent",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Мать": {
+        "RU": "Мать",
+        "EN": "Mother",
+        "Category": "Noun",
+        "Gender": "Feminine"
+    },
+    "Отец": {
+        "RU": "Отец",
+        "EN": "Father",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Ребенок": {
+        "RU": "Ребенок",
+        "EN": "Child",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Дочь": {
+        "RU": "Дочь",
+        "EN": "Daughter",
+        "Category": "Noun",
+        "Gender": "Feminine"
+    },
+    "Сын": {
+        "RU": "Сын",
+        "EN": "Son",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Брат": {
+        "RU": "Брат",
+        "EN": "Brother",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Сестра": {
+        "RU": "Сестра",
+        "EN": "Sister",
+        "Category": "Noun",
+        "Gender": "Feminine"
+    },
+    "Бабушка": {
+        "RU": "Бабушка",
+        "EN": "Grandmother",
+        "Category": "Noun",
+        "Gender": "Feminine"
+    },
+    "Дедушка": {
+        "RU": "Дедушка",
+        "EN": "Grandfather",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Тетя": {
+        "RU": "Тетя",
+        "EN": "Aunt",
+        "Category": "Noun",
+        "Gender": "Feminine"
+    },
+    "Дядя": {
+        "RU": "Дядя",
+        "EN": "Uncle",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Жена": {
+        "RU": "Жена",
+        "EN": "Wife",
+        "Category": "Noun",
+        "Gender": "Feminine"
+    },
+    "Муж": {
+        "RU": "Муж",
+        "EN": "Husband",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Бейсбол": {
+        "RU": "Бейсбол",
+        "EN": "Baseball",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Баскетбол": {
+        "RU": "Баскетбол",
+        "EN": "Basketball",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Бокс": {
+        "RU": "Бокс",
+        "EN": "Boxing",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Футбол": {
+        "RU": "Футбол",
+        "EN": "Soccer",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Теннис": {
+        "RU": "Теннис",
+        "EN": "Tennis",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Йога": {
+        "RU": "Йога",
+        "EN": "Yoga",
+        "Category": "Noun",
+        "Gender": "Feminine"
+    },
+    "Гольф": {
+        "RU": "Гольф",
+        "EN": "Golf",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Хоккей": {
+        "RU": "Хоккей",
+        "EN": "Hockey",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Волейбол": {
+        "RU": "Волейбол",
+        "EN": "Volleyball",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Животное": {
+        "RU": "Животное",
+        "EN": "Animal",
+        "Category": "Noun",
+        "Gender": "Neuter"
+    },
+    "Цветок": {
+        "RU": "Цветок",
+        "EN": "Flower",
+        "Category": "Noun",
+        "Gender": "Masculine"
+    },
+    "Растение": {
+        "RU": "Растение",
+        "EN": "Plant",
+        "Category": "Noun",
+        "Gender": "Neuter"
+    },
+    "Дерево": {
+        "RU": "Дерево",
+        "EN": "Tree",
+        "Category": "Noun",
+        "Gender": "Neuter"
+    },
+    "Гора": {
+        "RU": "Гора",
+        "EN": "Mountain",
+        "Category": "Noun",
+        "Gender": "Feminine"
+    },
+    "Лес": {
+        "RU": "Лес",
+        "EN": "Forest",
+        "Category": "Noun",
+        "Gender": "Masculine"
     }
 }
