@@ -1,6 +1,5 @@
 @inherits LessonTypeBase
 @inject SpeechToTextService Speech
-@inject HelperService Helper
 
 @if (NotReady())
     return;
@@ -13,8 +12,14 @@
         @if(ShowRussian)
         {
             <div class="clickable" @onclick="SpeakOneShot">
+
                 <VocabIcon Vocab="@Logic.Term"/>
                 <h1>@Logic.Term.RU</h1>
+                @if(Settings.Data.ShowTransliteration)
+                {
+                    <h5>(@Helper.Transliterate(Logic.Term.RU))</h5>
+                }
+                
             </div>
         }else
         { 

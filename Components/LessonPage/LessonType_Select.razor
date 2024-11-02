@@ -14,6 +14,10 @@
 
                 <VocabIcon />
                 <h1>@Logic.Term.RU</h1>
+                @if(Settings.Data.ShowTransliteration)
+                {
+                    <h5>(@Helper.Transliterate(Logic.Term.RU))</h5>
+                }
 
             </div>
         }else

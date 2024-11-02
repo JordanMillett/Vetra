@@ -15,6 +15,9 @@ namespace Vetra
         
         [Inject]
         public SettingsService Settings { get; set; } = default!;
+        
+        [Inject]
+        public HelperService Helper { get; set; } = default!;
 
         [Parameter, EditorRequired]
         public LessonLogic Logic { get; set; } = default!;

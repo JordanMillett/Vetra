@@ -1,5 +1,46 @@
+using Vetra;
+
 public class HelperService
 {
+    SettingsService Settings;
+
+    public HelperService(SettingsService S)
+    {
+        Settings = S;
+    }
+    
+    Dictionary<char, string> Map = new Dictionary<char, string>
+    {
+        {'а', "a"}, {'б', "b"}, {'в', "v"}, {'г', "g"}, {'д', "d"}, {'е', "e"},
+        {'ё', "yo"}, {'ж', "zh"}, {'з', "z"}, {'и', "i"}, {'й', "yi"}, {'к', "k"},
+        {'л', "l"}, {'м', "m"}, {'н', "n"}, {'о', "o"}, {'п', "p"}, {'р', "r"},
+        {'с', "s"}, {'т', "t"}, {'у', "oo"}, {'ф', "f"}, {'х', "h"}, {'ц', "ts"},
+        {'ч', "ch"}, {'ш', "sh"}, {'щ', "sh"}, {'ъ', ""}, {'ы', "e"}, {'ь', ""},
+        {'э', "e"}, {'ю', "yu"}, {'я', "ya"}
+    };
+    
+    public string DefinitionFormat(VocabHeader Term)
+    {
+        if (Settings.Data.ShowTransliteration)
+        {
+            return "(" + Term.EN + " / " + Transliterate(Term.RU) + ")";
+        }else
+        {
+            return "(" + Term.EN + ")";
+        }
+    }
+    
+    public string Transliterate(string RU)
+    {
+        string output = "";
+        foreach (char Letter in RU.ToLower())
+        {
+            output += Map.TryGetValue(Letter, out string? Found) ? Found : Letter.ToString();
+        }
+
+        return CapitalizedCase(output);
+    }
+    
     public string CapitalizedCase(string input)
     {
         if (string.IsNullOrEmpty(input))

@@ -54,6 +54,13 @@ namespace Vetra
                 _EnableDarkTheme = value;
                 MarkDirty();
             }}}
+            
+        private bool _ShowTransliteration = true;
+        public bool ShowTransliteration { get => _ShowTransliteration; set{
+            if (_ShowTransliteration != value){
+                _ShowTransliteration = value;
+                MarkDirty();
+            }}}
         
         void MarkDirty()
         {

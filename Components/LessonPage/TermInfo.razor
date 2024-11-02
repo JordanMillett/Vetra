@@ -1,4 +1,6 @@
-<h5>(@Term.EN)</h5>
+@inject HelperService Helper
+
+<h5>@Helper.DefinitionFormat(Term)</h5>
 
 @if(Term.Category == "Noun")
 {
