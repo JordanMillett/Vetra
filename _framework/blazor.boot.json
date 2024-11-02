@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "Vetra",
   "resources": {
-    "hash": "sha256-rrILwNEWi++6A2qkz2oFPcDOldQ6CfSZdHUpDPQFPBM=",
+    "hash": "sha256-wGfsneobgUGbXbIqeyQG7hQJ3/10J/DJWR9wBoEHxcE=",
     "jsModuleNative": {
       "dotnet.native.8.0.4.6vlmefabfv.js": "sha256-ju0+XWE0ihz554eKEj0HQ8Opa61xpbUIaX5/MNo8we4="
     },
@@ -61,7 +61,7 @@
       "System.Text.RegularExpressions.wasm": "sha256-fMlsAIWI7ksZUt3cJQke29givVX1ABFxYllg74MQMQY=",
       "System.Threading.wasm": "sha256-WZ67IkKnMZXsZBKgPij/Wue9KklRaZeRmmjEHdtkPKo=",
       "System.wasm": "sha256-j40bDq1kzFWVIkWKSn7zhVhRD7pPJwcCQwpWvGrmz9A=",
-      "Vetra.wasm": "sha256-ZS9GJ+YXQdXGmzN/cJ0zjcea+9m6uHjnwEbM2am3Pqs="
+      "Vetra.wasm": "sha256-5PXVC76/TL9Zf8wb/7kd0fcwJ2ki299P7vA73qIuRMA="
     }
   },
   "cacheBootResources": true,
