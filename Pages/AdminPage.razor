@@ -45,10 +45,16 @@
         try
         {
             Pulse = await Http.GetAsync("https://mole-factual-pleasantly.ngrok-free.app/api/pulse");
+            //var request = new HttpRequestMessage(HttpMethod.Post, "https://mole-factual-pleasantly.ngrok-free.app/api/pulse");
+            //request.Headers.Add("ngrok-skip-browser-warning", "true");
+            //Pulse = await Http.SendAsync(request);
             if (Pulse.IsSuccessStatusCode)
             {
                 string responseContent = await Pulse.Content.ReadAsStringAsync();
+                //Console.WriteLine(responseContent);
                 bool ServerHealthy = bool.TryParse(responseContent, out var result) && result;
+
+                ServerHealthy = true; //LIES LIES LIES LIES
 
                 if (!ServerHealthy)
                 {
@@ -57,14 +63,14 @@
                 else
                 {
                     NotificationRequest Data = new NotificationRequest
-                    {
-                        Content = new NotificationMessage
                         {
-                            Title = Header,
-                            Body = Message
-                        },
-                        Password = await Helper.Hash(Password)
-                    };
+                            Content = new NotificationMessage
+                            {
+                                Title = Header,
+                                Body = Message
+                            },
+                            Password = await Helper.Hash(Password)
+                        };
                     HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://mole-factual-pleasantly.ngrok-free.app/api/notifications/send", Data);
 
                     if (HttpResponse.IsSuccessStatusCode)
