@@ -23,3 +23,8 @@ function setDarkTheme(useDark)
         root.removeAttribute("data-theme");
     }
 }
+
+function md5Hash(input)
+{
+    return SparkMD5.hash(input);
+}
