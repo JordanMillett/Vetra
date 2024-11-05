@@ -13,7 +13,6 @@ async function loadServiceWorker()
 function setupMessageListener(dotnetHelper) {
     navigator.serviceWorker.addEventListener('message', event => {
         const { title, body } = event.data;
-        // Call the Blazor function
         dotnetHelper.invokeMethodAsync('OnNotificationReceived', title, body)
     });
 }
@@ -51,7 +50,7 @@ async function initializePushNotifications()
 
             try {
                 // Send the subscription details to your server
-                const response = await fetch('http://localhost:5109/api/notifications/subscribe', {
+                const response = await fetch('https://mole-factual-pleasantly.ngrok-free.app/api/notifications/subscribe', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

@@ -44,7 +44,7 @@
         HttpResponseMessage Pulse;
         try
         {
-            Pulse = await Http.GetAsync("http://localhost:5109/api/pulse");
+            Pulse = await Http.GetAsync("https://mole-factual-pleasantly.ngrok-free.app/api/pulse");
             if (Pulse.IsSuccessStatusCode)
             {
                 string responseContent = await Pulse.Content.ReadAsStringAsync();
@@ -65,7 +65,7 @@
                         },
                         Password = await Helper.Hash(Password)
                     };
-                    HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("http://localhost:5109/api/notifications/send", Data);
+                    HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://mole-factual-pleasantly.ngrok-free.app/api/notifications/send", Data);
 
                     if (HttpResponse.IsSuccessStatusCode)
                     {
