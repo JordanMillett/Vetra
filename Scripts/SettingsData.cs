@@ -13,7 +13,14 @@ namespace Vetra
                 MarkDirty();
             }}}
             
-        private bool _HideNotifications = true;
+        private bool _AdminPageEnabled = false;
+        public bool AdminPageEnabled { get => _AdminPageEnabled; set{
+            if (_AdminPageEnabled != value){
+                _AdminPageEnabled = value;
+                MarkDirty();
+            }}}
+            
+        private bool _HideNotifications = false;
         public bool HideNotifications { get => _HideNotifications; set{
             if (_HideNotifications != value){
                 _HideNotifications = value;

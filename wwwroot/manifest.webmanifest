@@ -1,0 +1,22 @@
+{
+    "name": "Vetra",
+    "short_name": "Vetra",
+    "description": "Language Learning App",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#FFFFFF",
+    "theme_color": "#E4181C",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "images/icon_192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "images/icon_512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

@@ -1,0 +1,109 @@
+@page "/admin"
+@inject HttpClient Http
+@inject HelperService Helper
+
+<PageTitle>Vetra - Admin</PageTitle>
+
+<ConfirmDialog @ref="ResponsePopup" />
+
+<h1 class="text-center"><strong>Admin Page</strong></h1>
+<hr><br>
+
+<form @onsubmit="SendMessage">
+    <label>Title</label><input type="text" @bind=@Header /><br><br>
+    <label>Message</label><input type="text" @bind=@Message /><br><br>
+    <label>Server Password</label><input type="password" @bind=@Password /><br><br>
+    <button class="btn" type="submit">Send Message</button>
+</form>
+
+<style>
+    label
+    {
+    margin-right:10px;
+    }
+</style>
+
+@code 
+{
+    ConfirmDialog ResponsePopup = default!;
+    ConfirmDialogOptions Options = new ConfirmDialogOptions 
+    { 
+        YesButtonText = "Ok", 
+        NoButtonText = null!
+    };
+
+    public string Header = "";
+    public string Message = "";
+    public string Password = "";
+
+    async Task SendMessage()
+    {
+        string ResponseText = "";
+        string ResponseTextDetails = "";
+
+        HttpResponseMessage Pulse;
+        try
+        {
+            Pulse = await Http.GetAsync("http://localhost:5109/api/pulse");
+            if (Pulse.IsSuccessStatusCode)
+            {
+                string responseContent = await Pulse.Content.ReadAsStringAsync();
+                bool ServerHealthy = bool.TryParse(responseContent, out var result) && result;
+
+                if (!ServerHealthy)
+                {
+                    throw new Exception();
+                }
+                else
+                {
+                    NotificationRequest Data = new NotificationRequest
+                    {
+                        Content = new NotificationMessage
+                        {
+                            Title = Header,
+                            Body = Message
+                        },
+                        Password = await Helper.Hash(Password)
+                    };
+                    HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("http://localhost:5109/api/notifications/send", Data);
+
+                    if (HttpResponse.IsSuccessStatusCode)
+                    {
+                        ResponseText = "Notification Sent";
+                        ResponseTextDetails = "Your notification was sent successfully.";
+                    }
+                    else
+                    {
+                        ResponseText = "Notification Failed";
+                        ResponseTextDetails = "Incorrect password.";
+                    }
+                }
+            }
+        }
+        catch (HttpRequestException)
+        {
+            ResponseText = "Notification Failed";
+            ResponseTextDetails = "Server is dead.";
+        }
+
+        await ResponsePopup.ShowAsync
+        (
+            title: ResponseText,
+            message1: ResponseTextDetails,
+            confirmDialogOptions: Options
+        );
+    }
+
+    //SYNC
+    public class NotificationRequest
+    {
+        public required NotificationMessage Content { get; set; }
+        public required string Password { get; set; }
+    }
+
+    public class NotificationMessage
+    {
+        public required string Title { get; set; }
+        public required string Body { get; set; }
+    }
+}

@@ -73,7 +73,7 @@ namespace Vetra
                     Data.VocabProgression.RemoveAt(i);
                     Data.VocabStreak.RemoveAt(i);
                     
-                    Toast.Notify(new(BlazorBootstrap.ToastType.Info, "Term Removed: " + Term));
+                    //Toast.Notify(new(BlazorBootstrap.ToastType.Info, "Term Removed: " + Term));
                     
                     await SaveProfile();
                 }
@@ -109,7 +109,7 @@ namespace Vetra
         {
             await Local.SetItemAsync("profile", Data);
             //Console.WriteLine("Profile saved.");
-            Toast.Notify(new(BlazorBootstrap.ToastType.Info, "Profile Saved."));
+            //Toast.Notify(new(BlazorBootstrap.ToastType.Info, "Profile Saved."));
         }
     }
 }
