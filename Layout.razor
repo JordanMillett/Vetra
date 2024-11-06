@@ -13,7 +13,7 @@
         </article>
     </main>
 
-    @if (!Settings.Data.HideNotifications)
+    @if (Settings.Data.EnableNotifications)
     {
         <Toasts class="p-2" AutoHide="true" Delay="5000" Placement="ToastsPlacement.TopRight" />
     }

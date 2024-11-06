@@ -20,10 +20,19 @@ namespace Vetra
         public async Task LoadServiceWorker()
         {
             await Runtime.InvokeVoidAsync("loadServiceWorker");
-            await Runtime.InvokeVoidAsync("initializePushNotifications");
             
-            var dotNetReference = DotNetObjectReference.Create(this);
-            await Runtime.InvokeVoidAsync("setupMessageListener", dotNetReference);
+            if(Settings.Data.EnableNotifications)
+            {
+                Settings.Data.EnableNotifications = await Runtime.InvokeAsync<bool>("askForNotifications");
+            }
+            
+            if (await ServerAlive())
+            {
+                var dotNetReference = DotNetObjectReference.Create(this);
+                await Runtime.InvokeVoidAsync("setupMessageListener", dotNetReference);
+                
+                await Runtime.InvokeVoidAsync("updateNotificationStatus", Settings.Data.EnableNotifications);
+            }
         }
 
         [JSInvokable]
@@ -32,6 +41,11 @@ namespace Vetra
             Console.WriteLine($"Notification received: {title} - {body}");
             
             Toast.Notify(new(BlazorBootstrap.ToastType.Info, $"{title}: {body}"));
+        }
+        
+        public async Task<bool> ServerAlive()
+        {
+            return await Runtime.InvokeAsync<bool>("isServerOnline");
         }
     }
 }

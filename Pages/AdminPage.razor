@@ -1,6 +1,7 @@
 @page "/admin"
 @inject HttpClient Http
 @inject HelperService Helper
+@inject NotificationService Notifications
 
 <PageTitle>Vetra - Admin</PageTitle>
 
@@ -32,64 +33,51 @@
         NoButtonText = null!
     };
 
-    public string Header = "";
-    public string Message = "";
-    public string Password = "";
+    string Header = "";
+    string Message = "";
+    string Password = "";
+    string ResponseText = "";
+    string ResponseTextDetails = "";
 
     async Task SendMessage()
     {
-        string ResponseText = "";
-        string ResponseTextDetails = "";
-
-        HttpResponseMessage Pulse;
-        try
-        {
-            Pulse = await Http.GetAsync("https://mole-factual-pleasantly.ngrok-free.app/api/pulse");
-            //var request = new HttpRequestMessage(HttpMethod.Post, "https://mole-factual-pleasantly.ngrok-free.app/api/pulse");
-            //request.Headers.Add("ngrok-skip-browser-warning", "true");
-            //Pulse = await Http.SendAsync(request);
-            if (Pulse.IsSuccessStatusCode)
-            {
-                string responseContent = await Pulse.Content.ReadAsStringAsync();
-                //Console.WriteLine(responseContent);
-                bool ServerHealthy = bool.TryParse(responseContent, out var result) && result;
-
-                ServerHealthy = true; //LIES LIES LIES LIES
-
-                if (!ServerHealthy)
-                {
-                    throw new Exception();
-                }
-                else
-                {
-                    NotificationRequest Data = new NotificationRequest
-                        {
-                            Content = new NotificationMessage
-                            {
-                                Title = Header,
-                                Body = Message
-                            },
-                            Password = await Helper.Hash(Password)
-                        };
-                    HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://mole-factual-pleasantly.ngrok-free.app/api/notifications/send", Data);
-
-                    if (HttpResponse.IsSuccessStatusCode)
-                    {
-                        ResponseText = "Notification Sent";
-                        ResponseTextDetails = "Your notification was sent successfully.";
-                    }
-                    else
-                    {
-                        ResponseText = "Notification Failed";
-                        ResponseTextDetails = "Incorrect password.";
-                    }
-                }
-            }
-        }
-        catch (HttpRequestException)
+        if (!await Notifications.ServerAlive())
         {
             ResponseText = "Notification Failed";
-            ResponseTextDetails = "Server is dead.";
+            ResponseTextDetails = "Unable to connect to VetraHub";
+            Console.WriteLine("Unable to connect to VetraHub");
+            return;
+        }
+
+        try
+        {
+            NotificationRequest Data = new NotificationRequest
+                {
+                    Content = new NotificationMessage
+                    {
+                        Title = Header,
+                        Body = Message
+                    },
+                    Password = await Helper.Hash(Password)
+                };
+            HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://mole-factual-pleasantly.ngrok-free.app/api/notifications/send", Data);
+
+            if (HttpResponse.IsSuccessStatusCode)
+            {
+                ResponseText = "Notification Sent";
+                ResponseTextDetails = "Your notification was sent successfully.";
+            }
+            else
+            {
+                ResponseText = "Notification Failed";
+                ResponseTextDetails = "Incorrect password.";
+            }
+        }
+        catch
+        {
+            ResponseText = "Notification Failed";
+            ResponseTextDetails = "An error occured.";
+            Console.WriteLine("Error occured while sending message");
         }
 
         await ResponsePopup.ShowAsync
