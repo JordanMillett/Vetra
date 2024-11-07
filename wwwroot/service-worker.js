@@ -35,11 +35,7 @@ self.addEventListener('push', event => {
         url: 'https://jordanmillett.github.io/Vetra/',
         tag: 'vetra-alert',
         requireInteraction: false,
-        timestamp: Date.now(),
-        data:
-        {
-          url: 'https://jordanmillett.github.io/Vetra/',
-        }
+        timestamp: Date.now()
     };
     
     event.waitUntil(
@@ -60,9 +56,13 @@ self.addEventListener('push', event => {
 });
 
 // Handle notification click
-self.addEventListener('notificationclick', event => {
+self.addEventListener('notificationclick', event =>
+{
     event.notification.close();
+    
+    //const action = event.action;
+    
     event.waitUntil(
-        clients.openWindow('https://your-app-url.com') // Adjust this URL as needed
+        clients.openWindow(event.notification.url)
     );
 });
