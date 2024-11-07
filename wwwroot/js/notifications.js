@@ -1,13 +1,9 @@
 async function isServerOnline()
 {   
-    
     try
     {
         const response = await fetch("https://vetra.jordanmillett.net/api/pulse", {
-            method: 'GET',
-            headers: {
-                'ngrok-skip-browser-warning': 'true'
-            }
+            method: 'GET'
         });
         
         return response.ok;
@@ -18,7 +14,6 @@ async function isServerOnline()
         console.log("VetraHub is offline");
         return false;
     }
-    
 }
 
 async function loadServiceWorker()

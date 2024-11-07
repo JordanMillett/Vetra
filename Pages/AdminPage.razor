@@ -23,6 +23,7 @@
 <div class="buttons">
     <button class="btn" @onclick="ClearSubscribers">Clear Subscribers</button>
     <button class="btn" @onclick="ClearLogs">Clear Logs</button>
+    <button class="btn" @onclick="RestartServer">Restart Server</button>
     <button class="btn" @onclick="ShutdownServer">Shutdown Server</button>
 </div>
 
@@ -93,6 +94,12 @@
         if (!await Notifications.ServerAlive())
         {
             LogText = "Unable to connect to VetraHub";
+            await ResponsePopup.ShowAsync
+            (
+                title: ResponseText,
+                message1: ResponseTextDetails,
+                confirmDialogOptions: Options
+            );
             return;
         }
 
@@ -137,6 +144,12 @@
         {
             ResponseText = "Clearing Logs Failed";
             ResponseTextDetails = "Unable to connect to VetraHub";
+            await ResponsePopup.ShowAsync
+            (
+                title: ResponseText,
+                message1: ResponseTextDetails,
+                confirmDialogOptions: Options
+            );
             return;
         }
 
@@ -187,6 +200,12 @@
         {
             ResponseText = "Clearing Subscribers Failed";
             ResponseTextDetails = "Unable to connect to VetraHub";
+            await ResponsePopup.ShowAsync
+            (
+                title: ResponseText,
+                message1: ResponseTextDetails,
+                confirmDialogOptions: Options
+            );
             return;
         }
 
@@ -237,6 +256,12 @@
         {
             ResponseText = "Shutdown Failed";
             ResponseTextDetails = "Unable to connect to VetraHub";
+            await ResponsePopup.ShowAsync
+            (
+                title: ResponseText,
+                message1: ResponseTextDetails,
+                confirmDialogOptions: Options
+            );
             return;
         }
 
@@ -281,12 +306,74 @@
         );
     }
 
+    async Task RestartServer()
+    {
+        if (!await Notifications.ServerAlive())
+        {
+            ResponseText = "Restart Failed";
+            ResponseTextDetails = "Unable to connect to VetraHub";
+            await ResponsePopup.ShowAsync
+            (
+                title: ResponseText,
+                message1: ResponseTextDetails,
+                confirmDialogOptions: Options
+            );
+            return;
+        }
+
+        try
+        {
+            PasswordMessage Data = new PasswordMessage
+            {
+                Password = await Helper.Hash(Password)
+            };
+            HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://vetra.jordanmillett.net/api/restart", Data);
+
+            if (HttpResponse.IsSuccessStatusCode)
+            {
+                ResponseText = "Server Restarted";
+                ResponseTextDetails = "Server restarted successfully.";
+                Header = "";
+                Message = "";
+            }
+            else if (HttpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                ResponseText = "Server Restart Failed";
+                ResponseTextDetails = "Incorrect password. Please try again.";
+                Password = "";
+            }
+            else
+            {
+                ResponseText = "Server Restart Failed";
+                ResponseTextDetails = "A server error occured.";
+            }
+        }
+        catch
+        {
+            ResponseText = "Server Restart Failed";
+            ResponseTextDetails = "An client error occured.";
+        }
+
+        await ResponsePopup.ShowAsync
+        (
+            title: ResponseText,
+            message1: ResponseTextDetails,
+            confirmDialogOptions: Options
+        );
+    }
+
     async Task SendMessage()
     {
         if (!await Notifications.ServerAlive())
         {
             ResponseText = "Notification Failed";
             ResponseTextDetails = "Unable to connect to VetraHub";
+            await ResponsePopup.ShowAsync
+            (
+                title: ResponseText,
+                message1: ResponseTextDetails,
+                confirmDialogOptions: Options
+            );
             return;
         }
 
