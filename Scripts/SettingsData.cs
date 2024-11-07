@@ -20,10 +20,10 @@ namespace Vetra
                 MarkDirty();
             }}}
             
-        private bool _EnableNotifications = true;
-        public bool EnableNotifications { get => _EnableNotifications; set{
-            if (_EnableNotifications != value){
-                _EnableNotifications = value;
+        private bool _ShowNotifications = true;
+        public bool ShowNotifications { get => _ShowNotifications; set{
+            if (_ShowNotifications != value){
+                _ShowNotifications = value;
                 MarkDirty();
             }}}
             

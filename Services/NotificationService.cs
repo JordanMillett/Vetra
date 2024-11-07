@@ -21,17 +21,17 @@ namespace Vetra
         {
             await Runtime.InvokeVoidAsync("loadServiceWorker");
             
-            if(Settings.Data.EnableNotifications)
-            {
-                Settings.Data.EnableNotifications = await Runtime.InvokeAsync<bool>("askForNotifications");
-            }
+            var dotNetReference = DotNetObjectReference.Create(this);
+            await Runtime.InvokeVoidAsync("setupMessageListener", dotNetReference);
             
-            if (await ServerAlive())
+            bool Granted = await Runtime.InvokeAsync<bool>("askForNotifications");
+
+            if(!Granted)   //disable setting if push notifications are disabled
+                Settings.Data.ShowNotifications = false;
+            
+            if (await ServerAlive() && Granted)  //don't try to update subscription just ignore it
             {
-                var dotNetReference = DotNetObjectReference.Create(this);
-                await Runtime.InvokeVoidAsync("setupMessageListener", dotNetReference);
-                
-                await Runtime.InvokeVoidAsync("updateNotificationStatus", Settings.Data.EnableNotifications);
+                await Runtime.InvokeVoidAsync("updateNotificationStatus", Settings.Data.ShowNotifications);
             }
         }
 
