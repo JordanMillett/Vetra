@@ -103,7 +103,7 @@
                 Count = int.TryParse(LogCount, out int count) ? count : 1,
                 Password = await Helper.Hash(Password)
             };
-            HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://mole-factual-pleasantly.ngrok-free.app/api/logs", Data);
+            HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://vetra.jordanmillett.net/api/logs", Data);
 
             if (HttpResponse.IsSuccessStatusCode)
             {
@@ -146,7 +146,7 @@
                 {
                     Password = await Helper.Hash(Password)
                 };
-            HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://mole-factual-pleasantly.ngrok-free.app/api/clearlogs", Data);
+            HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://vetra.jordanmillett.net/api/clearlogs", Data);
 
             if (HttpResponse.IsSuccessStatusCode)
             {
@@ -196,7 +196,7 @@
             {
                 Password = await Helper.Hash(Password)
             };
-            HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://mole-factual-pleasantly.ngrok-free.app/api/clearsubscribers", Data);
+            HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://vetra.jordanmillett.net/api/clearsubscribers", Data);
 
             if (HttpResponse.IsSuccessStatusCode)
             {
@@ -246,7 +246,7 @@
             {
                 Password = await Helper.Hash(Password)
             };
-            HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://mole-factual-pleasantly.ngrok-free.app/api/shutdown", Data);
+            HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://vetra.jordanmillett.net/api/shutdown", Data);
 
             if (HttpResponse.IsSuccessStatusCode)
             {
@@ -308,7 +308,7 @@
                         },
                         Password = await Helper.Hash(Password)
                     };
-                HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://mole-factual-pleasantly.ngrok-free.app/api/notifications/send", Data);
+                HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://vetra.jordanmillett.net/api/notifications/send", Data);
 
                 if (HttpResponse.IsSuccessStatusCode)
                 {
