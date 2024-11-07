@@ -10,7 +10,7 @@ async function isServerOnline()
             }
         });
         
-        return response.status === 225;
+        return response.ok;
 
     } catch
     {
@@ -81,8 +81,6 @@ async function updateNotificationStatus(staySubscribed)
             p256dh: p256dhBase64,
             auth: authBase64
         };
-        
-        console.log(await isServerOnline());
         
         if (await isServerOnline())
         {
