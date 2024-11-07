@@ -21,7 +21,13 @@ self.addEventListener('push', event => {
     {
         body: data.Body,
         icon: '/images/icon_192.png',
-        badge: '/images/icon_96.png'
+        badge: '/images/icon_96.png',
+        data: {
+            url: 'https://jordanmillett.github.io/Vetra/'
+        },
+        tag: 'vetra-alert',
+        requireInteraction: false,
+        timestamp: Date.now(),
     };
     
     event.waitUntil(
