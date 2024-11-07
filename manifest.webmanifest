@@ -2,7 +2,7 @@
     "name": "Vetra",
     "short_name": "Vetra",
     "description": "Language Learning App",
-    "start_url": "/",
+    "start_url": "/Vetra/",
     "display": "standalone",
     "background_color": "#FFFFFF",
     "theme_color": "#E4181C",
