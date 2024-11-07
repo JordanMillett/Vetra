@@ -19,15 +19,27 @@ self.addEventListener('push', event => {
     
     const options =
     {
+        title: data.Title,
+        actions: [
+          {
+            action: 'launch',
+            url: 'https://jordanmillett.github.io/Vetra/',
+            title: 'Launch Vetra'
+          }
+        ],
         body: data.Body,
+        dir: 'auto',
         icon: '/images/icon_192.png',
         badge: '/images/icon_96.png',
-        data: {
-            url: 'https://jordanmillett.github.io/Vetra/'
-        },
+        lang: 'en',
+        url: 'https://jordanmillett.github.io/Vetra/',
         tag: 'vetra-alert',
         requireInteraction: false,
         timestamp: Date.now(),
+        data:
+        {
+          url: 'https://jordanmillett.github.io/Vetra/',
+        }
     };
     
     event.waitUntil(
