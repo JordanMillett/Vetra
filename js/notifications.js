@@ -3,7 +3,7 @@ async function isServerOnline()
     
     try
     {
-        const response = await fetch("https://mole-factual-pleasantly.ngrok-free.app/api/pulse", {
+        const response = await fetch("https://vetra.jordanmillett.net/api/pulse", {
             method: 'GET',
             headers: {
                 'ngrok-skip-browser-warning': 'true'
@@ -87,8 +87,8 @@ async function updateNotificationStatus(staySubscribed)
             try
             {
                 url = staySubscribed ?
-                    "https://mole-factual-pleasantly.ngrok-free.app/api/notifications/subscribe" :
-                    "https://mole-factual-pleasantly.ngrok-free.app/api/notifications/unsubscribe";
+                    "https://vetra.jordanmillett.net/api/notifications/subscribe" :
+                    "https://vetra.jordanmillett.net/api/notifications/unsubscribe";
                 
                 const response = await fetch(url, {
                     method: 'POST',
