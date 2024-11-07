@@ -23,7 +23,7 @@ self.addEventListener('push', event => {
         actions: [
           {
             action: 'launch',
-            url: 'https://jordanmillett.github.io/Vetra/',
+            url: 'https://jordanmillett.github.io/Vetra',
             title: 'Launch Vetra'
           }
         ],
@@ -32,7 +32,7 @@ self.addEventListener('push', event => {
         icon: '/images/icon_192.png',
         badge: '/images/icon_96.png',
         lang: 'en',
-        url: 'https://jordanmillett.github.io/Vetra/',
+        url: 'https://jordanmillett.github.io/Vetra',
         tag: 'vetra-alert',
         requireInteraction: false,
         timestamp: Date.now()
