@@ -2,6 +2,8 @@
 @inject HttpClient Http
 @inject HelperService Helper
 @inject NotificationService Notifications
+@using System.Text
+@using System.Text.Json;
 
 <PageTitle>Vetra - Admin</PageTitle>
 
@@ -10,17 +12,61 @@
 <h1 class="text-center"><strong>Admin Page</strong></h1>
 <hr><br>
 
+<div class="row text-center">
+    <div class="col-4"></div>
+    <div class="col-4">
+        <label>Server Password</label><input type="password" @bind=@Password /><br><br>
+    </div>
+    <div class="col-4"></div>
+</div>
+
+<div class="buttons">
+    <button class="btn" @onclick="ClearSubscribers">Clear Subscribers</button>
+    <button class="btn" @onclick="ClearLogs">Clear Logs</button>
+    <button class="btn" @onclick="ShutdownServer">Shutdown Server</button>
+</div>
+
+<br>
+
 <form @onsubmit="SendMessage">
     <label>Title</label><input type="text" @bind=@Header /><br><br>
     <label>Message</label><input type="text" @bind=@Message /><br><br>
-    <label>Server Password</label><input type="password" @bind=@Password /><br><br>
     <button class="btn" type="submit">Send Message</button>
 </form>
+
+<br>
+
+<div class="row">
+    <div class="col-12">
+        <form @onsubmit="GetLogs">
+            <label>Log Count</label><input type="number" @bind=@LogCount />
+            <button class="btn" type="submit">Get Logs</button>
+        </form>
+    </div>
+    <div class="col-12">
+        <textarea readonly @bind="LogText"></textarea>
+    </div>
+</div>
 
 <style>
     label
     {
     margin-right:10px;
+    }
+
+    textarea
+    {
+    resize: none;
+    min-width: 100%;
+    height: 500px;
+    }
+
+    .buttons
+    {
+    border-radius: 0.5rem; /*0.5rem for --bs-border-radius-lg */
+    border-style: solid;
+    border-color: var(--vetra-midtone);
+    border-width: 2px;
     }
 </style>
 
@@ -39,45 +85,92 @@
     string ResponseText = "";
     string ResponseTextDetails = "";
 
-    async Task SendMessage()
+    string LogCount = "";
+    string LogText = "";
+
+    async Task GetLogs()
     {
         if (!await Notifications.ServerAlive())
         {
-            ResponseText = "Notification Failed";
-            ResponseTextDetails = "Unable to connect to VetraHub";
-            Console.WriteLine("Unable to connect to VetraHub");
+            LogText = "Unable to connect to VetraHub";
             return;
         }
 
         try
         {
-            NotificationRequest Data = new NotificationRequest
-                {
-                    Content = new NotificationMessage
-                    {
-                        Title = Header,
-                        Body = Message
-                    },
-                    Password = await Helper.Hash(Password)
-                };
-            HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://mole-factual-pleasantly.ngrok-free.app/api/notifications/send", Data);
+            WebLogRequest Data = new WebLogRequest
+            {
+                Count = int.TryParse(LogCount, out int count) ? count : 1,
+                Password = await Helper.Hash(Password)
+            };
+            HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://mole-factual-pleasantly.ngrok-free.app/api/logs", Data);
 
             if (HttpResponse.IsSuccessStatusCode)
             {
-                ResponseText = "Notification Sent";
-                ResponseTextDetails = "Your notification was sent successfully.";
+                LogText = JsonSerializer.Serialize(
+                    JsonSerializer.Deserialize<JsonElement>(
+                        await HttpResponse.Content.ReadAsStringAsync()),
+                        new JsonSerializerOptions
+                        {
+                            WriteIndented = true
+                        });
+            }
+            else if (HttpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                LogText = "Incorrect password. Please try again.";
+                Password = "";
             }
             else
             {
-                ResponseText = "Notification Failed";
-                ResponseTextDetails = "Incorrect password.";
+                LogText = "A server error occured.";
             }
         }
         catch
         {
-            ResponseText = "Notification Failed";
-            ResponseTextDetails = "An error occured.";
-            Console.WriteLine("Error occured while sending message");
+            LogText = "An client error occured.";
+        }
+    }
+
+    async Task ClearLogs()
+    {
+        if (!await Notifications.ServerAlive())
+        {
+            ResponseText = "Clearing Logs Failed";
+            ResponseTextDetails = "Unable to connect to VetraHub";
+            return;
+        }
+
+        try
+        {
+            PasswordMessage Data = new PasswordMessage
+                {
+                    Password = await Helper.Hash(Password)
+                };
+            HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://mole-factual-pleasantly.ngrok-free.app/api/clearlogs", Data);
+
+            if (HttpResponse.IsSuccessStatusCode)
+            {
+                ResponseText = "Cleared Logs";
+                ResponseTextDetails = "Logs cleared successfully.";
+                Header = "";
+                Message = "";
+            }
+            else if (HttpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                ResponseText = "Clearing Logs Failed";
+                ResponseTextDetails = "Incorrect password. Please try again.";
+                Password = "";
+            }
+            else
+            {
+                ResponseText = "Clearing Logs Failed";
+                ResponseTextDetails = "A server error occured.";
+            }
+        }
+        catch
+        {
+            ResponseText = "Clearing Logs Failed";
+            ResponseTextDetails = "An client error occured.";
         }
 
         await ResponsePopup.ShowAsync
@@ -88,14 +181,189 @@
         );
     }
 
-    //SYNC
-    public class NotificationRequest
+    async Task ClearSubscribers()
     {
-        public required NotificationMessage Content { get; set; }
+        if (!await Notifications.ServerAlive())
+        {
+            ResponseText = "Clearing Subscribers Failed";
+            ResponseTextDetails = "Unable to connect to VetraHub";
+            return;
+        }
+
+        try
+        {
+            PasswordMessage Data = new PasswordMessage
+            {
+                Password = await Helper.Hash(Password)
+            };
+            HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://mole-factual-pleasantly.ngrok-free.app/api/clearsubscribers", Data);
+
+            if (HttpResponse.IsSuccessStatusCode)
+            {
+                ResponseText = "Cleared Subscribers";
+                ResponseTextDetails = "Subscribers cleared successfully.";
+                Header = "";
+                Message = "";
+            }
+            else if (HttpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                ResponseText = "Clearing Subscribers Failed";
+                ResponseTextDetails = "Incorrect password. Please try again.";
+                Password = "";
+            }
+            else
+            {
+                ResponseText = "Clearing Subscribers Failed";
+                ResponseTextDetails = "A server error occured.";
+            }
+        }
+        catch
+        {
+            ResponseText = "Clearing Subscribers Failed";
+            ResponseTextDetails = "An client error occured.";
+        }
+
+        await ResponsePopup.ShowAsync
+        (
+            title: ResponseText,
+            message1: ResponseTextDetails,
+            confirmDialogOptions: Options
+        );
+    }
+
+    async Task ShutdownServer()
+    {
+        if (!await Notifications.ServerAlive())
+        {
+            ResponseText = "Shutdown Failed";
+            ResponseTextDetails = "Unable to connect to VetraHub";
+            return;
+        }
+
+        try
+        {
+            PasswordMessage Data = new PasswordMessage
+            {
+                Password = await Helper.Hash(Password)
+            };
+            HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://mole-factual-pleasantly.ngrok-free.app/api/shutdown", Data);
+
+            if (HttpResponse.IsSuccessStatusCode)
+            {
+                ResponseText = "Server Shutdown";
+                ResponseTextDetails = "Server shut down successfully.";
+                Header = "";
+                Message = "";
+            }
+            else if (HttpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                ResponseText = "Server Shutdown Failed";
+                ResponseTextDetails = "Incorrect password. Please try again.";
+                Password = "";
+            }
+            else
+            {
+                ResponseText = "Server Shutdown Failed";
+                ResponseTextDetails = "A server error occured.";
+            }
+        }
+        catch
+        {
+            ResponseText = "Server Shutdown Failed";
+            ResponseTextDetails = "An client error occured.";
+        }
+
+        await ResponsePopup.ShowAsync
+        (
+            title: ResponseText,
+            message1: ResponseTextDetails,
+            confirmDialogOptions: Options
+        );
+    }
+
+    async Task SendMessage()
+    {
+        if (!await Notifications.ServerAlive())
+        {
+            ResponseText = "Notification Failed";
+            ResponseTextDetails = "Unable to connect to VetraHub";
+            return;
+        }
+
+        if (Header == "" || Message == "")
+        {
+            ResponseText = "Notification Failed";
+            ResponseTextDetails = "Missing header or message.";
+        }
+        else
+        {
+            try
+            {
+                WebNotificationRequest Data = new WebNotificationRequest
+                    {
+                        Content = new WebNotificationMessage
+                        {
+                            Title = Header,
+                            Body = Message
+                        },
+                        Password = await Helper.Hash(Password)
+                    };
+                HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://mole-factual-pleasantly.ngrok-free.app/api/notifications/send", Data);
+
+                if (HttpResponse.IsSuccessStatusCode)
+                {
+                    ResponseText = "Notification Sent";
+                    ResponseTextDetails = "Your notification was sent successfully.";
+                    Header = "";
+                    Message = "";
+                }
+                else if (HttpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                {
+                    ResponseText = "Notification Failed";
+                    ResponseTextDetails = "Incorrect password. Please try again.";
+                    Password = "";
+                }
+                else
+                {
+                    ResponseText = "Notification Failed";
+                    ResponseTextDetails = "A server error occured.";
+                }
+            }
+            catch
+            {
+                ResponseText = "Notification Failed";
+                ResponseTextDetails = "An client error occured.";
+            }
+        }
+
+        await ResponsePopup.ShowAsync
+        (
+            title: ResponseText,
+            message1: ResponseTextDetails,
+            confirmDialogOptions: Options
+        );
+    }
+
+    
+    //SYNC ACROSS VETRA
+    public class PasswordMessage
+    {
         public required string Password { get; set; }
     }
 
-    public class NotificationMessage
+    public class WebLogRequest
+    {
+        public required int Count { get; set; }
+        public required string Password { get; set; }
+    }
+
+    public class WebNotificationRequest
+    {
+        public required WebNotificationMessage Content { get; set; }
+        public required string Password { get; set; }
+    }
+
+    public class WebNotificationMessage
     {
         public required string Title { get; set; }
         public required string Body { get; set; }
