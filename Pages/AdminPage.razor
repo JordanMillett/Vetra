@@ -29,11 +29,24 @@
 
 <br>
 
-<form @onsubmit="SendMessage">
-    <label>Title</label><input type="text" @bind=@Header /><br><br>
-    <label>Message</label><input type="text" @bind=@Message /><br><br>
-    <button class="btn" type="submit">Send Message</button>
-</form>
+
+<div class="row">
+    <div class="col-md-6 col-12">
+        <form @onsubmit="SendMessage">
+            <label>Title</label><input type="text" @bind=@Header /><br><br>
+            <label>Message</label><input type="text" @bind=@Message /><br><br>
+            <button class="btn" type="submit">Send Message</button>
+        </form>
+    </div>
+    <div class="col-md-6 col-12">
+        <form @onsubmit="SetLimit">
+            <label>Subscriber Limit</label><input type="number" @bind=@SubLimit /><br><br>
+            <button class="btn" type="submit">Set Limit</button>
+        </form>
+    </div>
+</div>
+
+
 
 <br>
 
@@ -89,17 +102,13 @@
     string LogCount = "";
     string LogText = "";
 
+    string SubLimit = "";
+
     async Task GetLogs()
     {
         if (!await Notifications.ServerAlive())
         {
             LogText = "Unable to connect to VetraHub";
-            await ResponsePopup.ShowAsync
-            (
-                title: ResponseText,
-                message1: ResponseTextDetails,
-                confirmDialogOptions: Options
-            );
             return;
         }
 
@@ -118,9 +127,9 @@
                     JsonSerializer.Deserialize<JsonElement>(
                         await HttpResponse.Content.ReadAsStringAsync()),
                         new JsonSerializerOptions
-                        {
-                            WriteIndented = true
-                        });
+                            {
+                                WriteIndented = true
+                            });
             }
             else if (HttpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
@@ -156,9 +165,9 @@
         try
         {
             PasswordMessage Data = new PasswordMessage
-                {
-                    Password = await Helper.Hash(Password)
-                };
+            {
+                Password = await Helper.Hash(Password)
+            };
             HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://vetra.jordanmillett.net/api/clearlogs", Data);
 
             if (HttpResponse.IsSuccessStatusCode)
@@ -194,6 +203,63 @@
         );
     }
 
+    async Task SetLimit()
+    {
+        if (!await Notifications.ServerAlive())
+        {
+            ResponseText = "Failed to Set Limit";
+            ResponseTextDetails = "Unable to connect to VetraHub";
+            await ResponsePopup.ShowAsync
+            (
+                title: ResponseText,
+                message1: ResponseTextDetails,
+                confirmDialogOptions: Options
+            );
+            return;
+        }
+
+        try
+        {
+            SubscriberLimitMessage Data = new SubscriberLimitMessage
+            {
+                Limit = int.TryParse(SubLimit, out int limit) ? limit : -1,
+                Password = await Helper.Hash(Password)
+            };
+            HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://vetra.jordanmillett.net/api/setlimit", Data);
+
+            if (HttpResponse.IsSuccessStatusCode)
+            {
+                ResponseText = "Limit Set";
+                ResponseTextDetails = "Limit set successfully.";
+                Header = "";
+                Message = "";
+            }
+            else if (HttpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                ResponseText = "Failed to Set Limit";
+                ResponseTextDetails = "Incorrect password. Please try again.";
+                Password = "";
+            }
+            else
+            {
+                ResponseText = "Failed to Set Limit";
+                ResponseTextDetails = "A server error occured.";
+            }
+        }
+        catch
+        {
+            ResponseText = "Failed to Set Limit";
+            ResponseTextDetails = "An client error occured.";
+        }
+
+        await ResponsePopup.ShowAsync
+        (
+            title: ResponseText,
+            message1: ResponseTextDetails,
+            confirmDialogOptions: Options
+        );
+    }
+
     async Task ClearSubscribers()
     {
         if (!await Notifications.ServerAlive())
@@ -212,9 +278,9 @@
         try
         {
             PasswordMessage Data = new PasswordMessage
-            {
-                Password = await Helper.Hash(Password)
-            };
+                {
+                    Password = await Helper.Hash(Password)
+                };
             HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://vetra.jordanmillett.net/api/clearsubscribers", Data);
 
             if (HttpResponse.IsSuccessStatusCode)
@@ -435,6 +501,12 @@
     //SYNC ACROSS VETRA
     public class PasswordMessage
     {
+        public required string Password { get; set; }
+    }
+    
+    public class SubscriberLimitMessage
+    {
+        public required int Limit { get; set; }
         public required string Password { get; set; }
     }
 
