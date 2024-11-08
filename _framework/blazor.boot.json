@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "Vetra",
   "resources": {
-    "hash": "sha256-5ucNK81fMyhv34SIZYbAhurHi9fIOOEm8AwFDlnp6pM=",
+    "hash": "sha256-htetCqY4U0dVfuk3C74RYeSa9YfTFMMFo1xWHGjxXrs=",
     "jsModuleNative": {
       "dotnet.native.8.0.4.6vlmefabfv.js": "sha256-ju0+XWE0ihz554eKEj0HQ8Opa61xpbUIaX5/MNo8we4="
     },
@@ -52,7 +52,7 @@
       "System.Net.Http.wasm": "sha256-hmm4nfzLl2GGJzVq8Tu3C2/WQzgN0DZeAwuUWlh7zoA=",
       "System.Net.Primitives.wasm": "sha256-1eFE+qs2Ap6yTGNdu+B9W2n+SQSmTUD2aIyvxtxjz/E=",
       "System.ObjectModel.wasm": "sha256-uUpEQ7jAx2APKacqr3fA+7f9/0XfLv898uYPFBcAOCA=",
-      "System.Private.CoreLib.wasm": "sha256-Az8pxytxNtJVb12JNZPS2Xi2Cl4rDzcfu2Ynrc1N3t8=",
+      "System.Private.CoreLib.wasm": "sha256-gy2r5jZSLEnp7UW4CJvn+rY+/SN1mB44k2VgvniqjMo=",
       "System.Private.Uri.wasm": "sha256-deAv1BrLO+BgyDKJABktWRTOoWRhjQgL7DM/CjGhsbA=",
       "System.Runtime.InteropServices.JavaScript.wasm": "sha256-zTqW/61ZfgAcTG0N0MqjMcLniUHSDydfBTR0rX+ec5Y=",
       "System.Runtime.Serialization.Primitives.wasm": "sha256-9xQJRAtnaxEabbnavcrOZnJXgDmW6FEqs+XaVtgxgoo=",
@@ -62,7 +62,7 @@
       "System.Text.RegularExpressions.wasm": "sha256-fMlsAIWI7ksZUt3cJQke29givVX1ABFxYllg74MQMQY=",
       "System.Threading.wasm": "sha256-WZ67IkKnMZXsZBKgPij/Wue9KklRaZeRmmjEHdtkPKo=",
       "System.wasm": "sha256-j40bDq1kzFWVIkWKSn7zhVhRD7pPJwcCQwpWvGrmz9A=",
-      "Vetra.wasm": "sha256-UMCOi6owUtGprdSdTk7Ewo0UsGNiTfLhvnnkmzr+dN4="
+      "Vetra.wasm": "sha256-LlcWtPqlipGnXbHHGjsmPEyPURnNxG46QQJ+pWbgRUI="
     }
   },
   "cacheBootResources": true,
