@@ -93,10 +93,12 @@ async function updateNotificationStatus(staySubscribed)
                     body: JSON.stringify(payload)
                 });
         
-                if (response.ok) {
-                    console.log('Subscription update successful:', await response.json());
-                } else {
-                    console.error('Subscription update failed with status:', response.status, await response.text());
+                if (response.ok)
+                {
+                    console.log('Subscription update successful');
+                } else
+                {
+                    console.error('Subscription update failed with status: ', response.status);
                 }
             } catch (error)
             {
