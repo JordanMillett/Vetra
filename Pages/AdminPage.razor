@@ -2,6 +2,7 @@
 @inject HttpClient Http
 @inject HelperService Helper
 @inject NotificationService Notifications
+@inject IJSRuntime Runtime
 @using System.Text
 @using System.Text.Json;
 
@@ -11,6 +12,11 @@
 
 <h1 class="text-center"><strong>Admin Page</strong></h1>
 <hr><br>
+
+@if(DeviceEndpoint != "")
+{
+    <h4 class="text-center">@DeviceEndpoint</h4>
+}
 
 <div class="row text-center">
     <div class="col-4"></div>
@@ -104,6 +110,15 @@
 
     string SubLimit = "";
 
+    string DeviceEndpoint = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        DeviceEndpoint = await Runtime.InvokeAsync<string>("getEndpoint");
+        if(DeviceEndpoint != "")
+            DeviceEndpoint = DeviceEndpoint[^10..];
+    }
+
     async Task GetLogs()
     {
         if (!await Notifications.ServerAlive())
@@ -115,10 +130,10 @@
         try
         {
             WebLogRequest Data = new WebLogRequest
-            {
-                Count = int.TryParse(LogCount, out int count) ? count : 1,
-                Password = await Helper.Hash(Password)
-            };
+                {
+                    Count = int.TryParse(LogCount, out int count) ? count : 1,
+                    Password = await Helper.Hash(Password)
+                };
             HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://vetra.jordanmillett.net/api/logs", Data);
 
             if (HttpResponse.IsSuccessStatusCode)

@@ -60,10 +60,15 @@ async function updateNotificationStatus(staySubscribed)
     {
         const registration = await navigator.serviceWorker.register('service-worker.js');
 
-        const subscription = await registration.pushManager.subscribe({
-            userVisibleOnly: true,
-            applicationServerKey: 'BBIS4Xi3mCa3vxm7ymp5TWVgYhlTEMgf7vr1cn1eMsz3akiJ1WLIvA538FyJN4tTtBqKrTmu0t6McyZ6ISnY_qQ' // replace with your actual VAPID public key
-        });
+        let subscription = await registration.pushManager.getSubscription();
+
+        if (!subscription)
+        {
+            const subscription = await registration.pushManager.subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: 'BBIS4Xi3mCa3vxm7ymp5TWVgYhlTEMgf7vr1cn1eMsz3akiJ1WLIvA538FyJN4tTtBqKrTmu0t6McyZ6ISnY_qQ'
+            });
+        }
         
         const p256dh = subscription.getKey('p256dh');
         const auth = subscription.getKey('auth');
@@ -106,4 +111,23 @@ async function updateNotificationStatus(staySubscribed)
             }
         }
     }
+}
+
+async function getEndpoint()
+{
+    if ('serviceWorker' in navigator && 'PushManager' in window)
+    {
+        const registration = await navigator.serviceWorker.register('service-worker.js');
+        
+        let subscription = await registration.pushManager.getSubscription();
+        
+        if (!subscription)
+            return "";
+        
+        const endpoint = subscription.endpoint;
+
+        return endpoint.toString();
+    }
+
+    return "";
 }
