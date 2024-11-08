@@ -145,6 +145,14 @@
                             {
                                 WriteIndented = true
                             });
+                            
+                LogText = string.Join(Environment.NewLine, LogText
+                    .Split(Environment.NewLine)
+                    .Where(line => !line.Trim().StartsWith("{") &&
+                       !line.Trim().StartsWith("}") &&
+                       !line.Trim().StartsWith("[") && 
+                       !line.Trim().StartsWith("]")) 
+                    .Select(line => line.Trim()));
             }
             else if (HttpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
