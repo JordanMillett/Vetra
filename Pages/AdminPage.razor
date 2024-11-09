@@ -76,6 +76,7 @@
 
     textarea
     {
+    font-family: monospace;
     resize: none;
     min-width: 100%;
     height: 500px;
@@ -138,21 +139,22 @@
 
             if (HttpResponse.IsSuccessStatusCode)
             {
-                LogText = JsonSerializer.Serialize(
-                    JsonSerializer.Deserialize<JsonElement>(
-                        await HttpResponse.Content.ReadAsStringAsync()),
-                        new JsonSerializerOptions
-                            {
-                                WriteIndented = true
-                            });
-                            
-                LogText = string.Join(Environment.NewLine, LogText
-                    .Split(Environment.NewLine)
-                    .Where(line => !line.Trim().StartsWith("{") &&
-                       !line.Trim().StartsWith("}") &&
-                       !line.Trim().StartsWith("[") && 
-                       !line.Trim().StartsWith("]")) 
-                    .Select(line => line.Trim()));
+                List<DataNotificationLog>? DownloadedLogs = await HttpResponse.Content.ReadFromJsonAsync<List<DataNotificationLog>>();
+
+                LogText = "";
+
+                if (DownloadedLogs != null)
+                {
+                    foreach (DataNotificationLog Log in DownloadedLogs)
+                    {
+                        string localTimeFormatted = Log.Timestamp.ToLocalTime().ToString("HH:mm:ss:fff");
+                        LogText += $"[{localTimeFormatted}]\t#{Log.Id}\t{Log.Message}\n";
+                    }
+                }
+                else
+                {
+                    LogText = "No logs to download";
+                }
             }
             else if (HttpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
@@ -549,5 +551,12 @@
     {
         public required string Title { get; set; }
         public required string Body { get; set; }
+    }
+    
+    public class DataNotificationLog
+    {
+        public required int Id { get; set; }
+        public required string Message { get; set; }
+        public required DateTime Timestamp { get; set; }
     }
 }
