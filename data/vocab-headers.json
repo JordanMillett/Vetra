@@ -319,93 +319,103 @@
         "EN": "Monday",
         "Category": "Noun",
         "Gender": "Masculine",
-        "Icon": "Crescent Moon"
+        "Icon": "Regional Indicator M"
     },
     "Вторник": {
         "RU": "Вторник",
         "EN": "Tuesday",
         "Category": "Noun",
-        "Gender": "Male Sign"
+        "Gender": "Masculine",
+        "Icon": "Regional Indicator T"
     },
     "Среда": {
         "RU": "Среда",
         "EN": "Wednesday",
         "Category": "Noun",
-        "Gender": "Feminine"
+        "Gender": "Feminine",
+        "Icon": "Regional Indicator W"
     },
     "Четверг": {
         "RU": "Четверг",
         "EN": "Thursday",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Regional Indicator T"
     },
     "Пятница": {
         "RU": "Пятница",
         "EN": "Friday",
         "Category": "Noun",
-        "Gender": "Feminine"
+        "Gender": "Feminine",
+        "Icon": "Regional Indicator F"
     },
     "Суббота": {
         "RU": "Суббота",
         "EN": "Saturday",
         "Category": "Noun",
-        "Gender": "Feminine"
+        "Gender": "Feminine",
+        "Icon": "Regional Indicator S"
     },
     "Воскресенье": {
         "RU": "Воскресенье",
         "EN": "Sunday",
         "Category": "Noun",
-        "Gender": "Neuter"
+        "Gender": "Neuter",
+        "Icon": "Regional Indicator S"
     },
     "Первый": {
         "RU": "Первый",
         "EN": "First",
-        "Category": "Adjective"
+        "Category": "Adjective",
+        "IconBW": "One Square"
     },
     "Второй": {
         "RU": "Второй",
         "EN": "Second",
-        "Category": "Adjective"
+        "Category": "Adjective",
+        "IconBW": "Two Square"
     },
     "Третий": {
         "RU": "Третий",
         "EN": "Third",
-        "Category": "Adjective"
+        "Category": "Adjective",
+        "IconBW": "Three Square"
     },
     "Четвертый": {
         "RU": "Четвертый",
         "EN": "Fourth",
-        "Category": "Adjective"
+        "Category": "Adjective",
+        "IconBW": "Four Square"
     },
     "Пятый": {
         "RU": "Пятый",
         "EN": "Fifth",
-        "Category": "Adjective"
+        "Category": "Adjective",
+        "IconBW": "Five Square"
     },
     "Шестой": {
         "RU": "Шестой",
         "EN": "Sixth",
-        "Category": "Adjective"
+        "Category": "Adjective",
+        "IconBW": "Six Square"
     },
     "Седьмой": {
         "RU": "Седьмой",
         "EN": "Seventh",
-        "Category": "Adjective"
+        "Category": "Adjective",
+        "IconBW": "Seven Square"
     },
     "Восьмой": {
         "RU": "Восьмой",
         "EN": "Eighth",
-        "Category": "Adjective"
+        "Category": "Adjective",
+        "IconBW": "Eight Square"
     },
     "Девятый": {
         "RU": "Девятый",
         "EN": "Ninth",
-        "Category": "Adjective"
-    },
-    "Десятый": {
-        "RU": "Десятый",
-        "EN": "Tenth",
-        "Category": "Adjective"
+        "Category": "Adjective",
+        "IconBW": "Nine Square"
     },
     "Январь": {
         "RU": "Январь",
@@ -495,50 +505,58 @@
         "RU": "Самолет",
         "EN": "Airplane",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Airplane"
     },
     "Автобус": {
         "RU": "Автобус",
         "EN": "Bus",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Bus"
     },
     "Такси": {
         "RU": "Такси",
         "EN": "Taxi",
         "Category": "Noun",
         "Gender": "Neuter",
-        "Special": "Indeclinable"
+        "Special": "Indeclinable",
+        "Icon": "Taxi"
     },
     "Велосипед": {
         "RU": "Велосипед",
         "EN": "Bicycle",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Bicycle"
     },
     "Машина": {
         "RU": "Машина",
         "EN": "Car",
         "Category": "Noun",
-        "Gender": "Feminine"
+        "Gender": "Feminine",
+        "Icon": "Automobile"
     },
     "Мотоцикл": {
         "RU": "Мотоцикл",
         "EN": "Motorcycle",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Motorcycle"
     },
     "Грузовик": {
         "RU": "Грузовик",
         "EN": "Truck",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Articulated Lorry"
     },
     "Трамвай": {
         "RU": "Трамвай",
         "EN": "Tram",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Tram Car"
     },
     "Бульвар": {
         "RU": "Бульвар",
@@ -550,13 +568,15 @@
         "RU": "Город",
         "EN": "City",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Cityscape"
     },
     "Дом": {
         "RU": "Дом",
         "EN": "House",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "House"
     },
     "Дорога": {
         "RU": "Дорога",
@@ -568,13 +588,15 @@
         "RU": "Деревня",
         "EN": "Village",
         "Category": "Noun",
-        "Gender": "Feminine"
+        "Gender": "Feminine",
+        "Icon": "Town"
     },
     "Квартира": {
         "RU": "Квартира",
         "EN": "Apartment",
         "Category": "Noun",
-        "Gender": "Feminine"
+        "Gender": "Feminine",
+        "Icon": "Office Building"
     },
     "Проспект": {
         "RU": "Проспект",
@@ -598,234 +620,273 @@
         "RU": "Бухгалтер",
         "EN": "Accountant",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Office Worker"
     },
     "Актер": {
         "RU": "Актер",
         "EN": "Actor",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Person In Tuxedo"
     },
     "Артист": {
         "RU": "Артист",
         "EN": "Artist",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Artist"
     },
     "Архитектор": {
         "RU": "Архитектор",
         "EN": "Architect",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Technologist"
     },
     "Повар": {
         "RU": "Повар",
         "EN": "Cook",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Cook"
     },
     "Врач": {
         "RU": "Врач",
         "EN": "Doctor",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Male Doctor"
     },
     "Инженер": {
         "RU": "Инженер",
         "EN": "Engineer",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Factory Worker"
     },
     "Менеджер": {
         "RU": "Менеджер",
         "EN": "Manager",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Man Office Worker"
     },
     "Официант": {
         "RU": "Официант",
         "EN": "Waiter",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Woman In Tuxedo"
     },
     "Учитель": {
         "RU": "Учитель",
         "EN": "Teacher",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Teacher"
     },
     "Родитель": {
         "RU": "Родитель",
         "EN": "Parent",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Man Bald"
     },
     "Мать": {
         "RU": "Мать",
         "EN": "Mother",
         "Category": "Noun",
-        "Gender": "Feminine"
+        "Gender": "Feminine",
+        "Icon": "Woman"
     },
     "Отец": {
         "RU": "Отец",
         "EN": "Father",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Man"
     },
     "Ребенок": {
         "RU": "Ребенок",
         "EN": "Child",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Child"
     },
     "Дочь": {
         "RU": "Дочь",
         "EN": "Daughter",
         "Category": "Noun",
-        "Gender": "Feminine"
+        "Gender": "Feminine",
+        "Icon": "Girl"
     },
     "Сын": {
         "RU": "Сын",
         "EN": "Son",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Boy"
     },
     "Брат": {
         "RU": "Брат",
         "EN": "Brother",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Man Red Hair"
     },
     "Сестра": {
         "RU": "Сестра",
         "EN": "Sister",
         "Category": "Noun",
-        "Gender": "Feminine"
+        "Gender": "Feminine",
+        "Icon": "Woman Red Hair"
     },
     "Бабушка": {
         "RU": "Бабушка",
         "EN": "Grandmother",
         "Category": "Noun",
-        "Gender": "Feminine"
+        "Gender": "Feminine",
+        "Icon": "Old Woman"
     },
     "Дедушка": {
         "RU": "Дедушка",
         "EN": "Grandfather",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Old Man"
     },
     "Тетя": {
         "RU": "Тетя",
         "EN": "Aunt",
         "Category": "Noun",
-        "Gender": "Feminine"
+        "Gender": "Feminine",
+        "Icon": "Woman White Hair"
     },
     "Дядя": {
         "RU": "Дядя",
         "EN": "Uncle",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Man White Hair"
     },
     "Жена": {
         "RU": "Жена",
         "EN": "Wife",
         "Category": "Noun",
-        "Gender": "Feminine"
+        "Gender": "Feminine",
+        "Icon": "Woman With Veil"
     },
     "Муж": {
         "RU": "Муж",
         "EN": "Husband",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Man In Tuxedo"
     },
     "Бейсбол": {
         "RU": "Бейсбол",
         "EN": "Baseball",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Baseball"
     },
     "Баскетбол": {
         "RU": "Баскетбол",
         "EN": "Basketball",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Basketball"
     },
     "Бокс": {
         "RU": "Бокс",
         "EN": "Boxing",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Boxing Glove"
     },
     "Футбол": {
         "RU": "Футбол",
         "EN": "Soccer",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Soccer Ball"
     },
     "Теннис": {
         "RU": "Теннис",
         "EN": "Tennis",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Tennis"
     },
     "Йога": {
         "RU": "Йога",
         "EN": "Yoga",
         "Category": "Noun",
-        "Gender": "Feminine"
+        "Gender": "Feminine",
+        "Icon": "Martial Arts Uniform"
     },
     "Гольф": {
         "RU": "Гольф",
         "EN": "Golf",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Flag In Hole"
     },
     "Хоккей": {
         "RU": "Хоккей",
         "EN": "Hockey",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Ice Skate"
     },
     "Волейбол": {
         "RU": "Волейбол",
         "EN": "Volleyball",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Volleyball"
     },
     "Животное": {
         "RU": "Животное",
         "EN": "Animal",
         "Category": "Noun",
-        "Gender": "Neuter"
+        "Gender": "Neuter",
+        "Icon": "Monkey Face"
     },
     "Цветок": {
         "RU": "Цветок",
         "EN": "Flower",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Blossom"
     },
     "Растение": {
         "RU": "Растение",
         "EN": "Plant",
         "Category": "Noun",
-        "Gender": "Neuter"
+        "Gender": "Neuter",
+        "Icon": "Herb"
     },
     "Дерево": {
         "RU": "Дерево",
         "EN": "Tree",
         "Category": "Noun",
-        "Gender": "Neuter"
+        "Gender": "Neuter",
+        "Icon": "Evergreen Tree"
     },
     "Гора": {
         "RU": "Гора",
         "EN": "Mountain",
         "Category": "Noun",
-        "Gender": "Feminine"
+        "Gender": "Feminine",
+        "Icon": "Mountain"
     },
     "Лес": {
         "RU": "Лес",
         "EN": "Forest",
         "Category": "Noun",
-        "Gender": "Masculine"
+        "Gender": "Masculine",
+        "Icon": "Camping"
     }
 }
