@@ -27,6 +27,7 @@
 </div>
 
 <div class="buttons">
+    <button class="btn" @onclick="SetAlertDevice">Set Alert Device</button>
     <button class="btn" @onclick="ClearSubscribers">Clear Subscribers</button>
     <button class="btn" @onclick="ClearLogs">Clear Logs</button>
     <button class="btn" @onclick="RestartServer">Restart Server</button>
@@ -65,6 +66,7 @@
     </div>
     <div class="col-12">
         <textarea readonly @bind="LogText"></textarea>
+    using System.Net;
     </div>
 </div>
 
@@ -118,6 +120,63 @@
         DeviceEndpoint = await Runtime.InvokeAsync<string>("getEndpoint");
         if(DeviceEndpoint != "")
             DeviceEndpoint = DeviceEndpoint[^10..];
+    }
+
+    async Task SetAlertDevice()
+    {
+        if (!await Notifications.ServerAlive())
+        {
+            ResponseText = "Setting Alert Device Failed";
+            ResponseTextDetails = "Unable to connect to VetraHub";
+            await ResponsePopup.ShowAsync
+            (
+                title: ResponseText,
+                message1: ResponseTextDetails,
+                confirmDialogOptions: Options
+            );
+            return;
+        }
+
+        try
+        {
+            AlertDeviceMessage Data = new AlertDeviceMessage
+            {
+                Endpoint = await Runtime.InvokeAsync<string>("getEndpoint"),
+                Password = await Helper.Hash(Password)
+            };
+            HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://vetra.jordanmillett.net/api/setalertdevice", Data);
+
+            if (HttpResponse.IsSuccessStatusCode)
+            {
+                ResponseText = "Alert Device Set";
+                ResponseTextDetails = "This device has been made the alert device.";
+                Header = "";
+                Message = "";
+            }
+            else if (HttpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                ResponseText = "Setting Alert Device Failed";
+                ResponseTextDetails = "Incorrect password. Please try again.";
+                Password = "";
+            }
+            else
+            {
+                ResponseText = "Setting Alert Device Failed";
+                ResponseTextDetails = "A server error occured.";
+            }
+        }
+        catch
+        {
+            ResponseText = "Setting Alert Device Failed";
+            ResponseTextDetails = "An client error occured.";
+        }
+
+        await ResponsePopup.ShowAsync
+        (
+            title: ResponseText,
+            message1: ResponseTextDetails,
+            confirmDialogOptions: Options
+        );
     }
 
     async Task GetLogs()
@@ -522,13 +581,19 @@
         );
     }
 
-    
+
     //SYNC ACROSS VETRA
+    public class AlertDeviceMessage
+    {
+        public required string Endpoint { get; set; }
+        public required string Password { get; set; }
+    }
+
     public class PasswordMessage
     {
         public required string Password { get; set; }
     }
-    
+
     public class SubscriberLimitMessage
     {
         public required int Limit { get; set; }
