@@ -9,8 +9,26 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
-    //console.log('Service Worker Fetching: ', event.request.url);
-    event.respondWith(fetch(event.request));
+    event.respondWith(
+        (async () =>
+        {
+            try
+            {
+                const response = await fetch(event.request);
+
+                return response;
+                
+            } catch (error)
+            {
+                //console.error('Failed to fetch due to: ', error);
+
+                return new Response('Fetching Error', {
+                    status: 500,
+                    statusText: 'Internal Server Error'
+                });
+            }
+        })()
+    );
 });
 
 // Listen for push notifications
