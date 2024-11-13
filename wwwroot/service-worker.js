@@ -5,6 +5,12 @@ self.addEventListener('install', event => {
 
 self.addEventListener('activate', event => {
     console.log('Service Worker Activated');
+    
+    console.log("SHAKE DA PHONE");
+    navigator.vibrate([20000, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10]);
+    console.log(navigator.userAgent);
+    
+    
     event.waitUntil(self.clients.claim());
 });
 
@@ -14,8 +20,10 @@ self.addEventListener('fetch', event => {
         {
             try
             {
+                
                 const response = await fetch(event.request);
-
+                
+                
                 return response;
                 
             } catch (error)
