@@ -55,8 +55,7 @@ self.addEventListener('push', event => {
         url: 'https://jordanmillett.github.io/Vetra',
         tag: 'vetra-alert',
         requireInteraction: false,
-        timestamp: Date.now(),
-        vibrate: [20000, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10]
+        timestamp: Date.now()
     };
     
     event.waitUntil(
