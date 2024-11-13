@@ -5,12 +5,6 @@ self.addEventListener('install', event => {
 
 self.addEventListener('activate', event => {
     console.log('Service Worker Activated');
-    
-    console.log("SHAKE DA PHONE");
-    navigator.vibrate([20000, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10]);
-    console.log(navigator.userAgent);
-    
-    
     event.waitUntil(self.clients.claim());
 });
 
@@ -61,7 +55,8 @@ self.addEventListener('push', event => {
         url: 'https://jordanmillett.github.io/Vetra',
         tag: 'vetra-alert',
         requireInteraction: false,
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        vibrate: [20000, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10]
     };
     
     event.waitUntil(
