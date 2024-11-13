@@ -11,6 +11,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
+    - name: Download Datatypes.cs from VetraHub repository
+      run: |
+        mkdir -p ../VetraHub
+        curl -L https://raw.githubusercontent.com/JordanMillett/VetraHub/main/Datatypes.cs -o ../VetraHub/Datatypes.cs
+    
     - name: Setup .NET Core SDK
       uses: actions/setup-dotnet@v1
       with:
