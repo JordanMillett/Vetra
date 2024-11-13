@@ -4,7 +4,8 @@
 @inject NotificationService Notifications
 @inject IJSRuntime Runtime
 @using System.Text
-@using System.Text.Json;
+@using System.Text.Json
+@using VetraHub
 
 <PageTitle>Vetra - Admin</PageTitle>
 
@@ -27,46 +28,42 @@
 </div>
 
 <div class="buttons">
-    <button class="btn" @onclick="SetAlertDevice">Set Alert Device</button>
-    <button class="btn" @onclick="ClearSubscribers">Clear Subscribers</button>
-    <button class="btn" @onclick="ClearLogs">Clear Logs</button>
-    <button class="btn" @onclick="RestartServer">Restart Server</button>
-    <button class="btn" @onclick="ShutdownServer">Shutdown Server</button>
+    <button class="btn" @onclick="() => SendRequest(Requests.SetAlertDevice)">Set Alert Device</button>
+    <button class="btn" @onclick="() => SendRequest(Requests.ClearSubscribers)">Clear Subscribers</button>
+    <button class="btn" @onclick="() => SendRequest(Requests.ClearLogs)">Clear Logs</button>
+    <button class="btn" @onclick="() => SendRequest(Requests.RestartServer)">Restart Server</button>
+    <button class="btn" @onclick="() => SendRequest(Requests.ShutdownServer)">Shutdown Server</button>
 </div>
 
 <br>
 
-
 <div class="row">
     <div class="col-md-6 col-12">
-        <form @onsubmit="SendMessage">
-            <label>Title</label><input type="text" @bind=@Header /><br><br>
-            <label>Message</label><input type="text" @bind=@Message /><br><br>
+        <form @onsubmit="() => SendRequest(Requests.SendMessage)">
+            <label>Notification Title</label><input type="text" @bind=@NotificationTitle /><br><br>
+            <label>Notification Body</label><input type="text" @bind=@NotificationBody /><br><br>
             <button class="btn" type="submit">Send Message</button>
         </form>
     </div>
     <div class="col-md-6 col-12">
-        <form @onsubmit="SetLimit">
-            <label>Subscriber Limit</label><input type="number" @bind=@SubLimit /><br><br>
+        <form @onsubmit="() => SendRequest(Requests.SetLimit)">
+            <label>Subscriber Limit</label><input type="number" @bind=@SubCount /><br><br>
             <button class="btn" type="submit">Set Limit</button>
         </form>
     </div>
 </div>
 
-
-
 <br>
 
 <div class="row">
     <div class="col-12">
-        <form @onsubmit="GetLogs">
+        <form @onsubmit="() => SendRequest(Requests.GetLogs)">
             <label>Log Count</label><input type="number" @bind=@LogCount />
             <button class="btn" type="submit">Get Logs</button>
         </form>
     </div>
     <div class="col-12">
-        <textarea readonly @bind="LogText"></textarea>
-    using System.Net;
+        <textarea readonly @bind="LogBody"></textarea>
     </div>
 </div>
 
@@ -102,16 +99,16 @@
         NoButtonText = null!
     };
 
-    string Header = "";
-    string Message = "";
+    string NotificationTitle = "";
+    string NotificationBody = "";
     string Password = "";
-    string ResponseText = "";
-    string ResponseTextDetails = "";
+    string ResponseTitle = "";
+    string ResponseBody = "";
 
     string LogCount = "";
-    string LogText = "";
+    string LogBody = "";
 
-    string SubLimit = "";
+    string SubCount = "";
 
     string DeviceEndpoint = "";
 
@@ -122,506 +119,225 @@
             DeviceEndpoint = DeviceEndpoint[^10..];
     }
 
-    async Task SetAlertDevice()
+    class Request()
     {
-        if (!await Notifications.ServerAlive())
-        {
-            ResponseText = "Setting Alert Device Failed";
-            ResponseTextDetails = "Unable to connect to VetraHub";
-            await ResponsePopup.ShowAsync
-            (
-                title: ResponseText,
-                message1: ResponseTextDetails,
-                confirmDialogOptions: Options
-            );
-            return;
-        }
+        public required string URL = "";
+        public required string OkTitle = "";
+        public required string FailTitle = "";
+        public required string OkBody = "";
+    };
 
-        try
+    enum Requests
+    {
+        SetAlertDevice,
+        ClearLogs,
+        ClearSubscribers,
+        RestartServer,
+        ShutdownServer,
+        SendMessage,
+        SetLimit,
+        GetLogs
+    };
+
+    Request GetRequestInfo(Requests Chosen)
+    {
+        switch (Chosen)
         {
-            AlertDeviceMessage Data = new AlertDeviceMessage
+            case Requests.SetAlertDevice: return new Request()
             {
-                Endpoint = await Runtime.InvokeAsync<string>("getEndpoint"),
-                Password = await Helper.Hash(Password)
+                URL = "setalertdevice",
+                OkTitle = "Alert Device Set",
+                FailTitle = "Failed to Set Alert Device",
+                OkBody = "This device has been made the alert device."
             };
-            HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://vetra.jordanmillett.net/api/setalertdevice", Data);
-
-            if (HttpResponse.IsSuccessStatusCode)
+            case Requests.ClearLogs: return new Request()
             {
-                ResponseText = "Alert Device Set";
-                ResponseTextDetails = "This device has been made the alert device.";
-                Header = "";
-                Message = "";
-            }
-            else if (HttpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-            {
-                ResponseText = "Setting Alert Device Failed";
-                ResponseTextDetails = "Incorrect password. Please try again.";
-                Password = "";
-            }
-            else
-            {
-                ResponseText = "Setting Alert Device Failed";
-                ResponseTextDetails = "A server error occured.";
-            }
-        }
-        catch
-        {
-            ResponseText = "Setting Alert Device Failed";
-            ResponseTextDetails = "An client error occured.";
-        }
-
-        await ResponsePopup.ShowAsync
-        (
-            title: ResponseText,
-            message1: ResponseTextDetails,
-            confirmDialogOptions: Options
-        );
-    }
-
-    async Task GetLogs()
-    {
-        if (!await Notifications.ServerAlive())
-        {
-            LogText = "Unable to connect to VetraHub";
-            return;
-        }
-
-        try
-        {
-            WebLogRequest Data = new WebLogRequest
-                {
-                    Count = int.TryParse(LogCount, out int count) ? count : 1,
-                    Password = await Helper.Hash(Password)
-                };
-            HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://vetra.jordanmillett.net/api/logs", Data);
-
-            if (HttpResponse.IsSuccessStatusCode)
-            {
-                List<DataNotificationLog>? DownloadedLogs = await HttpResponse.Content.ReadFromJsonAsync<List<DataNotificationLog>>();
-
-                LogText = "";
-
-                if (DownloadedLogs != null)
-                {
-                    foreach (DataNotificationLog Log in DownloadedLogs)
-                    {
-                        string localTimeFormatted = Log.Timestamp.ToLocalTime().ToString("HH:mm:ss:fff");
-                        LogText += $"[{localTimeFormatted}]\t#{Log.Id}\t{Log.Message}\n";
-                    }
-                }
-                else
-                {
-                    LogText = "No logs to download";
-                }
-            }
-            else if (HttpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-            {
-                LogText = "Incorrect password. Please try again.";
-                Password = "";
-            }
-            else
-            {
-                LogText = "A server error occured.";
-            }
-        }
-        catch
-        {
-            LogText = "An client error occured.";
-        }
-    }
-
-    async Task ClearLogs()
-    {
-        if (!await Notifications.ServerAlive())
-        {
-            ResponseText = "Clearing Logs Failed";
-            ResponseTextDetails = "Unable to connect to VetraHub";
-            await ResponsePopup.ShowAsync
-            (
-                title: ResponseText,
-                message1: ResponseTextDetails,
-                confirmDialogOptions: Options
-            );
-            return;
-        }
-
-        try
-        {
-            PasswordMessage Data = new PasswordMessage
-            {
-                Password = await Helper.Hash(Password)
+                URL = "clearlogs",
+                OkTitle = "Cleared Logs",
+                FailTitle = "Failed to Clear Logs",
+                OkBody = "Logs cleared successfully."
             };
-            HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://vetra.jordanmillett.net/api/clearlogs", Data);
-
-            if (HttpResponse.IsSuccessStatusCode)
+            case Requests.ClearSubscribers: return new Request()
             {
-                ResponseText = "Cleared Logs";
-                ResponseTextDetails = "Logs cleared successfully.";
-                Header = "";
-                Message = "";
-            }
-            else if (HttpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-            {
-                ResponseText = "Clearing Logs Failed";
-                ResponseTextDetails = "Incorrect password. Please try again.";
-                Password = "";
-            }
-            else
-            {
-                ResponseText = "Clearing Logs Failed";
-                ResponseTextDetails = "A server error occured.";
-            }
-        }
-        catch
-        {
-            ResponseText = "Clearing Logs Failed";
-            ResponseTextDetails = "An client error occured.";
-        }
-
-        await ResponsePopup.ShowAsync
-        (
-            title: ResponseText,
-            message1: ResponseTextDetails,
-            confirmDialogOptions: Options
-        );
-    }
-
-    async Task SetLimit()
-    {
-        if (!await Notifications.ServerAlive())
-        {
-            ResponseText = "Failed to Set Limit";
-            ResponseTextDetails = "Unable to connect to VetraHub";
-            await ResponsePopup.ShowAsync
-            (
-                title: ResponseText,
-                message1: ResponseTextDetails,
-                confirmDialogOptions: Options
-            );
-            return;
-        }
-
-        try
-        {
-            SubscriberLimitMessage Data = new SubscriberLimitMessage
-            {
-                Limit = int.TryParse(SubLimit, out int limit) ? limit : -1,
-                Password = await Helper.Hash(Password)
+                URL = "clearsubscribers",
+                OkTitle = "Cleared Subscribers",
+                FailTitle = "Failed to Clear Logs",
+                OkBody = "Cleared subscribers successfully."
             };
-            HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://vetra.jordanmillett.net/api/setlimit", Data);
-
-            if (HttpResponse.IsSuccessStatusCode)
+            case Requests.RestartServer: return new Request()
             {
-                ResponseText = "Limit Set";
-                ResponseTextDetails = "Limit set successfully.";
-                Header = "";
-                Message = "";
-            }
-            else if (HttpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-            {
-                ResponseText = "Failed to Set Limit";
-                ResponseTextDetails = "Incorrect password. Please try again.";
-                Password = "";
-            }
-            else
-            {
-                ResponseText = "Failed to Set Limit";
-                ResponseTextDetails = "A server error occured.";
-            }
-        }
-        catch
-        {
-            ResponseText = "Failed to Set Limit";
-            ResponseTextDetails = "An client error occured.";
-        }
-
-        await ResponsePopup.ShowAsync
-        (
-            title: ResponseText,
-            message1: ResponseTextDetails,
-            confirmDialogOptions: Options
-        );
-    }
-
-    async Task ClearSubscribers()
-    {
-        if (!await Notifications.ServerAlive())
-        {
-            ResponseText = "Clearing Subscribers Failed";
-            ResponseTextDetails = "Unable to connect to VetraHub";
-            await ResponsePopup.ShowAsync
-            (
-                title: ResponseText,
-                message1: ResponseTextDetails,
-                confirmDialogOptions: Options
-            );
-            return;
-        }
-
-        try
-        {
-            PasswordMessage Data = new PasswordMessage
-                {
-                    Password = await Helper.Hash(Password)
-                };
-            HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://vetra.jordanmillett.net/api/clearsubscribers", Data);
-
-            if (HttpResponse.IsSuccessStatusCode)
-            {
-                ResponseText = "Cleared Subscribers";
-                ResponseTextDetails = "Subscribers cleared successfully.";
-                Header = "";
-                Message = "";
-            }
-            else if (HttpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-            {
-                ResponseText = "Clearing Subscribers Failed";
-                ResponseTextDetails = "Incorrect password. Please try again.";
-                Password = "";
-            }
-            else
-            {
-                ResponseText = "Clearing Subscribers Failed";
-                ResponseTextDetails = "A server error occured.";
-            }
-        }
-        catch
-        {
-            ResponseText = "Clearing Subscribers Failed";
-            ResponseTextDetails = "An client error occured.";
-        }
-
-        await ResponsePopup.ShowAsync
-        (
-            title: ResponseText,
-            message1: ResponseTextDetails,
-            confirmDialogOptions: Options
-        );
-    }
-
-    async Task ShutdownServer()
-    {
-        if (!await Notifications.ServerAlive())
-        {
-            ResponseText = "Shutdown Failed";
-            ResponseTextDetails = "Unable to connect to VetraHub";
-            await ResponsePopup.ShowAsync
-            (
-                title: ResponseText,
-                message1: ResponseTextDetails,
-                confirmDialogOptions: Options
-            );
-            return;
-        }
-
-        try
-        {
-            PasswordMessage Data = new PasswordMessage
-            {
-                Password = await Helper.Hash(Password)
+                URL = "restart",
+                OkTitle = "Server Restarting",
+                FailTitle = "Failed to Restart Server",
+                OkBody = "Server restarting..."
             };
-            HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://vetra.jordanmillett.net/api/shutdown", Data);
-
-            if (HttpResponse.IsSuccessStatusCode)
+            case Requests.ShutdownServer: return new Request()
             {
-                ResponseText = "Server Shutdown";
-                ResponseTextDetails = "Server shut down successfully.";
-                Header = "";
-                Message = "";
-            }
-            else if (HttpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-            {
-                ResponseText = "Server Shutdown Failed";
-                ResponseTextDetails = "Incorrect password. Please try again.";
-                Password = "";
-            }
-            else
-            {
-                ResponseText = "Server Shutdown Failed";
-                ResponseTextDetails = "A server error occured.";
-            }
-        }
-        catch
-        {
-            ResponseText = "Server Shutdown Failed";
-            ResponseTextDetails = "An client error occured.";
-        }
-
-        await ResponsePopup.ShowAsync
-        (
-            title: ResponseText,
-            message1: ResponseTextDetails,
-            confirmDialogOptions: Options
-        );
-    }
-
-    async Task RestartServer()
-    {
-        if (!await Notifications.ServerAlive())
-        {
-            ResponseText = "Restart Failed";
-            ResponseTextDetails = "Unable to connect to VetraHub";
-            await ResponsePopup.ShowAsync
-            (
-                title: ResponseText,
-                message1: ResponseTextDetails,
-                confirmDialogOptions: Options
-            );
-            return;
-        }
-
-        try
-        {
-            PasswordMessage Data = new PasswordMessage
-            {
-                Password = await Helper.Hash(Password)
+                URL = "shutdown",
+                OkTitle = "Server Shutting Down",
+                FailTitle = "Failed to Shut Down Server",
+                OkBody = "Server shutting down..."               
             };
-            HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://vetra.jordanmillett.net/api/restart", Data);
-
-            if (HttpResponse.IsSuccessStatusCode)
+            case Requests.SendMessage: return new Request()
             {
-                ResponseText = "Server Restarted";
-                ResponseTextDetails = "Server restarted successfully.";
-                Header = "";
-                Message = "";
-            }
-            else if (HttpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                URL = "notifications/send",
+                OkTitle = "Notification Sent",
+                FailTitle = "Failed to Send Notification",
+                OkBody = "Your notification was sent successfully."
+            };
+            case Requests.SetLimit: return new Request()
             {
-                ResponseText = "Server Restart Failed";
-                ResponseTextDetails = "Incorrect password. Please try again.";
-                Password = "";
-            }
-            else
+                URL = "setlimit",
+                OkTitle = "Subscriber Limit Set",
+                FailTitle = "Failed to Set Subscriber Limit",
+                OkBody = "Subscriber limit set successfully."
+            };
+            case Requests.GetLogs: return new Request()
             {
-                ResponseText = "Server Restart Failed";
-                ResponseTextDetails = "A server error occured.";
-            }
+                URL = "logs",
+                OkTitle = "Logs Retrieved",
+                FailTitle = "Failed to Retrieve Logs",
+                OkBody = "Server logs listed below."
+            };
         }
-        catch
+
+        return new Request()
         {
-            ResponseText = "Server Restart Failed";
-            ResponseTextDetails = "An client error occured.";
-        }
-
-        await ResponsePopup.ShowAsync
-        (
-            title: ResponseText,
-            message1: ResponseTextDetails,
-            confirmDialogOptions: Options
-        );
+            URL = "",
+            OkTitle = "",
+            FailTitle = "",
+            OkBody = ""
+        };
     }
 
-    async Task SendMessage()
+    async Task SendRequest(Requests Chosen)
     {
+        Request RequestInfo = GetRequestInfo(Chosen);
+
         if (!await Notifications.ServerAlive())
         {
-            ResponseText = "Notification Failed";
-            ResponseTextDetails = "Unable to connect to VetraHub";
+            ResponseTitle = RequestInfo.FailTitle;
+            ResponseBody = "Unable to connect to VetraHub";
             await ResponsePopup.ShowAsync
             (
-                title: ResponseText,
-                message1: ResponseTextDetails,
+                title: ResponseTitle,
+                message1: ResponseBody,
                 confirmDialogOptions: Options
             );
             return;
         }
 
-        if (Header == "" || Message == "")
+        if (Chosen == Requests.SendMessage && (NotificationTitle == "" || NotificationBody == ""))
         {
-            ResponseText = "Notification Failed";
-            ResponseTextDetails = "Missing header or message.";
+            ResponseTitle = RequestInfo.FailTitle;
+            ResponseBody = "Missing header or message.";
+        }else if(Chosen == Requests.SetLimit && SubCount == "")
+        {
+            ResponseTitle = RequestInfo.FailTitle;
+            ResponseBody = "Missing subscriber limit.";
         }
         else
         {
             try
             {
-                WebNotificationRequest Data = new WebNotificationRequest
-                    {
-                        Content = new WebNotificationMessage
+                object? Data = null;
+
+                switch (Chosen)
+                {
+                    case Requests.SetAlertDevice:
+                        Data = new AlertDeviceMessage
                         {
-                            Title = Header,
-                            Body = Message
-                        },
-                        Password = await Helper.Hash(Password)
-                    };
-                HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://vetra.jordanmillett.net/api/notifications/send", Data);
+                            Endpoint = await Runtime.InvokeAsync<string>("getEndpoint"),
+                            Password = await Helper.Hash(Password)
+                        };
+                    break;
+                    case Requests.SendMessage:
+                        Data = new WebNotificationRequest
+                        {
+                            Content = new WebNotificationMessage
+                            {
+                                Title = NotificationTitle,
+                                Body = NotificationBody
+                            },
+                            Password = await Helper.Hash(Password)
+                        };
+                    break;
+                    case Requests.SetLimit:
+                        Data = new SubscriberLimitMessage
+                        {
+                            Limit = int.TryParse(SubCount, out int limit) ? limit : -1,
+                            Password = await Helper.Hash(Password)
+                        };
+                    break;
+                    case Requests.GetLogs:
+                        Data = new WebLogRequest
+                        {
+                            Count = int.TryParse(LogCount, out int count) ? count : 1,
+                            Password = await Helper.Hash(Password)
+                        };
+                    break;
+                    default:
+                        Data = new PasswordMessage
+                        {
+                            Password = await Helper.Hash(Password)
+                        };
+                    break;
+                }
+
+                HttpResponseMessage HttpResponse = await Http.PostAsJsonAsync("https://vetra.jordanmillett.net/api/" + RequestInfo.URL, Data);
 
                 if (HttpResponse.IsSuccessStatusCode)
                 {
-                    ResponseText = "Notification Sent";
-                    ResponseTextDetails = "Your notification was sent successfully.";
-                    Header = "";
-                    Message = "";
+                    if(Chosen == Requests.GetLogs)
+                    {
+                        List<DataNotificationLog>? DownloadedLogs = await HttpResponse.Content.ReadFromJsonAsync<List<DataNotificationLog>>();
+                        LogBody = "";
+
+                        if (DownloadedLogs != null)
+                        {
+                            foreach (DataNotificationLog Log in DownloadedLogs)
+                            {
+                                string localTimeFormatted = Log.Timestamp.ToLocalTime().ToString("HH:mm:ss:fff");
+                                LogBody += $"[{localTimeFormatted}]\t#{Log.Id}\t{Log.Message}\n";
+                            }
+                        }
+                        else
+                        {
+                            LogBody = "No logs to download";
+                        }
+                        
+                        
+                    }
+                    
+                    ResponseTitle = RequestInfo.OkTitle;
+                    ResponseBody = RequestInfo.OkBody;
+                    NotificationTitle = "";
+                    NotificationBody = "";
                 }
                 else if (HttpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
-                    ResponseText = "Notification Failed";
-                    ResponseTextDetails = "Incorrect password. Please try again.";
+                    ResponseTitle = RequestInfo.FailTitle;
+                    ResponseBody = "Incorrect password. Please try again.";
                     Password = "";
                 }
                 else
                 {
-                    ResponseText = "Notification Failed";
-                    ResponseTextDetails = "A server error occured.";
+                    ResponseTitle = RequestInfo.FailTitle;
+                    ResponseBody = "A server error occured.";
                 }
             }
             catch
             {
-                ResponseText = "Notification Failed";
-                ResponseTextDetails = "An client error occured.";
+                ResponseTitle = RequestInfo.FailTitle;
+                ResponseBody = "An client error occured.";
             }
         }
 
         await ResponsePopup.ShowAsync
         (
-            title: ResponseText,
-            message1: ResponseTextDetails,
+            title: ResponseTitle,
+            message1: ResponseBody,
             confirmDialogOptions: Options
         );
-    }
-
-
-    //SYNC ACROSS VETRA
-    public class AlertDeviceMessage
-    {
-        public required string Endpoint { get; set; }
-        public required string Password { get; set; }
-    }
-
-    public class PasswordMessage
-    {
-        public required string Password { get; set; }
-    }
-
-    public class SubscriberLimitMessage
-    {
-        public required int Limit { get; set; }
-        public required string Password { get; set; }
-    }
-
-    public class WebLogRequest
-    {
-        public required int Count { get; set; }
-        public required string Password { get; set; }
-    }
-
-    public class WebNotificationRequest
-    {
-        public required WebNotificationMessage Content { get; set; }
-        public required string Password { get; set; }
-    }
-
-    public class WebNotificationMessage
-    {
-        public required string Title { get; set; }
-        public required string Body { get; set; }
-    }
-    
-    public class DataNotificationLog
-    {
-        public required int Id { get; set; }
-        public required string Message { get; set; }
-        public required DateTime Timestamp { get; set; }
     }
 }
