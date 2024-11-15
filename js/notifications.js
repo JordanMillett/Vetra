@@ -57,8 +57,6 @@ async function logTraffic()
                 }
             }
             
-            console.log(JSON.stringify(trafficMessage));
-            
             const response = await fetch("https://vetra.jordanmillett.net/api/traffic", { 
                 method: 'POST',
                 headers: {
@@ -67,16 +65,9 @@ async function logTraffic()
                 body: JSON.stringify(trafficMessage),
             });
     
-            if (response.ok)
-            {
-                console.log('Traffic data sent successfully');
-            } else
-            {
-                console.error('Failed to send traffic data', response.statusText);
-            }
-        } catch (error)
+        } catch
         {
-            console.error('Error collecting or sending traffic data:', error);
+
         }
         
     }
