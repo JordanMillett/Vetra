@@ -31,6 +31,7 @@
     <button class="btn" @onclick="() => SendRequest(Requests.SetAlertDevice)">Set Alert Device</button>
     <button class="btn" @onclick="() => SendRequest(Requests.ClearSubscribers)">Clear Subscribers</button>
     <button class="btn" @onclick="() => SendRequest(Requests.ClearLogs)">Clear Logs</button>
+    <button class="btn" @onclick="() => SendRequest(Requests.ClearTraffic)">Clear Traffic</button>
     <button class="btn" @onclick="() => SendRequest(Requests.RestartServer)">Restart Server</button>
     <button class="btn" @onclick="() => SendRequest(Requests.ShutdownServer)">Shutdown Server</button>
 </div>
@@ -64,6 +65,18 @@
     </div>
     <div class="col-12">
         <textarea readonly @bind="LogBody"></textarea>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <form @onsubmit="() => SendRequest(Requests.GetTraffic)">
+            <label>Traffic Count</label><input type="number" @bind=@TrafficCount />
+            <button class="btn" type="submit">Get Traffic</button>
+        </form>
+    </div>
+    <div class="col-12">
+        <textarea readonly @bind="TrafficBody"></textarea>
     </div>
 </div>
 
@@ -107,6 +120,9 @@
 
     string LogCount = "";
     string LogBody = "";
+    
+    string TrafficCount = "";
+    string TrafficBody = "";
 
     string SubCount = "";
 
@@ -136,7 +152,9 @@
         ShutdownServer,
         SendMessage,
         SetLimit,
-        GetLogs
+        GetLogs,
+        GetTraffic,
+        ClearTraffic
     };
 
     Request GetRequestInfo(Requests Chosen)
@@ -198,6 +216,20 @@
                 OkTitle = "Logs Retrieved",
                 FailTitle = "Failed to Retrieve Logs",
                 OkBody = "Server logs listed below."
+            };
+            case Requests.ClearTraffic: return new Request()
+            {
+                URL = "cleartraffic",
+                OkTitle = "Cleared Traffic",
+                FailTitle = "Failed to Clear Traffic",
+                OkBody = "Cleared traffic successfully."
+            };
+            case Requests.GetTraffic: return new Request()
+            {
+                URL = "gettraffic",
+                OkTitle = "Traffic Retrieved",
+                FailTitle = "Failed to Retrieve Traffic",
+                OkBody = "Traffic logs listed below."
             };
         }
 
@@ -276,6 +308,13 @@
                             Password = await Helper.Hash(Password)
                         };
                     break;
+                    case Requests.GetTraffic:
+                        Data = new WebLogRequest
+                        {
+                            Count = int.TryParse(TrafficCount, out int amount) ? amount : 1,
+                            Password = await Helper.Hash(Password)
+                        };
+                    break;
                     default:
                         Data = new PasswordMessage
                         {
@@ -305,8 +344,26 @@
                         {
                             LogBody = "No logs to download";
                         }
-                        
-                        
+                    }
+                    
+                    if(Chosen == Requests.GetTraffic)
+                    {
+                        List<DataTraffic>? DownloadedLogs = await HttpResponse.Content.ReadFromJsonAsync<List<DataTraffic>>();
+                        TrafficBody = "";
+
+                        if (DownloadedLogs != null)
+                        {
+                            foreach (DataTraffic Traffic in DownloadedLogs)
+                            {
+                                TrafficBody += $"{Traffic.Address} {Traffic.Name} {Traffic.Version} {Traffic.Layout} " +
+                                $"{Traffic.Manufacturer} {Traffic.Product} {Traffic.Description} {Traffic.System} " +
+                                $"{Traffic.Timezone} {Traffic.Language}\n\n";
+                            }
+                        }
+                        else
+                        {
+                            TrafficBody = "No traffic to download";
+                        }
                     }
                     
                     ResponseTitle = RequestInfo.OkTitle;
