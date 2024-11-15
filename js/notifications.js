@@ -16,6 +16,72 @@ async function isServerOnline()
     }
 }
 
+async function logTraffic()
+{
+    if (await isServerOnline())
+    {
+        try
+        {
+            var trafficMessage;
+            
+            if (typeof navigator.userAgentData === 'undefined')
+            {
+                var info = platform.parse(navigator.userAgent);
+                
+                trafficMessage =
+                {
+                    name: info.name || "",
+                    version: info.version || "",
+                    product: info.product || "",
+                    manufacturer: info.manufacturer || "",
+                    layout: info.layout || "",
+                    system: `${info.os.architecture || ""} ${info.os.family || ""} ${info.os.version || ""}`,
+                    description: info.description || "",
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || "",
+                    language: navigator.language || "",
+                }
+                
+            } else
+            {
+                trafficMessage =
+                {
+                    name: platform.name || "",
+                    version: platform.version || "",
+                    product: platform.product || "",
+                    manufacturer: platform.manufacturer || "",
+                    layout: platform.layout || "",
+                    system:  `${platform.os.architecture || ""} ${platform.os.family || ""} ${platform.os.version || ""}`,
+                    description: platform.description || "",
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || "",
+                    language: navigator.language || "",   
+                }
+            }
+            
+            console.log(JSON.stringify(trafficMessage));
+            
+            const response = await fetch("https://vetra.jordanmillett.net/api/traffic", { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(trafficMessage),
+            });
+    
+            if (response.ok)
+            {
+                console.log('Traffic data sent successfully');
+            } else
+            {
+                console.error('Failed to send traffic data', response.statusText);
+            }
+        } catch (error)
+        {
+            console.error('Error collecting or sending traffic data:', error);
+        }
+        
+    }
+}
+
 async function loadServiceWorker()
 {
     if ('serviceWorker' in navigator)
