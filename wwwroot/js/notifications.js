@@ -24,37 +24,13 @@ async function logTraffic()
         {
             var trafficMessage;
             
-            if (typeof navigator.userAgentData === 'undefined')
-            {
-                var info = platform.parse(navigator.userAgent);
+            var info = platform.parse(navigator.userAgent);
                 
-                trafficMessage =
-                {
-                    name: info.name || "",
-                    version: info.version || "",
-                    product: info.product || "",
-                    manufacturer: info.manufacturer || "",
-                    layout: info.layout || "",
-                    system: `${info.os.architecture || ""} ${info.os.family || ""} ${info.os.version || ""}`,
-                    description: info.description || "",
-                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || "",
-                    language: navigator.language || "",
-                }
-                
-            } else
+            trafficMessage =
             {
-                trafficMessage =
-                {
-                    name: platform.name || "",
-                    version: platform.version || "",
-                    product: platform.product || "",
-                    manufacturer: platform.manufacturer || "",
-                    layout: platform.layout || "",
-                    system:  `${platform.os.architecture || ""} ${platform.os.family || ""} ${platform.os.version || ""}`,
-                    description: platform.description || "",
-                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || "",
-                    language: navigator.language || "",   
-                }
+                name: info.name || "",
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || "",
+                language: navigator.language || "",
             }
             
             const response = await fetch("https://vetra.jordanmillett.net/api/traffic", { 

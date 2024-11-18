@@ -179,7 +179,7 @@
             {
                 URL = "clearsubscribers",
                 OkTitle = "Cleared Subscribers",
-                FailTitle = "Failed to Clear Logs",
+                FailTitle = "Failed to Clear Subscribers",
                 OkBody = "Cleared subscribers successfully."
             };
             case Requests.RestartServer: return new Request()
@@ -355,8 +355,7 @@
                         {
                             foreach (DataTraffic Traffic in DownloadedLogs)
                             {
-                                TrafficBody += $"{Traffic.Address} {Traffic.Name} {Traffic.Version} {Traffic.Layout} " +
-                                $"{Traffic.Manufacturer} {Traffic.Product} {Traffic.Description} {Traffic.System} " +
+                                TrafficBody += $"{Traffic.Address} " +
                                 $"{Traffic.Timezone} {Traffic.Language}\n\n";
                             }
                         }
