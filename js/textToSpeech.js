@@ -4,7 +4,7 @@ window.textToSpeech =
         speechSynthesis.cancel();
         
         var utterance = new SpeechSynthesisUtterance(text);
-        utterance.volume = 0.25;
+        utterance.volume = 0.5;
         utterance.lang = false ? "en-US" : "ru-RU";
         speechSynthesis.speak(utterance);
     },

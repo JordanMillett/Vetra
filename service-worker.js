@@ -33,6 +33,7 @@ self.addEventListener('fetch', event => {
     );
 });
 
+/*
 // Listen for push notifications
 self.addEventListener('push', event => {
     const data = event.data ? event.data.json() : {};
@@ -86,3 +87,4 @@ self.addEventListener('notificationclick', event =>
         clients.openWindow(event.notification.url)
     );
 });
+*/
