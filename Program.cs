@@ -14,7 +14,7 @@ builder.Services.AddBlazorBootstrap();
 builder.Services.AddSingleton<BlazorBootstrap.ToastService>();
 
 builder.Services.AddSingleton<HelperService>();
-builder.Services.AddSingleton<NotificationService>();
+//builder.Services.AddSingleton<NotificationService>();
 builder.Services.AddSingleton<TextToSpeechService>();
 builder.Services.AddSingleton<SpeechToTextService>();
 builder.Services.AddSingleton<AudioService>();
@@ -25,7 +25,7 @@ builder.Services.AddSingleton<LessonService>();
 
 var host = builder.Build();
 
-await host.Services.GetRequiredService<NotificationService>().LoadServiceWorker();
+//await host.Services.GetRequiredService<NotificationService>().LoadServiceWorker();
 
 host.Services.GetRequiredService<TextToSpeechService>().Preload();
 
