@@ -13,11 +13,12 @@
         </article>
     </main>
 
-    @if (Settings.Data.ShowNotifications)
+    <!--
+    if (Settings.Data.ShowNotifications)
     {
         <Toasts class="p-2" AutoHide="true" Delay="5000" Placement="ToastsPlacement.TopRight" />
     }
-
+    -->
 </div>
 
 @code {
@@ -68,8 +69,8 @@
         if (Settings.Data.DevToolsEnabled)
             navItems.Add(new NavItem { Id = "6", Href = "developer/", IconName = IconName.Bug, Text = "Developer" });
             
-        if (Settings.Data.AdminPageEnabled)
-            navItems.Add(new NavItem { Id = "7", Href = "admin/", IconName = IconName.Hdd, Text = "Admin" });
+        //if (Settings.Data.AdminPageEnabled)
+            //navItems.Add(new NavItem { Id = "7", Href = "admin/", IconName = IconName.Hdd, Text = "Admin" });
 
         return navItems;
     }

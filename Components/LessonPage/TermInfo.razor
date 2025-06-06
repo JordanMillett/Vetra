@@ -1,6 +1,6 @@
 @inject HelperService Helper
 
-<h5>@Helper.DefinitionFormat(Term)</h5>
+<h5>@Helper.DefinitionFormat(Term, TransliterationOverride)</h5>
 
 @if(Term.Category == "Noun")
 {
@@ -14,4 +14,7 @@
 {
     [Parameter, EditorRequired]
     public VocabHeader Term { get; set; } = default!;
+
+    [Parameter]
+    public string TransliterationOverride { get; set; } = default!;
 }

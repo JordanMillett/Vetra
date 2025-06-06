@@ -12,20 +12,24 @@ namespace Vetra
                 _DevToolsEnabled = value;
                 MarkDirty();
             }}}
-            
+        
+        /*
         private bool _AdminPageEnabled = false;
         public bool AdminPageEnabled { get => _AdminPageEnabled; set{
             if (_AdminPageEnabled != value){
                 _AdminPageEnabled = value;
                 MarkDirty();
             }}}
-            
+        */    
+        
+        /*
         private bool _ShowNotifications = true;
         public bool ShowNotifications { get => _ShowNotifications; set{
             if (_ShowNotifications != value){
                 _ShowNotifications = value;
                 MarkDirty();
             }}}
+        */
             
         private bool _EnableTTS = true;
         public bool EnableTTS { get => _EnableTTS; set{

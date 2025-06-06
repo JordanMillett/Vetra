@@ -31,11 +31,14 @@ namespace Vetra
             {'э', "e"}, {'ю', "yu"}, {'я', "ya"}
         };
 
-        public string DefinitionFormat(VocabHeader Term)
+        public string DefinitionFormat(VocabHeader Term, string transliterationOverride = "")
         {
             if (Settings.Data.ShowTransliteration)
             {
-                return "(" + Term.EN + " / " + Transliterate(Term.RU) + ")";
+                if(string.IsNullOrEmpty(transliterationOverride))
+                    return "(" + Term.EN + " / " + Transliterate(Term.RU) + ")";
+                else
+                    return "(" + Term.EN + " / " + transliterationOverride + ")";
             }
             else
             {
